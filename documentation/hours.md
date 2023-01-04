@@ -3,4 +3,5 @@
 | day | hours | what |
 | :----:|:-----| :-----|
 | 3.1.2023 | 3  | getting familiar with Joy UI design system and its components |
-| yht      | 3   | | 
+| 4.1.2023 | 3  | planning the app and wrote requirements, init frontend |
+| yht      | 6   | | 
