@@ -10,13 +10,50 @@ Backend (pending)
 - Java SpringBoot 
 
 
-### UI Desing
+### UI Design
 
 Joy UI \
 https://mui.com/joy-ui/react-autocomplete/
 
+### color palette
+max 2-4 colors
+Hex codes: 
+Scarlet #B85042 
+Light Olive #E7E8D1
+Light Teal #A7BEAE
+
+
+
 ### Functionalities
-TBD
+
+#### User / Login
+- register user
+- login
+    - jwt
+- logout
+- sessions
+
+#### Settings
+- settings page
+    - modify own info
+    - card design
+
+#### Blog list
+- list of fails (create design)
+    - pagination
+    - fail basic info
+        - more details when pressed
+        - if owner, able to modify it
+- voting button
+- giving stars button
+- design of the failpost card
+    - expander?
+- filtering
+    - by technology used
+    - by course related
+    - by backend or frontend
+    - something something
+
 
 ### API calls
 #### POST
