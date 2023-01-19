@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Box, Form, TextInput, FormField, Button, Heading } from 'grommet';
 
-const Login = () => {
+const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,25 +15,33 @@ const Login = () => {
 
   return (
     <>
-      <form>
-        <label htmlFor='username'>Username</label>
-        <input
-          type='text'
-          name='username'
-          value={username}
-          onChange={handleUsernameChange}
-        />
-        <label htmlFor='password'>Password</label>
-        <input
-          type='password'
-          name='password'
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        <button type='submit'>Login</button>
-      </form>
+    <Heading>Login to Failoverflow</Heading>
+      <Box width="30%">
+        <Form>
+          <Box direction="row" gap="large" pad="small">
+            <FormField name="name" htmlFor="username" label="Username">
+              <TextInput
+                name="username"
+                value={username}
+                onChange={handleUsernameChange}
+              />
+            </FormField>
+            <FormField name="password" htmlFor="password" label="Password">
+              <TextInput
+                name="password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </FormField>
+          </Box>
+          <Box direction="column" gap="small" pad="small">
+            <Button type="submit" primary label="Sign in" />
+            <Button type="reset" label="Register" />
+          </Box>
+        </Form>
+      </Box>
     </>
   );
 };
 
-export default Login;
+export default LoginForm;

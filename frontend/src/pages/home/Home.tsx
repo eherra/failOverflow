@@ -1,5 +1,11 @@
+import PageProvider from '../PageProvider';
+
 const Home = () => {
-  return <h1>Homepage, hello world</h1>;
+  return (
+    <PageProvider>
+      <h1>Home, hello world</h1>;
+    </PageProvider>
+  );
 };
 
 export default Home;
