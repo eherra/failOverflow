@@ -12,8 +12,8 @@ Backend (pending)
 
 ### UI Design
 
-Joy UI \
-https://mui.com/joy-ui/react-autocomplete/
+Grommet \
+https://v2.grommet.io/starter
 
 ### color palette
 max 2-4 colors
@@ -44,6 +44,7 @@ Light Teal #A7BEAE
     - fail basic info
         - more details when pressed
         - if owner, able to modify it
+        - views
 - voting button
 - giving stars button
 - design of the failpost card
@@ -53,7 +54,6 @@ Light Teal #A7BEAE
     - by course related
     - by backend or frontend
     - something something
-
 
 ### API calls
 #### POST

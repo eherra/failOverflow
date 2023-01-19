@@ -3,4 +3,7 @@
 > Full Stack Project 2023, course details [here](https://github.com/fullstack-hy2020/misc/blob/master/harjoitustyo.md)
 
 ### UI Design
-https://mui.com/joy-ui/react-autocomplete/
+https://v2.grommet.io/starter
+
+### Security
+helmets
