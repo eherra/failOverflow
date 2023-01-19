@@ -1,10 +1,11 @@
-import React from 'react';
+import { BrowserRouter } from "react-router-dom";
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Grommet } from 'grommet';
 
-const theme = {
+const customTheme = {
   global: {
+    colors: { background: '#efefef' },
     font: {
       family: "Roboto",
       size: "18px",
@@ -14,7 +15,9 @@ const theme = {
 };
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <Grommet theme={theme} full>
-    <App />
+  <Grommet theme={customTheme} full>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Grommet>
 );

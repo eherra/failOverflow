@@ -9,7 +9,7 @@ const NavBar = () => {
         direction='row'
         align='center'
         justify='between'
-        background='brand'
+        background='#A7BEAE'
         pad='medium'
       >
 
@@ -17,6 +17,7 @@ const NavBar = () => {
         <Link to="/failures">Failures</Link>
         <Link to="/login">login</Link>
         <Link to="/profile">Profile</Link>
+        <Link to="/landing">Landing Page</Link>
         <button type="button">Logout</button>
       </Box>
     </>

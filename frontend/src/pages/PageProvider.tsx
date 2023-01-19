@@ -6,7 +6,7 @@ interface PageProviderProps {
   children?: ReactNode
 }
 
-const PageProvider = ({ children }: PageProviderProps) => {
+const PageProvider = ({ children}: PageProviderProps) => {
   return (
     <Page>
       <NavBar />

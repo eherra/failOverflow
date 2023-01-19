@@ -35,8 +35,8 @@ const LoginForm = () => {
             </FormField>
           </Box>
           <Box direction="column" gap="small" pad="small">
-            <Button type="submit" primary label="Sign in" />
-            <Button type="reset" label="Register" />
+            <Button type="submit" primary color="#A7BEAE" label="Sign in" />
+            <Button color="#A7BEAE" label="Register" />
           </Box>
         </Form>
       </Box>
