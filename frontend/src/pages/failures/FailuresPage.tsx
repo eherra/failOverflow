@@ -1,4 +1,4 @@
-import PageProvider from '../PageProvider';
+import PageProvider from '../common/PageProvider';
 import FailureList from './components/FailureList';
 
 const Failures = () => {
