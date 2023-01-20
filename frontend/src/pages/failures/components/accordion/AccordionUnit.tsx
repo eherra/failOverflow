@@ -1,59 +1,50 @@
 import React, { useState } from 'react';
 import {
   Box,
-  NameValueList,
-  NameValuePair,
-  Tab,
   Tabs,
   AccordionPanel
 } from 'grommet';
+import ReviewTab from './tabs/ReviewTab';
 import AccordionTitle from './AccordionTitle';
+import OverviewTab from './tabs/OverviewTab';
+import CommentTab from './tabs/CommentTab';
 
-const AccordionUnit = ({ failure }: any) => {
+interface Failure {
+  id: number,
+  title: string,
+  description: string,
+  technologies: Array<string>,
+  starRating: string,
+  tags: Array<string>,
+  votes: number,
+  dateOfCreation: string,
+  comments: Array<string>
+}
+
+interface IAccordionUnitProps {
+  failure: Failure
+}
+
+const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
   const [index, setIndex] = useState();
+
   const onActive = (nextIndex: any) => setIndex(nextIndex);
-  const pad = 'small';
   const { title, description, technologies, starRating, tags, votes, dateOfCreation } = failure;
 
   return (
     <AccordionPanel key={failure.id} label={<AccordionTitle title={title} tags={tags} />}>
-      <Box pad={pad}>
-        <Box gap="medium">
-          <Tabs activeIndex={index} onActive={onActive} justify="center">
-            <Tab title="Overview">
-              <Box gap="small">
-                <NameValueList
-                  pairProps={{ direction: 'column' }}
-                  layout="grid"
-                  valueProps={{ width: 'small' }}
-                  justifyContent="center">
-                  <NameValuePair key={description} name="Description">
-                    {description}
-                  </NameValuePair>
-                  <NameValuePair key="tech" name="Technologies">
-                    {technologies}
-                  </NameValuePair>
-                  <NameValuePair key="star" name="Stars">
-                    {starRating}
-                  </NameValuePair>
-                  <NameValuePair key={votes} name="Votes">
-                    {votes}
-                  </NameValuePair>
-                  <NameValuePair key={dateOfCreation} name="Created">
-                    {dateOfCreation}
-                  </NameValuePair>
-                </NameValueList>
-              </Box>
-
-            </Tab>
-            <Tab title="Review">
-              <Box margin="small">Review</Box>
-            </Tab>
-            <Tab title="Comments">
-              <Box margin="small">Comments</Box>
-            </Tab>
-          </Tabs>
-        </Box>
+      <Box gap="small" pad="small" background="light-5">
+        <Tabs activeIndex={index} onActive={onActive} justify="center">
+          <OverviewTab
+            description={description}
+            technologies={technologies}
+            starRating={starRating}
+            votes={votes}
+            dateOfCreation={dateOfCreation}
+          />
+          <ReviewTab />
+          <CommentTab comments={failure.comments} />
+        </Tabs>
       </Box>
     </AccordionPanel>
   );

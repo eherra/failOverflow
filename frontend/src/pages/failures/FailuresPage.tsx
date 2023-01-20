@@ -8,9 +8,11 @@ const FailuresPage = () => {
       <Heading
         level={2}
         size="large"
-      > Failure list
+      >Failures
       </Heading>
-      <FailureList />
+      <div style={{ marginLeft: '2em' }} >
+        <FailureList />
+      </div>
 
     </PageProvider>
   );

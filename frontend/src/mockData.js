@@ -13,7 +13,13 @@ export const failureData = {
         "Java11", "WireMock", "Testing"
       ],
       votes: 19,
-      dateOfCreation: "2022-10-31T09:00:00.594Z"
+      dateOfCreation: "2022-10-31T09:00:00.594Z",
+      comments: [
+        "nice!", 
+        "Oh I spent hours with this!",
+        "Saved hours from me!",
+        "Stumbled with same!"
+      ]
     },
     {
       id: 2,
@@ -27,7 +33,8 @@ export const failureData = {
         "hooks", "React18", "Frontend"
       ],
       votes: 12,
-      dateOfCreation: "2022-10-31T09:00:00.594Z"
+      dateOfCreation: "2022-10-31T09:00:00.594Z",
+      comments: ["good stuff", "Oh I spent so long with this as well!"]
     }
   ]
 }

@@ -8,5 +8,5 @@
 | 7.1.2023 | 1  | working with the requirements of the app |
 | 18.1.2023 | 3 | created pages structure and added init pages for the app, got familiar with Grommer design system |
 | 19.1.2023 | 5 | navbar created, login page enhancements |
-| 20.1.2023 | 3 | working with failures page |
-| total    | 20  | | 
+| 20.1.2023 | 8 | working with failures page, created tabs with specific data shown |
+| total    | 24  | | 
