@@ -18,6 +18,7 @@ const MainFooter = () => {
         gap="xsmall"
         wrap
       >
+        <Button color="#A7BEAE" label="FaQ" />
         <Button color="#A7BEAE" label="Terms" />
         <Button color="#A7BEAE" label="Give feedback" />
       </Box>

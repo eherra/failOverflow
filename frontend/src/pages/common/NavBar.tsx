@@ -14,11 +14,11 @@ const NavBar = () => {
       >
         <Header>Failover Flow</Header>
 
-        <Link to="/"><Button active size="medium" label="Home" /></Link>
-        <Link to="/failures"><Button active size="medium" label="Failures" /></Link>
-        <Link to="/login"><Button active size="medium" label="Login" /></Link>
-        <Link to="/profile"><Button active size="medium" label="Profile" /></Link>
-        <Link to="/landing"><Button active size="medium" label="Landing Page" /></Link>
+        <Link to="/"><Button active color="default" label="Home" /></Link>
+        <Link to="/failures"><Button color="default" label="Failures" /></Link>
+        <Link to="/login"><Button color="default" label="Login" /></Link>
+        <Link to="/profile"><Button color="default" label="Profile" /></Link>
+        <Link to="/landing"><Button color="default" label="Landing Page" /></Link>
         <button type="button">Logout</button>
       </Box>
     </>

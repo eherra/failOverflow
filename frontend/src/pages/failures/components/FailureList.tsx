@@ -1,11 +1,16 @@
+import {
+  Accordion,
+} from 'grommet';
+import { failureData } from '../../../mockData';
+import AccordionUnit from './accordion/AccordionUnit';
 
-const FailureList = () => {
+const FailureList = ({ ...rest }) => {
   return (
-    <ul>
-        <li>failure 1</li>
-        <li>failure 2</li>
-        <li>failure 3</li>
-    </ul>
+    <Accordion multiple width="80%" {...rest}>
+      {failureData.failures.map((failure, index) =>
+        <AccordionUnit key={index} failure={failure} />
+      )}
+    </Accordion >
   );
 };
 
