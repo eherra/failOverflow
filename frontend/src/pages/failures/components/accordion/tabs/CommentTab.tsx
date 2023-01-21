@@ -75,7 +75,6 @@ const ShowCommentsButton = ({ showAll, setShowAll }: any) => (
   <Button
     alignSelf="start"
     size="small"
-    color="#A7BEAE"
     label={`Show ${!showAll ? 'all' : 'less'} comments`}
     onClick={() => setShowAll(() => !showAll)}
     icon={!showAll ? <FormDown /> : <FormUp />}

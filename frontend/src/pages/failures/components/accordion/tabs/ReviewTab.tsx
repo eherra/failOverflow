@@ -13,7 +13,7 @@ const ReviewTab = () => {
             <StarRating name="perkele" />
           </NameValuePair>
           <NameValuePair key={"vote"} name="Vote failure">
-            <Button primary color="#A7BEAE" label="Vote" />
+            <Button primary label="Vote" />
           </NameValuePair>
         </NameValueList>
       </Box>

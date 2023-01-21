@@ -5,13 +5,16 @@ import { Grommet } from 'grommet';
 
 const customTheme = {
   global: {
-    colors: { background: '#efefef' },
+    colors: {
+      background: '#efefef',
+      brand: '#A7BEAE'
+    },
     font: {
       family: "Roboto",
       size: "18px",
       height: "20px",
     },
-  },
+  }
 };
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

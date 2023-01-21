@@ -15,8 +15,8 @@ const BottomContent = () => {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel elit facilisis, lacinia eros vel, euismod magna.
         </Paragraph>
         <Box direction="row" gap="small" pad="small">
-          <Button alignSelf="start" color="#A7BEAE" primary label="Share the bugs" size="large" />
-          <Button type="submit" color="#A7BEAE" size="large" label="Sign in" />
+          <Button alignSelf="start" primary label="Share the bugs" size="large" />
+          <Button type="submit" size="large" label="Sign in" />
         </Box>
       </Box>
     </PageContent>
