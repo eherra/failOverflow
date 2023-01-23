@@ -1,4 +1,5 @@
-import { Tab, Box, NameValuePair, StarRating, Button, NameValueList } from 'grommet';
+import { Tab, Box, NameValuePair, Button, NameValueList } from 'grommet';
+import StarRatingForm from '../StarRatingForm';
 
 const ReviewTab = () => {
   return (
@@ -9,9 +10,7 @@ const ReviewTab = () => {
           layout="grid"
           valueProps={{ width: 'small' }}
           justifyContent="center">
-          <NameValuePair key={"description"} name="Give stars">
-            <StarRating name="perkele" />
-          </NameValuePair>
+          <StarRatingForm />
           <NameValuePair key={"vote"} name="Vote failure">
             <Button primary label="Vote" />
           </NameValuePair>

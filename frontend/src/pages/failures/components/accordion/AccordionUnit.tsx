@@ -41,15 +41,21 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
     <AccordionPanel key={failure.id} label={<AccordionTitle creator={creator} title={title} tags={tags} timeOfCreation={timeOfCreation} />}>
       <Box gap="small" pad="small" background="light-5">
         <Tabs activeIndex={index} onActive={onActive} justify="center">
-          <OverviewTab
-            description={description}
-            technologies={technologies}
-            starRating={starRating}
-            votes={votes}
-            timeOfCreation={timeOfCreation}
-          />
-          <ReviewTab />
-          <CommentTab comments={failure.comments} />
+          <>
+            <OverviewTab
+              description={description}
+              technologies={technologies}
+              starRating={starRating}
+              votes={votes}
+              timeOfCreation={timeOfCreation}
+            />
+          </>
+          <>
+            <ReviewTab />
+          </>
+          <>
+            <CommentTab comments={failure.comments} />
+          </>
         </Tabs>
       </Box>
     </AccordionPanel>

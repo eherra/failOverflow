@@ -43,6 +43,25 @@ export const failureData = {
       votes: 12,
       timeOfCreation: "2023-01-01T09:00:00.594Z",
       comments: ["good stuff", "Oh I spent so long with this as well!"]
+    },
+    {
+      id: 3,
+      creator: {
+        name: "Keke Boi",
+        avatar: "avatar.png"
+      },
+      title: "React Hooks acting weird",
+      description: "Had huge performance issues while using react hooks",
+      technologies: [
+        "React", "TypeScript"
+      ],
+      starRating: "3.0",
+      tags: [
+        "typeScript", "Cobol", "mainframe"
+      ],
+      votes: 12,
+      timeOfCreation: "2020-01-01T09:00:00.594Z",
+      comments: ["good stuff", "Oh I spent so long with this as well!"]
     }
   ]
 }

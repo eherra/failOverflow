@@ -9,4 +9,5 @@
 | 18.1.2023 | 3 | created pages structure and added init pages for the app, got familiar with Grommer design system |
 | 19.1.2023 | 5 | navbar created, login page enhancements |
 | 20.1.2023 | 8 | working with failures page, created tabs with specific data shown |
-| total    | 24  | | 
+| 23.1.2023 | 6 | enhancements to failure list (profile info and create time passed since post), start rating modifications, started working with profile settings page |
+| total    | 30  | | 

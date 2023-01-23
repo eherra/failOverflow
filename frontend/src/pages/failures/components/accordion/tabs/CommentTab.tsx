@@ -27,7 +27,7 @@ const CommentTab = ({ comments }: CommentTabProps) => {
           layout="grid"
           valueProps={{ width: 'medium' }}
           justifyContent="between">
-          <Form value={textAreaValue}>
+          <Form>
             <FormField
               label="Leave a comment"
               htmlFor="text-area-example"
