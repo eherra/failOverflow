@@ -10,10 +10,10 @@ interface OverviewProps {
   technologies: Array<string>,
   starRating: string,
   votes: number,
-  dateOfCreation: string
+  timeOfCreation: string
 }
 
-const OverviewTab = ({ description, technologies, starRating, votes, dateOfCreation }: OverviewProps) => {
+const OverviewTab = ({ description, technologies, starRating, votes, timeOfCreation }: OverviewProps) => {
   return (
     <Tab title="Overview">
       <Box gap="small" margin="medium">
@@ -34,8 +34,8 @@ const OverviewTab = ({ description, technologies, starRating, votes, dateOfCreat
           <NameValuePair key={votes} name="Total Votes">
             {votes}
           </NameValuePair>
-          <NameValuePair key={dateOfCreation} name="Created">
-            {dateOfCreation}
+          <NameValuePair key={timeOfCreation} name="Created">
+            {timeOfCreation}
           </NameValuePair>
         </NameValueList>
       </Box>

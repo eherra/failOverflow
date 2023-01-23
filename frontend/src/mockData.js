@@ -2,6 +2,10 @@ export const failureData = {
   failures: [
     {
       id: 1,
+      creator: {
+        name: "Hessu Jacobsen",
+        avatar: "avatar.png"
+      },
       title: "Called too early to fetch init data",
       description: "When using robot framework with wiremock, I called too early to fetch data and \
     therefore I was testing against wrong data at first",
@@ -13,7 +17,7 @@ export const failureData = {
         "Java11", "WireMock", "Testing"
       ],
       votes: 19,
-      dateOfCreation: "2022-10-31T09:00:00.594Z",
+      timeOfCreation: "2023-01-23T09:00:00.594Z",
       comments: [
         "nice!", 
         "Oh I spent hours with this!",
@@ -23,6 +27,10 @@ export const failureData = {
     },
     {
       id: 2,
+      creator: {
+        name: "Jesse Powell",
+        avatar: "avatar.png"
+      },
       title: "React Hooks acting weird",
       description: "Had huge performance issues while using react hooks",
       technologies: [
@@ -33,7 +41,7 @@ export const failureData = {
         "hooks", "React18", "Frontend"
       ],
       votes: 12,
-      dateOfCreation: "2022-10-31T09:00:00.594Z",
+      timeOfCreation: "2023-01-01T09:00:00.594Z",
       comments: ["good stuff", "Oh I spent so long with this as well!"]
     }
   ]

@@ -9,15 +9,21 @@ import AccordionTitle from './AccordionTitle';
 import OverviewTab from './tabs/OverviewTab';
 import CommentTab from './tabs/CommentTab';
 
+interface Creator {
+  name: string,
+  avatar: string
+}
+
 interface Failure {
   id: number,
+  creator: Creator,
   title: string,
   description: string,
   technologies: Array<string>,
   starRating: string,
   tags: Array<string>,
   votes: number,
-  dateOfCreation: string,
+  timeOfCreation: string,
   comments: Array<string>
 }
 
@@ -29,10 +35,10 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
   const [index, setIndex] = useState();
 
   const onActive = (nextIndex: any) => setIndex(nextIndex);
-  const { title, description, technologies, starRating, tags, votes, dateOfCreation } = failure;
+  const { title, creator, description, technologies, starRating, tags, votes, timeOfCreation } = failure;
 
   return (
-    <AccordionPanel key={failure.id} label={<AccordionTitle title={title} tags={tags} />}>
+    <AccordionPanel key={failure.id} label={<AccordionTitle creator={creator} title={title} tags={tags} timeOfCreation={timeOfCreation} />}>
       <Box gap="small" pad="small" background="light-5">
         <Tabs activeIndex={index} onActive={onActive} justify="center">
           <OverviewTab
@@ -40,7 +46,7 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
             technologies={technologies}
             starRating={starRating}
             votes={votes}
-            dateOfCreation={dateOfCreation}
+            timeOfCreation={timeOfCreation}
           />
           <ReviewTab />
           <CommentTab comments={failure.comments} />

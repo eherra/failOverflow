@@ -2,20 +2,25 @@ import { Page } from 'grommet';
 import { ReactNode } from 'react';
 import NavBar from './NavBar';
 import MainFooter from './MainFooter';
+import styled from 'styled-components';
 
 interface PageProviderProps {
   children?: ReactNode
 }
 
+const WrappedDiv = styled.div`
+  min-height: calc(100vh - 55px);
+`;
+
 const PageProvider = ({ children }: PageProviderProps) => {
   return (
     <Page>
-      <div style={{ minHeight: 'calc(100vh - 55px)' }}> 
+      <WrappedDiv>
         <NavBar />
         {children}
-      </div>
+      </WrappedDiv>
       <MainFooter />
-    </Page>
+    </Page >
   );
 };
 
