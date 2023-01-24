@@ -4,13 +4,14 @@ import NavBar from './NavBar';
 import MainFooter from './MainFooter';
 import styled from 'styled-components';
 
+// 8vh is the height of footer
+const WrappedDiv = styled.div`
+  min-height: calc(100vh - 8vh);
+`;
+
 interface PageProviderProps {
   children?: ReactNode
 }
-
-const WrappedDiv = styled.div`
-  min-height: calc(100vh - 55px);
-`;
 
 const PageProvider = ({ children }: PageProviderProps) => {
   return (
