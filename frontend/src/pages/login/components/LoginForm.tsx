@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Form, TextInput, FormField, Button, Heading } from 'grommet';
+import { Box, Form, TextInput, FormField, Button } from 'grommet';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -14,33 +14,30 @@ const LoginForm = () => {
   };
 
   return (
-    <>
-    <Heading>Login to Failoverflow</Heading>
-      <Box width="30%">
-        <Form>
-          <Box direction="row" gap="large" pad="small">
-            <FormField name="name" htmlFor="username" label="Username">
-              <TextInput
-                name="username"
-                value={username}
-                onChange={handleUsernameChange}
-              />
-            </FormField>
-            <FormField name="password" htmlFor="password" label="Password">
-              <TextInput
-                name="password"
-                value={password}
-                onChange={handlePasswordChange}
-              />
-            </FormField>
-          </Box>
-          <Box direction="column" gap="small" pad="small">
-            <Button type="submit" primary label="Sign in" />
-            <Button label="Register" />
-          </Box>
-        </Form>
-      </Box>
-    </>
+    <Box width="30%">
+      <Form>
+        <Box direction="row" gap="large" pad="small">
+          <FormField name="name" htmlFor="username" label="Username">
+            <TextInput
+              name="username"
+              value={username}
+              onChange={handleUsernameChange}
+            />
+          </FormField>
+          <FormField name="password" htmlFor="password" label="Password">
+            <TextInput
+              name="password"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </FormField>
+        </Box>
+        <Box direction="column" gap="small" pad="small">
+          <Button type="submit" primary label="Sign in" />
+          <Button label="Register" />
+        </Box>
+      </Form>
+    </Box>
   );
 };
 

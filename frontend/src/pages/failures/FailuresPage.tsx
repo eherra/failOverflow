@@ -5,15 +5,12 @@ import { Page, PageContent, PageHeader } from 'grommet';
 const FailuresPage = () => {
   return (
     <PageProvider>
-      <Page>
         <PageContent>
           <PageHeader
             title="Failures"
           />
           <FailureList />
         </PageContent>
-      </Page>
-
     </PageProvider>
   );
 };

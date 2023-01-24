@@ -25,12 +25,14 @@ const ProfilePage = () => {
               title="Account details"
               subtitle="View and make changes to your account details"
               buttonLabel="Edit profile"
+              link="edit"
               icon={<UserSettings />}
             />
             <ProfilePageCard
               title="Overview"
               subtitle="View overview of your posts, stars and votes"
               buttonLabel="Check overview"
+              link="overview"
               icon={<Scorecard />}
             />
           </Grid>

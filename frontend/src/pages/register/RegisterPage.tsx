@@ -1,16 +1,16 @@
-import PageProvider from '../common/PageProvider';
+import PageProvider from "../common/PageProvider";
 import { PageContent, PageHeader } from "grommet";
 
-const HomePage = () => {
+const RegisterPage = () => {
   return (
     <PageProvider>
       <PageContent>
       <PageHeader
-          title="Hello home"
+          title="Register to Failover Flow"
         />
       </PageContent>
     </PageProvider>
-  );
+  )
 };
 
-export default HomePage;
+export default RegisterPage;

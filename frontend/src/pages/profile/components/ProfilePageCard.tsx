@@ -7,15 +7,17 @@ import {
   CardFooter,
 } from 'grommet';
 import { ReactNode } from 'react';
+import { Link } from "react-router-dom";
 
 interface ProfilePageCardProps {
   title: string,
   subtitle: string,
   buttonLabel: string,
+  link: string,
   icon: ReactNode
 }
 
-const ProfilePageCard = ({ title, subtitle, buttonLabel, icon }: ProfilePageCardProps) => {
+const ProfilePageCard = ({ title, subtitle, buttonLabel, link, icon }: ProfilePageCardProps) => {
   return (
     <Card
       margin="medium"
@@ -29,7 +31,7 @@ const ProfilePageCard = ({ title, subtitle, buttonLabel, icon }: ProfilePageCard
         <Text size="small">{subtitle}</Text>
       </CardHeader>
       <CardFooter>
-        <Button focusIndicator label={buttonLabel} />
+        <Link to={link}><Button focusIndicator label={buttonLabel} /></Link>
       </CardFooter>
     </Card>
   )

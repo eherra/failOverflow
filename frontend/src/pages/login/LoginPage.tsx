@@ -1,10 +1,16 @@
 import LoginForm from "./components/LoginForm";
 import PageProvider from "../common/PageProvider";
+import { PageContent, PageHeader } from "grommet";
 
 const LoginPage = () => {
   return (
     <PageProvider>
-      <LoginForm />
+      <PageContent>
+      <PageHeader
+          title="Login to Failoverflow"
+        />
+        <LoginForm />
+      </PageContent>
     </PageProvider>
   )
 };

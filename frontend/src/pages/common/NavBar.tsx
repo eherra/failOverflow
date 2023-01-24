@@ -33,6 +33,8 @@ const NavBar = () => {
               <Link to="/login"><Button hoverIndicator label="Login" /></Link>
               <Link to="/profile"><Button hoverIndicator label="Profile" /></Link>
               <Link to="/landing"><Button hoverIndicator label="Landing Page" /></Link>
+              <Link to="/register"><Button hoverIndicator label="Register" /></Link>
+
               <Button type="button" icon={<Logout />} label="Logout" color="fffff" />
             </Box>
           </>
