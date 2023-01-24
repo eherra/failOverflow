@@ -7,13 +7,12 @@ import {
 
 interface OverviewProps {
   description: string,
+  solution: string,
   technologies: Array<string>,
-  starRating: string,
-  votes: number,
   timeOfCreation: string
 }
 
-const OverviewTab = ({ description, technologies, starRating, votes, timeOfCreation }: OverviewProps) => {
+const OverviewTab = ({ description, solution, technologies, timeOfCreation }: OverviewProps) => {
   return (
     <Tab title="Overview">
       <Box gap="small" margin="medium">
@@ -25,14 +24,11 @@ const OverviewTab = ({ description, technologies, starRating, votes, timeOfCreat
           <NameValuePair key={description} name="Description">
             {description}
           </NameValuePair>
+          <NameValuePair key={solution} name="Solution">
+            {solution}
+          </NameValuePair>
           <NameValuePair key="tech" name="Technologies">
             {technologies.join(', ')}
-          </NameValuePair>
-          <NameValuePair key="star" name="Stars">
-            {starRating}
-          </NameValuePair>
-          <NameValuePair key={votes} name="Total Votes">
-            {votes}
           </NameValuePair>
           <NameValuePair key={timeOfCreation} name="Created">
             {timeOfCreation}

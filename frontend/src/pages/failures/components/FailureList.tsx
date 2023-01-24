@@ -15,6 +15,7 @@ interface Failure {
   creator: Creator,
   title: string,
   description: string,
+  solution: string,
   technologies: Array<string>,
   starRating: string,
   tags: Array<string>,
@@ -31,7 +32,7 @@ const FailureList = () => {
   }, []);
 
   return (
-    <Accordion multiple width="90%">
+    <Accordion multiple width="85%">
       {failures.map((failure, index) =>
         <AccordionUnit key={index} failure={failure} />
       )}

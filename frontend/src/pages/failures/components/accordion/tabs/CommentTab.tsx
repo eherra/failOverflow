@@ -26,7 +26,7 @@ const CommentTab = ({ comments }: CommentTabProps) => {
           pairProps={{ direction: 'column' }}
           layout="grid"
           valueProps={{ width: 'medium' }}
-          justifyContent="between">
+          justifyContent="center">
           <Form>
             <FormField
               label="Leave a comment"

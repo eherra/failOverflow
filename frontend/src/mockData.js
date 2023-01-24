@@ -9,6 +9,7 @@ export const failureData = {
       title: "Called too early to fetch init data",
       description: "When using robot framework with wiremock, I called too early to fetch data and \
     therefore I was testing against wrong data at first",
+      solution: "Turned off/on my computer",
       technologies: [
         "Wiremock", "Robot Framework", "Java Spring"
       ],
@@ -19,7 +20,7 @@ export const failureData = {
       votes: 19,
       timeOfCreation: "2023-01-23T09:00:00.594Z",
       comments: [
-        "nice!", 
+        "nice!",
         "Oh I spent hours with this!",
         "Saved hours from me!",
         "Stumbled with same!"
@@ -33,6 +34,7 @@ export const failureData = {
       },
       title: "React Hooks acting weird",
       description: "Had huge performance issues while using react hooks",
+      solution: "Turned off/on my computer",
       technologies: [
         "React", "TypeScript"
       ],
@@ -52,6 +54,7 @@ export const failureData = {
       },
       title: "React Hooks acting weird",
       description: "Had huge performance issues while using react hooks",
+      solution: "Turned off/on my computer",
       technologies: [
         "React", "TypeScript"
       ],

@@ -13,7 +13,7 @@ const StarRatingForm = () => {
           contentProps={{
             border: false,
           }}
-          label="How would you rate this fail?"
+          label="How would you rate this failure?"
           htmlFor="star-rating"
           name="rating"
           onChange={handleStarValueChange}

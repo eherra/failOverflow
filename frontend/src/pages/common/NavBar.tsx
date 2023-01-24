@@ -1,10 +1,18 @@
 import { Link } from "react-router-dom";
-import { Box, Header, Button } from 'grommet';
+import { Box, Header, Button, Collapsible } from 'grommet';
+import {
+  Logout,
+  Login
+} from 'grommet-icons';
+import styled from 'styled-components';
 
 const isLoggedIn = true;
 
-const NavBar = () => {
+const StyledHeader = styled(Header)`
+  font-weight: bold;
+`;
 
+const NavBar = () => {
   return (
     <>
       <Box
@@ -13,15 +21,19 @@ const NavBar = () => {
         background='#A7BEAE'
         pad='medium'
       >
-        <Header style={{ marginRight: "2em" }}><b>Fail Overflow</b></Header>
+        <StyledHeader>
+          Fail Overflow
+        </StyledHeader>
         {isLoggedIn ? (
           <>
-            <Link to="/"><Button hoverIndicator label="Home" /></Link>
-            <Link to="/failures"><Button hoverIndicator label="Failures" /></Link>
-            <Link to="/login"><Button hoverIndicator label="Login" /></Link>
-            <Link to="/profile"><Button hoverIndicator label="Profile" /></Link>
-            <Link to="/landing"><Button hoverIndicator label="Landing Page" /></Link>
-            <Button alignSelf='end' type="button" label="Logout" color="fffff" />
+            <Box direction="row" gap="large">
+              <Link to="/"><Button hoverIndicator label="Home" /></Link>
+              <Link to="/failures"><Button hoverIndicator label="Failures" /></Link>
+              <Link to="/login"><Button hoverIndicator label="Login" /></Link>
+              <Link to="/profile"><Button hoverIndicator label="Profile" /></Link>
+              <Link to="/landing"><Button hoverIndicator label="Landing Page" /></Link>
+              <Button type="button" icon={<Logout />} label="Logout" color="fffff" />
+            </Box>
           </>
         ) : (
           <Box direction="row">

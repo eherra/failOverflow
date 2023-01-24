@@ -19,6 +19,7 @@ interface Failure {
   creator: Creator,
   title: string,
   description: string,
+  solution: string,
   technologies: Array<string>,
   starRating: string,
   tags: Array<string>,
@@ -35,7 +36,15 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
   const [index, setIndex] = useState();
 
   const onActive = (nextIndex: any) => setIndex(nextIndex);
-  const { title, creator, description, technologies, starRating, tags, votes, timeOfCreation } = failure;
+  const { title,
+    creator,
+    description,
+    solution,
+    technologies,
+    starRating,
+    tags,
+    votes,
+    timeOfCreation } = failure;
 
   return (
     <AccordionPanel key={failure.id} label={<AccordionTitle creator={creator} title={title} tags={tags} timeOfCreation={timeOfCreation} />}>
@@ -44,14 +53,16 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
           <>
             <OverviewTab
               description={description}
+              solution={solution}
               technologies={technologies}
-              starRating={starRating}
-              votes={votes}
               timeOfCreation={timeOfCreation}
             />
           </>
           <>
-            <ReviewTab />
+            <ReviewTab
+              stars={starRating}
+              votes={votes}
+            />
           </>
           <>
             <CommentTab comments={failure.comments} />
