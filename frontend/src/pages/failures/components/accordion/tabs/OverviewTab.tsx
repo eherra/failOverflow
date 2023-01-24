@@ -4,6 +4,7 @@ import {
   NameValuePair,
   Tab,
 } from 'grommet';
+import { createStyledDateInfo } from '../../../../../TimeUtils';
 
 interface OverviewProps {
   description: string,
@@ -31,7 +32,7 @@ const OverviewTab = ({ description, solution, technologies, timeOfCreation }: Ov
             {technologies.join(', ')}
           </NameValuePair>
           <NameValuePair key={timeOfCreation} name="Created">
-            {timeOfCreation}
+            {createStyledDateInfo(timeOfCreation)}
           </NameValuePair>
         </NameValueList>
       </Box>

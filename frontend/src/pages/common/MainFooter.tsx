@@ -1,7 +1,6 @@
 import { Box, Button, Footer, Text } from 'grommet';
 
 const MainFooter = () => {
-  const currentYear = new Date().getFullYear();
   return (
     <Footer
       background="background-front"
@@ -10,7 +9,7 @@ const MainFooter = () => {
     >
       <Box gap="xsmall">
         <Text size="medium">
-          &copy; {currentYear} Fail Overflow
+          &copy; {new Date().getFullYear()} Fail Overflow
         </Text>
       </Box>
       <Box

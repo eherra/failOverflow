@@ -33,7 +33,7 @@ const CommentTab = ({ comments }: CommentTabProps) => {
               htmlFor="text-area-example"
             >
               <TextArea
-                placeholder="Did you find it helpful?"
+                placeholder="e.g. did you find it helpful?"
                 id="text-area-example"
                 value={textAreaValue}
                 onChange={event => setTextAreaValue(event.target.value)}

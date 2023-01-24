@@ -15,9 +15,8 @@ interface ReviewTabProps {
 const ReviewTab = ({ stars, votes }: ReviewTabProps) => {
   const [votesAmount, setVotesAmount] = useState<number>(votes);
   const [hasVoted, setHasVote] = useState<boolean>(false)
-  const HAS_VOTED = true
 
-  // TODO: get from backend if voted or not
+  // TODO: get from backend if voted or not and update vote amount
   const handleVote = () => {
     setHasVote(previousVote => !previousVote)
     setVotesAmount(previousAmount => hasVoted ? previousAmount - 1 : previousAmount + 1)
@@ -33,14 +32,14 @@ const ReviewTab = ({ stars, votes }: ReviewTabProps) => {
           justifyContent="center">
 
           <Box direction='column' gap='medium'>
-            <NameValuePair key={"starts"} name="Stars received">
+            <NameValuePair key="stars" name="Stars received">
               {stars}
             </NameValuePair>
             <StarRatingForm />
           </Box>
 
           <Box direction='column' gap='medium'>
-            <NameValuePair key={"votes"} name="Votes received">
+            <NameValuePair key="votes" name="Votes received">
               {votesAmount}
             </NameValuePair>
             {hasVoted ? (

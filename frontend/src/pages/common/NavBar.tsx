@@ -20,6 +20,7 @@ const NavBar = () => {
         direction='row'
         background='#A7BEAE'
         pad='medium'
+        wrap
       >
         <StyledHeader>
           Fail Overflow

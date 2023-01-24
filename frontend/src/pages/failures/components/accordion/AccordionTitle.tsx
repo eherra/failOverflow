@@ -1,4 +1,5 @@
 import { Tag, Box, Avatar } from "grommet"
+import { createTimePassedInfo } from "../../../../TimeUtils"
 
 interface Creator {
   name: string,
@@ -10,22 +11,6 @@ interface TitleProps {
   title: string,
   tags: Array<string>,
   timeOfCreation: string
-}
-
-const createTimePassedInfo = (date: string) => {
-  const differenceInMills = Math.trunc(new Date().getTime() - new Date(date).getTime());
-
-  const minutes = Math.trunc(differenceInMills / (1000 * 60));
-  const hours = Math.trunc(differenceInMills / (1000 * 60 * 60));
-  const days = Math.trunc(differenceInMills / (1000 * 60 * 60 * 24));
-  const months = Math.trunc(days / 31);
-  const years = Math.trunc(months / 12);
-
-  if (!years && !months && !days && !hours) return `${minutes}min`;
-  if (!years && !months && !days) return `${hours}h`;
-  if (!years && !months) return `${days}d`;
-  if (!years) return `${months}m`;
-  return `${years}y`;
 }
 
 const AccordionTitle = ({ creator, title, tags, timeOfCreation }: TitleProps) => {
