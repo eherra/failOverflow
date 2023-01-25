@@ -11,4 +11,5 @@
 | 20.1.2023 | 8 | working with failures page, created tabs with specific data shown |
 | 23.1.2023 | 6 | enhancements to failure list (profile info and create time passed since post), start rating modifications, started working with profile settings page |
 | 24.1.2023 | 5 | refactoring, review and votes enhancements, register and profile edit and overview pages created |
-| total    | 35  | | 
+| 25.1.2023 | 4 | back to profile link created, created data charts to profile overview |
+| total    | 39  | | 

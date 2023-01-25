@@ -68,3 +68,33 @@ export const failureData = {
     }
   ]
 }
+
+
+export const overviewTechUsedData = {
+  data: [
+    { value: 50, color: 'light-5', name: "React" },
+    { value: 30, color: 'yellow', name: "TS" },
+    { value: 20, color: 'graph-0', name: "Java" },
+    { value: 10, color: 'light-2', name: "Cobol" },
+    { value: 5, color: 'brand', name: "PHP" },
+  ]
+}
+
+export const overviewVotesData = {
+  data: [
+    { date: '2020-08-20', amount: 2 },
+    { date: '2020-08-21', amount: 47 },
+    { date: '2020-08-22', amount: 33 },
+    { date: '2020-08-22', amount: 33 }
+  ]
+}
+
+export const overviewFailuresCreatedData = {
+  data: [
+    { date: '2019-08-21', amount: 6 },
+    { date: '2020-08-20', amount: 1 },
+    { date: '2020-08-21', amount: 6 },
+    { date: '2021-08-21', amount: 3 },
+    { date: '2023-08-22', amount: 2 }
+  ]
+}

@@ -3,7 +3,6 @@ import PageProvider from '../../common/PageProvider';
 import BackToManageProfileLink from '../components/BackToMangeProfileLink';
 
 const ProfileEditPage = () => {
-
   return (
     <PageProvider>
       <PageContent>

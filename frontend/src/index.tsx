@@ -7,7 +7,9 @@ const customTheme = {
   global: {
     colors: {
       background: '#efefef',
-      brand: '#A7BEAE'
+      brand: '#A7BEAE',
+      focus: "#efefef",
+
     },
     font: {
       family: "Roboto",
