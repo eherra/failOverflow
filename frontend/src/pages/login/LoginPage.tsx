@@ -7,7 +7,7 @@ const LoginPage = () => {
     <PageProvider>
       <PageContent>
       <PageHeader
-          title="Login to Failoverflow"
+          title="Login to Failover Flow"
         />
         <LoginForm />
       </PageContent>
