@@ -1,7 +1,8 @@
 import PageProvider from '../common/PageProvider';
 import { Link } from 'react-router-dom';
-import { PageContent, PageHeader, Button, CardHeader, Text, Grid, Paragraph, Card, Heading, CardFooter, CardBody } from "grommet";
+import { PageContent, StarRating, PageHeader, Button, CardHeader, Text, Grid, Paragraph, Card, Heading, CardFooter, CardBody } from "grommet";
 import VoteOfTheWeekCard from './components/VoteOfTheWeekCard';
+import MostLikedFailureCard from './components/MostLikedFailureCard';
 
 const userName = "John Wilkes"
 
@@ -34,7 +35,7 @@ const HomePage = () => {
 
           <VoteOfTheWeekCard />
         </Grid>
-
+        <MostLikedFailureCard />
       </PageContent>
     </PageProvider>
   );

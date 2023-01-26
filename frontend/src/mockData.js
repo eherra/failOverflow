@@ -98,3 +98,28 @@ export const overviewFailuresCreatedData = {
     { date: '2023-08-22', amount: 2 }
   ]
 }
+
+export const weekVoteData = {
+  weekVote: {
+    creator: {
+      name: "Hessu Jacobsen",
+      avatar: "avatar.png"
+    },
+    title: "Called too early to fetch init data",
+    description: "When using robot framework with wiremock, I called too early to fetch data and \
+    therefore I was testing against wrong data at first",
+    solution: "Turned off/on my computer",
+    votes: 19
+  }
+}
+
+export const dayReviewData = {
+  dayReview: {
+    creator: {
+      name: "Hessu Jacobsen",
+      avatar: "avatar.png"
+    },
+    title: "Called too early to fetch init data",
+    starRating: "3.0",
+  }
+}

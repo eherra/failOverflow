@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { weekVoteData } from '../../../mockData';
+import { dayReviewData } from '../../../mockData';
 
 import {
   Card,
@@ -8,9 +8,9 @@ import {
   Box,
   Avatar,
   CardBody,
-  Text,
   NameValueList,
-  NameValuePair
+  NameValuePair,
+  StarRating
 } from 'grommet';
 
 interface Creator {
@@ -18,19 +18,18 @@ interface Creator {
   avatar: string
 }
 
-interface WeekVote {
+interface ReviewInfo {
   creator: Creator,
   title: string,
-  description: string,
-  solution: string,
-  votes: number,
+  starRating: string,
 }
 
-const VoteOfTheWeekCard = () => {
-  const [weekVote, setWeekVote] = useState<WeekVote | undefined>(undefined);
+
+const MostLikedFailureCard = () => {
+  const [dayReview, setDayReview] = useState<ReviewInfo | undefined>(undefined);
 
   useEffect(() => {
-    setWeekVote(() => weekVoteData.weekVote)
+    setDayReview(() => dayReviewData.dayReview)
   }, []);
 
   return (
@@ -40,31 +39,28 @@ const VoteOfTheWeekCard = () => {
     >
       <CardHeader align="start" direction="column" gap="xsmall">
         <Heading level={2} size="small">
-          Failure of the Week (votes: {weekVote?.votes})
+          Days most liked Failure
         </Heading>
         <Box direction="row" gap="small" pad="xsmall">
-          {weekVote?.title}
           <Avatar src="avatar.png" size="medium" />
-          <p>{weekVote?.creator.name}</p>
+          <p>{dayReview?.creator.name}</p>
         </Box>
       </CardHeader>
       <CardBody>
-
+        
         <NameValueList
           pairProps={{ direction: 'column' }}
           layout="grid"
           valueProps={{ width: 'small' }}
           justifyContent="start">
-          <NameValuePair key={weekVote?.description} name="Description">
-            {weekVote?.description}
-          </NameValuePair>
-          <NameValuePair key={weekVote?.solution} name="Solution">
-            {weekVote?.solution}
-          </NameValuePair>
         </NameValueList>
+
+        <NameValuePair key={dayReview?.title} name="Stars">
+          <StarRating name="keke" />
+        </NameValuePair>
       </CardBody>
     </Card>
   )
-};
+}
 
-export default VoteOfTheWeekCard;
+export default MostLikedFailureCard;
