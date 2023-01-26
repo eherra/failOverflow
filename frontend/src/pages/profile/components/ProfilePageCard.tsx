@@ -23,7 +23,7 @@ const ProfilePageCard = ({ title, subtitle, buttonLabel, link, icon }: ProfilePa
       margin="medium"
       pad="medium"
     >
-      <CardHeader align="start" direction="column" gap="xsmall">
+      <CardHeader pad="small" align="start" direction="column" gap="xsmall">
         {icon}
         <Heading level={2} size="small">
           {title}
