@@ -1,8 +1,8 @@
 import PageProvider from '../common/PageProvider';
-import { Link } from 'react-router-dom';
-import { PageContent, StarRating, PageHeader, Button, CardHeader, Text, Grid, Paragraph, Card, Heading, CardFooter, CardBody } from "grommet";
+import { PageContent, Box, Image, PageHeader, Grid } from "grommet";
 import VoteOfTheWeekCard from './components/VoteOfTheWeekCard';
 import MostLikedFailureCard from './components/MostLikedFailureCard';
+import StartExploringCard from './components/StartExploringCard';
 
 const userName = "John Wilkes"
 
@@ -16,26 +16,34 @@ const HomePage = () => {
           subtitle="Welcome to Failover Flow"
         />
         <Grid columns={{ count: 'fit', size: 'medium' }} gap="medium">
-          <Card
-            margin="medium"
-            pad="medium"
-          >
-            <CardHeader align="start" direction="column" gap="xsmall">
-              <Heading level={2} size="small">
-                Feeling like failing?
-              </Heading>
-            </CardHeader>
-            <CardBody>
-              Start
-            </CardBody>
-            <CardFooter pad="small">
-              <Link to=""><Button focusIndicator label="pressme" /></Link>
-            </CardFooter>
-          </Card>
-
-          <VoteOfTheWeekCard />
+          <Box height="medium">
+            <Image
+              src={'/explore.svg'}
+              fit="contain"
+            />
+          </Box>
+          <StartExploringCard />
         </Grid>
-        <MostLikedFailureCard />
+
+        <Grid columns={{ count: 'fit', size: 'medium' }} gap="medium">
+          <VoteOfTheWeekCard />
+          <Box height="medium">
+            <Image
+              src={'/votevote.svg'}
+              fit="contain"
+            />
+          </Box>
+        </Grid>
+
+        <Grid columns={{ count: 'fit', size: 'medium' }} gap="medium">
+          <Box height="medium">
+            <Image
+              src={'/heart.svg'}
+              fit="contain"
+            />
+          </Box>
+          <MostLikedFailureCard />
+        </Grid>
       </PageContent>
     </PageProvider>
   );

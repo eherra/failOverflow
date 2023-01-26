@@ -8,7 +8,6 @@ import {
   Box,
   Avatar,
   CardBody,
-  Text,
   NameValueList,
   NameValuePair
 } from 'grommet';
@@ -43,18 +42,20 @@ const VoteOfTheWeekCard = () => {
           Failure of the Week (votes: {weekVote?.votes})
         </Heading>
         <Box direction="row" gap="small" pad="xsmall">
-          {weekVote?.title}
+          by
           <Avatar src="avatar.png" size="medium" />
           <p>{weekVote?.creator.name}</p>
         </Box>
       </CardHeader>
       <CardBody>
-
         <NameValueList
           pairProps={{ direction: 'column' }}
           layout="grid"
           valueProps={{ width: 'small' }}
           justifyContent="start">
+          <NameValuePair name="Title">
+            {weekVote?.title}
+          </NameValuePair>
           <NameValuePair key={weekVote?.description} name="Description">
             {weekVote?.description}
           </NameValuePair>

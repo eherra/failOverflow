@@ -42,22 +42,24 @@ const MostLikedFailureCard = () => {
           Days most liked Failure
         </Heading>
         <Box direction="row" gap="small" pad="xsmall">
+          by 
           <Avatar src="avatar.png" size="medium" />
           <p>{dayReview?.creator.name}</p>
         </Box>
       </CardHeader>
       <CardBody>
-        
         <NameValueList
           pairProps={{ direction: 'column' }}
           layout="grid"
           valueProps={{ width: 'small' }}
           justifyContent="start">
+          <NameValuePair name="Title">
+            {dayReview?.title}
+          </NameValuePair>
+          <NameValuePair name="Stars">
+            <StarRating name="keke" />
+          </NameValuePair>
         </NameValueList>
-
-        <NameValuePair key={dayReview?.title} name="Stars">
-          <StarRating name="keke" />
-        </NameValuePair>
       </CardBody>
     </Card>
   )
