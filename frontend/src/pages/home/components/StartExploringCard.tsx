@@ -5,11 +5,13 @@ import {
   Heading,
   CardBody,
   CardFooter,
-  Button
+  Button,
+  Box
 } from 'grommet';
 
 import {
-  FormNext
+  FormNext,
+  Add
 } from 'grommet-icons';
 
 const StartExploringCard = () => {
@@ -27,10 +29,13 @@ const StartExploringCard = () => {
         Start
       </CardBody>
       <CardFooter pad="small">
-        <Link to="/failures"><Button reverse icon={<FormNext />} hoverIndicator label="Start exploring failures" /></Link>
+        <Box direction="row" gap="small" pad="small">
+          <Link to="/failures"><Button primary icon={<Add />} hoverIndicator label="Create failure" /></Link>
+          <Link to="/failures"><Button reverse icon={<FormNext />} hoverIndicator label="Explore failures" /></Link>
+        </Box>
       </CardFooter>
     </Card>
   )
-}
+};
 
 export default StartExploringCard;

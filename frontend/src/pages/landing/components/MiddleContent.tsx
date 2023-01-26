@@ -22,7 +22,7 @@ const MiddleContent = () => {
           </Box>
           <Box height="medium">
             <Image
-              src={'/connect.svg'}
+              src={'/landingpage/connect.svg'}
               fit="contain"
             />
           </Box>

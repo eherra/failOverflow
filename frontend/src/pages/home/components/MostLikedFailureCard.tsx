@@ -63,6 +63,6 @@ const MostLikedFailureCard = () => {
       </CardBody>
     </Card>
   )
-}
+};
 
 export default MostLikedFailureCard;

@@ -36,7 +36,7 @@ const TopContent = () => {
           </Box>
           <Box gridArea="svg">
             <Image
-              src={'/time.svg'}
+              src={'/landingpage/time.svg'}
             />
           </Box>
         </Grid>
