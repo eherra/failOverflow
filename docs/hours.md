@@ -13,5 +13,5 @@
 | 24.1.2023 | 5 | refactoring, review and votes enhancements, register and profile edit and overview pages created |
 | 25.1.2023 | 4 | back to profile link created, created data charts to profile overview |
 | 26.1.2023 | 4 | started working with homepage |
-| 27.1.2023 | 3 | enhancements to homepage, started working with failure creation feature |
-| total    | 46  | | 
+| 27.1.2023 | 6 | enhancements to homepage, started working with failure creation feature, refactoring, added create failure button to failures page, desing issues to github|
+| total    | 49  | | 

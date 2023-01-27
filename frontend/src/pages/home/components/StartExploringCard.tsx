@@ -9,11 +9,12 @@ import {
   Box
 } from 'grommet';
 
-import { CreateFailureSideModal } from './CreateFailureSideModal/CreateFailureSideModal';
-
 import {
   FormNext,
 } from 'grommet-icons';
+
+import CreateFailureSideModal from '../../common/CreateFailureSideModal/CreateFailureSideModal';
+
 
 const StartExploringCard = () => {
   return (

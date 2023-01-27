@@ -12,7 +12,7 @@ import {
 
 import CreateFailureForm from './form/CreateFailureForm';
 
-export const CreateFailureSideModal = () => {
+const CreateFailureSideModal = () => {
   const [isCreateFailureModalOpen, setIsCreateFailureModalOpen] = useState<boolean>(false);
   const size = useContext(ResponsiveContext);
 
@@ -45,3 +45,5 @@ export const CreateFailureSideModal = () => {
     </>
   );
 };
+
+export default CreateFailureSideModal
