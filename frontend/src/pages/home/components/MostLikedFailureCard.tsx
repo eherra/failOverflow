@@ -24,7 +24,6 @@ interface ReviewInfo {
   starRating: string,
 }
 
-
 const MostLikedFailureCard = () => {
   const [dayReview, setDayReview] = useState<ReviewInfo | undefined>(undefined);
 
@@ -39,7 +38,7 @@ const MostLikedFailureCard = () => {
     >
       <CardHeader align="start" direction="column" gap="xsmall">
         <Heading level={2} size="small">
-          Days most liked Failure
+          Months most liked Failure
         </Heading>
         <Box direction="row" gap="small" pad="xsmall">
           by 
