@@ -22,7 +22,6 @@ const HomePage = () => {
           content={<StartExploringCard />}
         />
         <HomePageRow
-          picFirst={false}
           svgPath="/homepage/vote.svg"
           content={<VoteOfTheWeekCard />}
         />

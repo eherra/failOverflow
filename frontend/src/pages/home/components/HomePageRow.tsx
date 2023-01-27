@@ -2,7 +2,7 @@ import { Box, Image, Grid } from "grommet";
 import { ReactNode } from 'react';
 
 interface HomePageRowProps {
-  picFirst: boolean,
+  picFirst?: boolean,
   svgPath: string,
   content: ReactNode
 }

@@ -11,8 +11,10 @@ import {
 
 import {
   FormNext,
-  Add
 } from 'grommet-icons';
+
+import CreateFailureSideModal from '../../common/CreateFailureSideModal/CreateFailureSideModal';
+
 
 const StartExploringCard = () => {
   return (
@@ -30,7 +32,7 @@ const StartExploringCard = () => {
       </CardBody>
       <CardFooter pad="small">
         <Box direction="row" gap="small" pad="small">
-          <Link to="/failures"><Button primary icon={<Add />} hoverIndicator label="Create failure" /></Link>
+          <CreateFailureSideModal />
           <Link to="/failures"><Button reverse icon={<FormNext />} hoverIndicator label="Explore failures" /></Link>
         </Box>
       </CardFooter>

@@ -18,7 +18,6 @@ const MainFooter = () => {
         wrap
       >
         <Button label="FaQ" />
-        <Button label="Terms" />
         <Button label="Give feedback" />
       </Box>
     </Footer>

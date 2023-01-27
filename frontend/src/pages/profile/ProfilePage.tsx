@@ -1,5 +1,6 @@
 import PageProvider from '../common/PageProvider';
 import ProfilePageCard from './components/ProfilePageCard';
+
 import {
   Grid,
   Page,
