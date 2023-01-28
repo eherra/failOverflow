@@ -8,7 +8,8 @@ import {
 import LabelWithInfoTip from './LabelWithInfoTip';
 
 const AvatarForm = () => {
-  const [numFiles, setNumFiles] = useState(0);
+  const [hasFile, setHasFile] = useState(0);
+  const maxImageSize = 2_621_440; // 2.5MB
 
   return (
     <FormField
@@ -17,11 +18,13 @@ const AvatarForm = () => {
       label={<LabelWithInfoTip />}
     >
       <FileInput
+        accept="image/*"
         messages={{
-          dropPrompt: 'Drag and drop',
-          browse: numFiles > 0 ? 'Replace file' : 'Select file',
+          dropPrompt: 'Drag and drop image',
+          browse: hasFile ? 'Replace image' : 'Select image',
         }}
-        onChange={(event, { files }: any) => setNumFiles(files.length)}
+        maxSize={maxImageSize}
+        onChange={(event, { files }: any) => setHasFile(files.length)}
         name="fileinput"
       />
     </FormField>

@@ -1,47 +1,22 @@
 import {
   FormField,
-  TextInput,
+  TextInput
 } from 'grommet';
 
-const passwordRules = [
-  {
-    regexp: new RegExp('.{4,}'),
-    message: 'At least four characters',
-    status: 'error',
-  },
-  {
-    regexp: new RegExp('(?=.*?[#?!@$ %^&*-])'),
-    message: 'At least one special character or space',
-    status: 'error',
-  },
-];
-
-const usernameRules = [
-  {
-    regexp: new RegExp('.{4,}'),
-    message: 'At least four characters',
-    status: 'error',
-  },
-  {
-    regexp: new RegExp('(^[a-zA-Z0-9._]*$)'),
-    message: 'Alphabets, numbers, dot (.) and underscore (_) allowed',
-    status: 'error',
-  },
-];
+import { passwordRules, usernameRules } from '../FormValidation';
 
 const UsernamePasswordForm = () => {
   return (
     <>
       <FormField
         required
-        htmlFor="name"
-        name="name"
+        htmlFor="username"
+        name="username"
         label="Username"
-      //validate={usernameRules}
+        validate={usernameRules}
       >
         <TextInput
-          id="name"
-          name="name"
+          name="username"
         />
       </FormField>
 
@@ -49,7 +24,7 @@ const UsernamePasswordForm = () => {
         htmlFor="password"
         name="password"
         label="Password"
-        //validate={passwordRules}
+        validate={passwordRules}
         required
       >
         <TextInput
