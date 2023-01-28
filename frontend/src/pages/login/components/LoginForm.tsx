@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Box, Form, TextInput, FormField, Button } from 'grommet';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -34,7 +37,14 @@ const LoginForm = () => {
         </Box>
         <Box direction="column" gap="small" pad="small">
           <Button type="submit" primary label="Sign in" />
-          <Button label="Register" />
+          <Link to="/register">
+            <Button hoverIndicator
+              label="No account? Register here"
+              onClick={() => {
+                navigate("/register");
+              }}
+            />
+          </Link>
         </Box>
       </Form>
     </Box>
