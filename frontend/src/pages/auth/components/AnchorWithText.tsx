@@ -16,7 +16,7 @@ const AnchorWithText = ({ text, anchorLabel, anchorLink }: IAnchorWithText) => {
       onClick={() => {
         navigate(anchorLink);
       }}
-      style={{ color: "#5A5A5A" }}
+      style={{ color: "#5A5A5A", textDecorationLine: 'underline' }}
     />
     </Text>
   )

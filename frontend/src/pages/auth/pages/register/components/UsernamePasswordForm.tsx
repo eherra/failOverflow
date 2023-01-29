@@ -4,6 +4,7 @@ import {
 } from 'grommet';
 
 import { passwordRules, usernameRules } from '../FormValidation';
+import LabelWithInfoTip from './LabelWithInfoTip';
 
 const UsernamePasswordForm = () => {
   return (
@@ -12,7 +13,9 @@ const UsernamePasswordForm = () => {
         required
         htmlFor="username"
         name="username"
-        label="Username"
+        label={<LabelWithInfoTip
+          text="Choose username"
+          tipContent="Min. 4 characters" />}
         validate={usernameRules}
       >
         <TextInput
@@ -21,11 +24,13 @@ const UsernamePasswordForm = () => {
       </FormField>
 
       <FormField
+        required
         htmlFor="password"
         name="password"
-        label="Password"
+        label={<LabelWithInfoTip
+          text="Choose password"
+          tipContent="Min. 4 characters, one special character required" />}
         validate={passwordRules}
-        required
       >
         <TextInput
           name="password"

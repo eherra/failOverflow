@@ -6,7 +6,7 @@ import {
 } from 'grommet-icons';
 import styled from 'styled-components';
 
-const isLoggedIn = false;
+const isLoggedIn = true;
 
 const StyledHeader = styled(Header)`
   font-weight: bold;
@@ -37,7 +37,7 @@ const NavBar = () => {
           </>
         ) : (
           <Box direction="row">
-            <Link to="/login"><Button hoverIndicator />
+            <Link to="/login">
               <Button hoverIndicator label="Sign in" />
             </Link>
             <Link to="/register">

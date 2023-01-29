@@ -1,10 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { Box, Form, TextInput, FormField, Button, Grid, Image, ResponsiveContext, Anchor, Text } from 'grommet';
-import { useNavigate } from 'react-router-dom';
+import { Box, Form, TextInput, FormField, Button, Grid, Image, ResponsiveContext } from 'grommet';
 import AnchorWithText from '../../../components/AnchorWithText';
 
 const LoginForm = () => {
-  const navigate = useNavigate();
   const size = useContext(ResponsiveContext);
 
   const [username, setUsername] = useState('');
@@ -19,7 +17,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Grid columns={{ count: 2, size: 'medium' }} gap="medium">
+    <Grid columns={{ count: "fit", size: 'medium' }} gap="medium">
       <Form>
         <Box direction="row" gap="large" pad="small">
           <FormField name="name" htmlFor="username" label="Username">
@@ -45,7 +43,7 @@ const LoginForm = () => {
           <Button label="Sign in" primary type="submit" />
           <AnchorWithText
             text="No account? "
-            anchorLabel="Register user here."
+            anchorLabel="Register user here"
             anchorLink="/register" />
         </Box>
       </Form>
