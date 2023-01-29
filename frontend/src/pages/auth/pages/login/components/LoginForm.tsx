@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Box, Form, TextInput, FormField, Button } from 'grommet';
+import React, { useState, useContext } from 'react';
+import { Box, Form, TextInput, FormField, Button, Grid, Image, ResponsiveContext, Anchor, Text } from 'grommet';
 import { useNavigate } from 'react-router-dom';
+import AnchorWithText from '../../../components/AnchorWithText';
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const size = useContext(ResponsiveContext);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,7 +19,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Box width="30%">
+    <Grid columns={{ count: 2, size: 'medium' }} gap="medium">
       <Form>
         <Box direction="row" gap="large" pad="small">
           <FormField name="name" htmlFor="username" label="Username">
@@ -35,19 +37,25 @@ const LoginForm = () => {
             />
           </FormField>
         </Box>
-        <Box direction="column" gap="small" pad="small">
-          <Button type="submit" primary label="Sign in" />
-          <Link to="/register">
-            <Button hoverIndicator
-              label="No account? Register here"
-              onClick={() => {
-                navigate("/register");
-              }}
-            />
-          </Link>
+        <Box
+          align={['xsmall', 'small'].includes(size) ? undefined : 'start'}
+          pad={{ top: 'small' }}
+          gap="small"
+        >
+          <Button label="Sign in" primary type="submit" />
+          <AnchorWithText
+            text="No account? "
+            anchorLabel="Register user here."
+            anchorLink="/register" />
         </Box>
       </Form>
-    </Box>
+      <Box height="medium">
+        <Image
+          src={"/loginRegister/login.svg"}
+          fit="contain"
+        />
+      </Box>
+    </Grid>
   );
 };
 

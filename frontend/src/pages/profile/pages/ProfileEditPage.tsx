@@ -1,13 +1,13 @@
 import { PageContent, PageHeader } from 'grommet';
 import PageProvider from '../../common/PageProvider';
-import BackToManageProfileLink from '../components/BackToMangeProfileLink';
+import HeaderBackLick from '../../common/HeaderBackLink';
 
 const ProfileEditPage = () => {
   return (
     <PageProvider>
       <PageContent>
         <PageHeader
-          parent={<BackToManageProfileLink label="Manage profile" />}
+          parent={<HeaderBackLick label="Manage profile" link="/profile" />}
           title="Edit Profile"
         />
       </PageContent>
