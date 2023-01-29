@@ -1,23 +1,24 @@
-import { useNavigate } from 'react-router-dom';
 import { Anchor } from 'grommet';
 import { FormPrevious } from 'grommet-icons';
+import { useNavigate } from 'react-router-dom';
 
-interface BackToManageProfileLinkProps {
-  label: string
+interface IBackToFrontpageLink {
+  label: string,
+  link: string
 }
 
-const BackToManageProfileLink = ({ label }: BackToManageProfileLinkProps) => {
+const HeaderBackLick = ({ label, link }: IBackToFrontpageLink) => {
   const navigate = useNavigate();
   return (
     <Anchor
       icon={<FormPrevious />}
       label={label}
       onClick={() => {
-        navigate("/profile");
+        navigate(link);
       }}
       style={{ color: "#5A5A5A" }}
     />
   )
 };
 
-export default BackToManageProfileLink;
+export default HeaderBackLick;
