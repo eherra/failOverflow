@@ -5,6 +5,7 @@ import {
   Heading,
   Text,
   CardFooter,
+  Spinner
 } from 'grommet';
 import { ReactNode } from 'react';
 import { Link } from "react-router-dom";
@@ -31,7 +32,9 @@ const ProfilePageCard = ({ title, subtitle, buttonLabel, link, icon }: ProfilePa
         <Text size="small">{subtitle}</Text>
       </CardHeader>
       <CardFooter>
-        <Link to={link}><Button focusIndicator label={buttonLabel} /></Link>
+        <Link to={link}>
+          <Button focusIndicator label={buttonLabel} />
+        </Link>
       </CardFooter>
     </Card>
   )

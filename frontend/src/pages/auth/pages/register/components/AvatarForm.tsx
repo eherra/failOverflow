@@ -15,7 +15,7 @@ const AvatarForm = () => {
     <FormField
       htmlFor="fileinput"
       name="fileinput"
-      label={<LabelWithInfoTip />}
+      label={<LabelWithInfoTip text="Upload avatar" tipContent="Can be added/edited later on" />}
     >
       <FileInput
         accept="image/*"

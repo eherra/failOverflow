@@ -8,14 +8,19 @@ import {
   StatusInfo
 } from 'grommet-icons';
 
-const LabelWithInfoTip = () => {
+interface ILabelWithInfoTip {
+  text: string,
+  tipContent: string
+}
+
+const LabelWithInfoTip = ({ text, tipContent }: ILabelWithInfoTip) => {
   return (
     <Box direction='row' gap='xsmall'>
       <Text>
-        Upload avatar
+        {text}
       </Text>
       <Tip
-        content="Can be added/edited later"
+        content={tipContent}
         dropProps={{ align: { left: 'right' } }}
       >
         <StatusInfo />

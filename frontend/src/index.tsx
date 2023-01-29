@@ -1,7 +1,9 @@
+import { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Grommet } from 'grommet';
+import { Spinner } from "grommet";
 
 const customTheme = {
   global: {
@@ -21,8 +23,10 @@ const customTheme = {
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Grommet theme={customTheme} full>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Suspense fallback={<Spinner size='large' alignSelf='center' />}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Suspense>
   </Grommet>
 );

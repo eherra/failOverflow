@@ -26,7 +26,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <Grid columns={{ count: 2, size: 'medium' }} gap="xxsmall">
+    <Grid columns={{ count: "fit", size: 'medium' }} gap="xxsmall">
       <Box gap="medium" width="medium">
         <Box
           pad={{ horizontal: 'xxsmall' }}
@@ -53,7 +53,7 @@ const RegisterForm = () => {
               <Button label="Register account" primary type="submit" />
               <AnchorWithText
                 text="Already user? "
-                anchorLabel="Sign in here."
+                anchorLabel="Sign in here"
                 anchorLink="/login" />
             </Box>
           </Form>
