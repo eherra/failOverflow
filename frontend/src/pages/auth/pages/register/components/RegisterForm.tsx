@@ -14,10 +14,9 @@ import UsernameTakenError from './UsernameTakenError';
 import AnchorWithText from '../../../components/AnchorWithText';
 
 const RegisterForm = () => {
+  const size = useContext(ResponsiveContext);
   const [formValues, setFormValues] = useState()
   const [isUsernameTakenError, setIsUsernameTakenError] = useState<boolean>(false);
-
-  const size = useContext(ResponsiveContext);
 
   const handleRegisterSubmit = (value: any, touched: any) => {
     console.log("perkele")
@@ -27,37 +26,33 @@ const RegisterForm = () => {
 
   return (
     <Grid columns={{ count: "fit", size: 'medium' }} gap="xxsmall">
-      <Box gap="medium" width="medium">
-        <Box
-          pad={{ horizontal: 'xxsmall' }}
+      <Box gap="medium" width="medium" pad={{ horizontal: 'xxsmall' }}>
+        <Form
+          messages={{
+            required: 'This is a required field.',
+          }}
+          onSubmit={({ value, touched }) => handleRegisterSubmit(value, touched)}
+          value={formValues}
+          onChange={(value) => setFormValues(value)}
+          method="post"
         >
-          <Form
-            messages={{
-              required: 'This is a required field.',
-            }}
-            onSubmit={({ value, touched }) => handleRegisterSubmit(value, touched)}
-            value={formValues}
-            onChange={(value) => setFormValues(value)}
-            method="post"
+          <UsernamePasswordForm />
+          <AvatarForm tipContent="Can be added/edited later on. (Max 2.5MB)"/>
+          <UsernameTakenError
+            isUsernameTaken={isUsernameTakenError}
+          />
+          <Box
+            align={['xsmall', 'small'].includes(size) ? undefined : 'start'}
+            pad={{ top: 'xxsmall' }}
+            gap="small"
           >
-            <UsernamePasswordForm />
-            <AvatarForm />
-            <UsernameTakenError
-              isUsernameTaken={isUsernameTakenError}
-            />
-            <Box
-              align={['xsmall', 'small'].includes(size) ? undefined : 'start'}
-              pad={{ top: 'xxsmall' }}
-              gap="small"
-            >
-              <Button label="Register account" primary type="submit" />
-              <AnchorWithText
-                text="Already user? "
-                anchorLabel="Sign in here"
-                anchorLink="/login" />
-            </Box>
-          </Form>
-        </Box>
+            <Button label="Register account" primary type="submit" />
+            <AnchorWithText
+              text="Already user? "
+              anchorLabel="Sign in here"
+              anchorLink="/login" />
+          </Box>
+        </Form>
       </Box>
       <Box height="medium">
         <Image
