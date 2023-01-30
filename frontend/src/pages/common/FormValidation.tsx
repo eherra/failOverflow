@@ -15,6 +15,13 @@ const ErrorMessage = ({ message }: IErrorMessage) => {
     </Box>
   )
 }
+
+export const confirmPasswordMatching = (newPassword: string, confirmPassword: string) => {
+  return newPassword === confirmPassword
+    ? undefined
+    : { message: <ErrorMessage message="Passwords does not match" /> };
+};
+
 export const passwordRules = [
   {
     regexp: new RegExp('.{4,}'),

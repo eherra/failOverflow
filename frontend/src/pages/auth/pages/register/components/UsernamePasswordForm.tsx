@@ -3,7 +3,7 @@ import {
   TextInput
 } from 'grommet';
 
-import { passwordRules, usernameRules } from '../FormValidation';
+import { passwordRules, usernameRules } from '../../../../common/FormValidation';
 import LabelWithInfoTip from './LabelWithInfoTip';
 
 const UsernamePasswordForm = () => {

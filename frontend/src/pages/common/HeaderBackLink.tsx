@@ -7,7 +7,7 @@ interface IBackToFrontpageLink {
   link: string
 }
 
-const HeaderBackLick = ({ label, link }: IBackToFrontpageLink) => {
+const HeaderBackLink = ({ label, link }: IBackToFrontpageLink) => {
   const navigate = useNavigate();
   return (
     <Anchor
@@ -21,4 +21,4 @@ const HeaderBackLick = ({ label, link }: IBackToFrontpageLink) => {
   )
 };
 
-export default HeaderBackLick;
+export default HeaderBackLink;
