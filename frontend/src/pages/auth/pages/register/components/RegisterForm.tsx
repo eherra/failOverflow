@@ -14,10 +14,9 @@ import UsernameTakenError from './UsernameTakenError';
 import AnchorWithText from '../../../components/AnchorWithText';
 
 const RegisterForm = () => {
+  const size = useContext(ResponsiveContext);
   const [formValues, setFormValues] = useState()
   const [isUsernameTakenError, setIsUsernameTakenError] = useState<boolean>(false);
-
-  const size = useContext(ResponsiveContext);
 
   const handleRegisterSubmit = (value: any, touched: any) => {
     console.log("perkele")
@@ -38,7 +37,7 @@ const RegisterForm = () => {
           method="post"
         >
           <UsernamePasswordForm />
-          <AvatarForm />
+          <AvatarForm tipContent="Can be added/edited later on. (Max 2.5MB)"/>
           <UsernameTakenError
             isUsernameTaken={isUsernameTakenError}
           />

@@ -1,4 +1,4 @@
-import { PageContent, PageHeader, Grid } from 'grommet';
+import { PageContent, PageHeader, Grid, Box, Image } from 'grommet';
 import PageProvider from '../../common/PageProvider';
 import HeaderBackLink from '../../common/HeaderBackLink';
 import ProfileDetailCard from '../components/EditPage/ProfileDetailCard';
@@ -13,7 +13,21 @@ const ProfileEditPage = () => {
         />
         <Grid columns={{ count: 2, size: 'medium' }} gap="medium">
           <ProfileDetailCard />
-
+          <Box height="medium">
+            <Image
+              src={'/editProfile.svg'}
+              fit="contain"
+            />
+          </Box>
+        </Grid>
+        <Grid columns={{ count: 2, size: 'medium' }} gap="medium">
+          <Box height="medium">
+            <Image
+              src={'/surf.svg'}
+              fit="contain"
+            />
+          </Box>
+          <p>Failures list here</p>
         </Grid>
       </PageContent>
     </PageProvider>

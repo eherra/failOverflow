@@ -7,7 +7,11 @@ import {
 
 import LabelWithInfoTip from './LabelWithInfoTip';
 
-const AvatarForm = () => {
+interface IAvatarForm {
+  tipContent: string
+}
+
+const AvatarForm = ({ tipContent }: IAvatarForm) => {
   const [hasFile, setHasFile] = useState(0);
   const maxImageSize = 2_621_440; // 2.5MB
 
@@ -15,7 +19,7 @@ const AvatarForm = () => {
     <FormField
       htmlFor="fileinput"
       name="fileinput"
-      label={<LabelWithInfoTip text="Upload avatar" tipContent="Can be added/edited later on" />}
+      label={<LabelWithInfoTip text="Upload avatar" tipContent={tipContent} />}
     >
       <FileInput
         accept="image/*"

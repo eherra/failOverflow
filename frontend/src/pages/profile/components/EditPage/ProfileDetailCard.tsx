@@ -9,12 +9,12 @@ import {
   Text,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Avatar
 } from 'grommet';
 
 import PasswordChangeForm from './PasswordChangeForm';
+import AvatarChangeForm from './AvatarChangeForm';
 
 const ProfileDetailCard = () => {
   const [changePassword, setChangePassword] = useState(false);
@@ -54,7 +54,9 @@ const ProfileDetailCard = () => {
               <NameValuePair name="Avatar">
                 <Box direction='row' gap='small'>
                   <Avatar src="/avatar.png" size="medium" />
-                  <Button label="Change avatar" />
+                  <Button
+                    label="Change avatar"
+                    onClick={() => setChangeAvatar(true)} />
                 </Box>
               </NameValuePair>
             </NameValueList>
@@ -66,7 +68,7 @@ const ProfileDetailCard = () => {
             }
 
             {changeAvatar &&
-              <p>avatar change</p>
+              <AvatarChangeForm setChangeAvatar={setChangeAvatar} />
             }
           </>
         )}
