@@ -7,7 +7,7 @@ import {
   ResponsiveContext,
   TextInput,
 } from 'grommet';
-import { passwordRules, confirmPasswordMatching } from '../../../common/FormValidation';
+import { passwordRules, confirmPasswordMatching } from '../../../../common/FormValidation';
 
 interface IPasswordChangeForm {
   setChangePassword(boolean: any): void

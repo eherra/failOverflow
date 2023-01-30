@@ -9,7 +9,7 @@ import {
   TextArea,
   Button
 } from 'grommet';
-import { FormDown, FormUp } from 'grommet-icons';
+import ShowMoreCommentsButton from '../../../../common/ShowMoreCommentsButton';
 
 interface CommentTabProps {
   comments: Array<string>
@@ -58,7 +58,7 @@ const CommentTab = ({ comments }: CommentTabProps) => {
                   ))}
               </ul>
               {comments.length >= 3 && (
-                <ShowCommentsButton
+                <ShowMoreCommentsButton
                   showAll={showAllComments}
                   setShowAll={setShowAllComments}
                 />
@@ -70,16 +70,5 @@ const CommentTab = ({ comments }: CommentTabProps) => {
     </Tab>
   )
 }
-
-const ShowCommentsButton = ({ showAll, setShowAll }: any) => (
-  <Button
-    alignSelf="start"
-    size="small"
-    label={`Show ${!showAll ? 'all' : 'less'} comments`}
-    onClick={() => setShowAll(() => !showAll)}
-    icon={!showAll ? <FormDown /> : <FormUp />}
-    reverse
-  />
-);
 
 export default CommentTab;

@@ -15,6 +15,9 @@ export const createTimePassedInfo = (date: string) => {
 }
 
 export const createStyledDateInfo = (date: string) => {
+  if (!date) {
+    return;
+  }
   const time = new Date(date);
 
   const hourStyled = addLeadingZeroToTime(time.getHours())

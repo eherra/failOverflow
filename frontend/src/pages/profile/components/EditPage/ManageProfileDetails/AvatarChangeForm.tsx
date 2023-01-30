@@ -6,7 +6,7 @@ import {
   ResponsiveContext
 } from 'grommet';
 
-import AvatarForm from "../../../auth/pages/register/components/AvatarForm";
+import AvatarForm from "../../../../auth/pages/register/components/AvatarForm";
 
 interface IAvatarChangeForm {
   setChangeAvatar(boolean: any): void

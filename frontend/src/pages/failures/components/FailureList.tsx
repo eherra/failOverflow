@@ -4,25 +4,7 @@ import {
 import { useState, useEffect } from 'react';
 import { failureData } from '../../../mockData';
 import AccordionUnit from './accordion/AccordionUnit';
-
-interface Creator {
-  name: string,
-  avatar: string
-}
-
-interface Failure {
-  id: number,
-  creator: Creator,
-  title: string,
-  description: string,
-  solution: string,
-  technologies: Array<string>,
-  starRating: string,
-  tags: Array<string>,
-  votes: number,
-  timeOfCreation: string,
-  comments: Array<string>
-}
+import { Failure } from '../../../types';
 
 const FailureList = () => {
   const [failures, setFailures] = useState<Array<Failure>>([]);

@@ -16,5 +16,5 @@
 | 27.1.2023 | 6 | enhancements to homepage, started working with failure creation feature, refactoring, added create failure button to failures page, desing issues to github|
 | 28.1.2023 | 4 | started working with register page |
 | 29.1.2023 | 5 | enhancements for login and register page, refactoring, lazy loading for failures and overview pages |
-| 30.1.2023 | 3 | started to work with edit profile page, refactoring |
-| total    | 61  | | 
+| 30.1.2023 | 7 | working with edit profile page, modals created, account details and failure editing made possible, refactoring |
+| total    | 65  | | 

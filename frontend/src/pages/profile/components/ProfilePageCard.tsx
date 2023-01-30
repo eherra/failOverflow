@@ -4,8 +4,7 @@ import {
   CardHeader,
   Heading,
   Text,
-  CardFooter,
-  Spinner
+  CardFooter
 } from 'grommet';
 import { ReactNode } from 'react';
 import { Link } from "react-router-dom";

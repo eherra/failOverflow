@@ -1,7 +1,8 @@
 import { PageContent, PageHeader, Grid, Box, Image } from 'grommet';
 import PageProvider from '../../common/PageProvider';
 import HeaderBackLink from '../../common/HeaderBackLink';
-import ProfileDetailCard from '../components/EditPage/ProfileDetailCard';
+import ProfileDetailCard from '../components/EditPage/ManageProfileDetails/ProfileDetailCard';
+import FailuresCard from '../components/EditPage/ManageFailures/FailuresCard';
 
 const ProfileEditPage = () => {
   return (
@@ -27,7 +28,7 @@ const ProfileEditPage = () => {
               fit="contain"
             />
           </Box>
-          <p>Failures list here</p>
+          <FailuresCard />
         </Grid>
       </PageContent>
     </PageProvider>
