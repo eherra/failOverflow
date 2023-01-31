@@ -1,24 +1,24 @@
-import { Suspense } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { Suspense } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Grommet } from 'grommet';
-import { Spinner } from "grommet";
+import { Spinner } from 'grommet';
+import React from 'react';
 
 const customTheme = {
   global: {
     colors: {
       background: '#efefef',
       brand: '#A7BEAE',
-      focus: "#efefef",
-
+      focus: '#efefef',
     },
     font: {
-      family: "Roboto",
-      size: "18px",
-      height: "20px",
+      family: 'Roboto',
+      size: '18px',
+      height: '20px',
     },
-  }
+  },
 };
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -28,5 +28,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <App />
       </BrowserRouter>
     </Suspense>
-  </Grommet>
+  </Grommet>,
 );

@@ -1,74 +1,52 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  NameValueList,
-  NameValuePair,
-  Tab,
-  Form,
-  FormField,
-  TextArea,
-  Button
-} from 'grommet';
+import { Box, NameValueList, NameValuePair, Tab, Form, FormField, TextArea, Button } from 'grommet';
 import ShowMoreCommentsButton from '../../../../common/ShowMoreCommentsButton';
 
 interface CommentTabProps {
-  comments: Array<string>
+  comments: Array<string>;
 }
 
 const CommentTab = ({ comments }: CommentTabProps) => {
-  const [textAreaValue, setTextAreaValue] = useState<string>("");
+  const [textAreaValue, setTextAreaValue] = useState<string>('');
   const [showAllComments, setShowAllComments] = useState<boolean>(false);
 
   return (
-    <Tab title="Comments">
-      <Box gap="large" margin="large">
+    <Tab title='Comments'>
+      <Box gap='large' margin='large'>
         <NameValueList
           pairProps={{ direction: 'column' }}
-          layout="grid"
+          layout='grid'
           valueProps={{ width: 'medium' }}
-          justifyContent="center">
+          justifyContent='center'>
           <Form>
-            <FormField
-              label="Leave a comment"
-              htmlFor="text-area-example"
-            >
+            <FormField label='Leave a comment' htmlFor='text-area-example'>
               <TextArea
-                placeholder="e.g. did you find it helpful?"
-                id="text-area-example"
+                placeholder='e.g. did you find it helpful?'
+                id='text-area-example'
                 value={textAreaValue}
-                onChange={event => setTextAreaValue(event.target.value)}
+                onChange={(event) => setTextAreaValue(event.target.value)}
               />
             </FormField>
-            <Box direction="row" gap="medium">
-              <Button type="submit" color="#A7BEAE" primary label="Send" />
+            <Box direction='row' gap='medium'>
+              <Button type='submit' color='#A7BEAE' primary label='Send' />
             </Box>
           </Form>
           <NameValuePair name="People's comments">
             <>
               <ul>
-                {comments.slice(
-                  0,
-                  showAllComments ||
-                    comments.length < 3
-                    ? comments.length
-                    : 3,
-                )
-                  .map(comment => (
-                    <li key={comment}>{comment}</li>
-                  ))}
+                {comments.slice(0, showAllComments || comments.length < 3 ? comments.length : 3).map((comment) => (
+                  <li key={comment}>{comment}</li>
+                ))}
               </ul>
               {comments.length >= 3 && (
-                <ShowMoreCommentsButton
-                  showAll={showAllComments}
-                  setShowAll={setShowAllComments}
-                />
+                <ShowMoreCommentsButton showAll={showAllComments} setShowAll={setShowAllComments} />
               )}
             </>
           </NameValuePair>
         </NameValueList>
       </Box>
     </Tab>
-  )
-}
+  );
+};
 
 export default CommentTab;

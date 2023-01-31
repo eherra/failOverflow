@@ -1,6 +1,4 @@
-import {
-  Accordion,
-} from 'grommet';
+import { Accordion } from 'grommet';
 import { useState, useEffect } from 'react';
 import { failureData } from '../../../mockData';
 import AccordionUnit from './accordion/AccordionUnit';
@@ -10,15 +8,15 @@ const FailureList = () => {
   const [failures, setFailures] = useState<Array<Failure>>([]);
 
   useEffect(() => {
-    setFailures(() => failureData.failures)
+    setFailures(() => failureData.failures);
   }, []);
 
   return (
-    <Accordion multiple width="85%">
-      {failures.map((failure, index) =>
+    <Accordion multiple width='85%'>
+      {failures.map((failure, index) => (
         <AccordionUnit key={index} failure={failure} />
-      )}
-    </Accordion >
+      ))}
+    </Accordion>
   );
 };
 

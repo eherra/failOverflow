@@ -9,16 +9,15 @@ const FailuresPage = () => {
   return (
     <PageProvider>
       <PageContent>
-        <PageHeader
-          title="Failures"
-        />
+        <PageHeader title='Failures' />
         <FailureList />
         <Box
           align={['xsmall', 'small'].includes(size) ? undefined : 'start'}
           pad={{ top: 'small', bottom: 'small' }}
-          gap="small"
-        >
-          <Text weight="bold" size="medium">Want to create your own?</Text>
+          gap='small'>
+          <Text weight='bold' size='medium'>
+            Want to create your own?
+          </Text>
           <CreateFailureSideModal />
         </Box>
       </PageContent>

@@ -1,12 +1,9 @@
-import {
-  Box,
-  Text,
-} from 'grommet';
+import { Box, Text } from 'grommet';
 
 import { CircleInformation } from 'grommet-icons';
 
 interface IUsernameTakenError {
-  isUsernameTaken: boolean
+  isUsernameTaken: boolean;
 }
 
 const UsernameTakenError = ({ isUsernameTaken }: IUsernameTakenError) => {
@@ -15,16 +12,15 @@ const UsernameTakenError = ({ isUsernameTaken }: IUsernameTakenError) => {
       {isUsernameTaken && (
         <>
           <Box direction='row' gap='xsmall'>
-            <CircleInformation size="medium" />
-            <Text size="medium">
+            <CircleInformation size='medium' />
+            <Text size='medium'>
               <b>Username</b> is taken - provide another.
             </Text>
           </Box>
         </>
       )}
-
     </>
-  )
-}
+  );
+};
 
 export default UsernameTakenError;

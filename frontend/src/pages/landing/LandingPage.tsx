@@ -10,7 +10,7 @@ const LandingPage = () => {
       <MiddleContent />
       <BottomContent />
     </PageProvider>
-  )
+  );
 };
 
 export default LandingPage;

@@ -1,0 +1,6 @@
+mockData.js
+node_modules
+build
+public
+.gitignore
+package-lock.json
