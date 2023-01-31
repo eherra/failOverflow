@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Box, List, Menu, ResponsiveContext, Text } from 'grommet';
 import { More } from 'grommet-icons';
 import { failureData } from '../../../../../mockData'
@@ -6,10 +6,17 @@ import { createStyledDateInfo } from '../../../../../TimeUtils';
 import { Failure } from '../../../../../types';
 import FailureDetailModal from './FailureDetailModal';
 import CommentsModal from './CommentsModal';
+import DeleteFailureModal from './DeleteFailureModal';
 
 const ManageFailuresList = () => {
   const size = useContext(ResponsiveContext);
-  const [active, setActive] = useState<Failure | undefined>(undefined);
+  const [toEdit, setToEdit] = useState<Failure | undefined>(undefined);
+  const [failures, setFailures] = useState<Array<Failure>>([]);
+
+  useEffect(() => {
+    // call here to fetch failures of logged in user
+    setFailures(() => failureData.failures)
+  }, []);
 
   const [detailsModalShow, setDetailsModalShow] = useState<boolean>(false)
   const [commentsModaleShow, setCommentsModalShow] = useState<boolean>(false)
@@ -18,7 +25,7 @@ const ManageFailuresList = () => {
   return (
     <Box overflow="auto" pad="xsmall">
       <List
-        data={failureData.failures}
+        data={failures}
         action={(failure, index) => (
           <Menu
             key={index}
@@ -29,14 +36,14 @@ const ManageFailuresList = () => {
                 {
                   label: 'View details',
                   onClick: () => {
-                    setActive(failure);
+                    setToEdit(failure);
                     setDetailsModalShow(true);
                   },
                 },
                 {
                   label: 'Comments',
                   onClick: () => {
-                    setActive(failure);
+                    setToEdit(failure);
                     setCommentsModalShow(true);
                   },
                 },
@@ -45,7 +52,7 @@ const ManageFailuresList = () => {
                 {
                   label: 'Delete',
                   onClick: () => {
-                    setActive(failure);
+                    setToEdit(failure);
                     setDeleteModalShow(true);
                   },
                 }
@@ -77,16 +84,21 @@ const ManageFailuresList = () => {
 
       {detailsModalShow && (
         <FailureDetailModal
-          failure={active}
+          failure={toEdit}
           setDetailsModalShow={setDetailsModalShow} />
       )}
 
       {commentsModaleShow && (
         <CommentsModal
-          comments={active?.comments}
+          comments={toEdit?.comments}
           setCommentsModalShow={setCommentsModalShow} />
       )}
 
+      {deleteModalShow && (
+        <DeleteFailureModal
+          confirmText={toEdit?.title}
+          setDeleteModalShow={setDeleteModalShow} />
+      )}
 
     </Box>
 
