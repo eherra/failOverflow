@@ -12,7 +12,7 @@ export const createTimePassedInfo = (date: string) => {
   if (!years && !months) return `${days}d`;
   if (!years) return `${months}m`;
   return `${years}y`;
-}
+};
 
 export const createStyledDateInfo = (date: string) => {
   if (!date) {
@@ -20,11 +20,11 @@ export const createStyledDateInfo = (date: string) => {
   }
   const time = new Date(date);
 
-  const hourStyled = addLeadingZeroToTime(time.getHours())
-  const minuteStyled = addLeadingZeroToTime(time.getMinutes())
-  return `${time.toLocaleDateString()} at ${hourStyled}:${minuteStyled}`
-}
+  const hourStyled = addLeadingZeroToTime(time.getHours());
+  const minuteStyled = addLeadingZeroToTime(time.getMinutes());
+  return `${time.toLocaleDateString()} at ${hourStyled}:${minuteStyled}`;
+};
 
 const addLeadingZeroToTime = (time: number) => {
   return time < 10 ? `0${time}` : time;
-}
+};

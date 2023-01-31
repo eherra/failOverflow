@@ -1,22 +1,13 @@
-import {
-  Box,
-  Heading,
-  Card,
-  CardBody,
-  CardHeader,
-} from 'grommet';
+import { Box, Heading, Card, CardBody, CardHeader } from 'grommet';
 
 import ManageFailuresList from './ManageFailuresList';
 
 const FailuresCard = () => {
   return (
-    <Box gap="medium">
-      <Card
-        margin="medium"
-        pad="medium"
-      >
-        <CardHeader align="start" direction="column" gap="xsmall">
-          <Heading level={2} size="small">
+    <Box gap='medium'>
+      <Card margin='medium' pad='medium'>
+        <CardHeader align='start' direction='column' gap='xsmall'>
+          <Heading level={2} size='small'>
             Manage your Failures
           </Heading>
         </CardHeader>
@@ -24,7 +15,6 @@ const FailuresCard = () => {
         <CardBody>
           <ManageFailuresList />
         </CardBody>
-
       </Card>
     </Box>
   );

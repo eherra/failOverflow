@@ -10,7 +10,7 @@ const WrappedDiv = styled.div`
 `;
 
 interface PageProviderProps {
-  children?: ReactNode
+  children?: ReactNode;
 }
 
 const PageProvider = ({ children }: PageProviderProps) => {
@@ -21,7 +21,7 @@ const PageProvider = ({ children }: PageProviderProps) => {
         {children}
       </WrappedDiv>
       <MainFooter />
-    </Page >
+    </Page>
   );
 };
 
