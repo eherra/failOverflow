@@ -7,7 +7,7 @@ import {
   ResponsiveContext,
   TextInput,
 } from 'grommet';
-import { passwordRules, confirmPasswordMatching } from '../../../../common/FormValidation';
+import { passwordRules, confirmStringMatching } from '../../../../common/FormValidation';
 
 interface IPasswordChangeForm {
   setChangePassword(boolean: any): void
@@ -72,7 +72,11 @@ const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
           htmlFor="confirmPassword"
           name="confirmPassword"
           label="Confirm password"
-          validate={() => confirmPasswordMatching(passwordValues.newPassword, passwordValues.confirmPassword)}
+          validate={() => confirmStringMatching({
+            firstString: passwordValues.newPassword,
+            secondString: passwordValues.confirmPassword,
+            errorText: "Passwords does not match"}
+          )}
         >
           <TextInput
             name="confirmPassword"

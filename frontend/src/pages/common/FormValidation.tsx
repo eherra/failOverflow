@@ -3,10 +3,6 @@ import {
   StatusCritical
 } from 'grommet-icons';
 
-interface IErrorMessage {
-  message: string
-}
-
 const ErrorMessage = ({ message }: IErrorMessage) => {
   return (
     <Box direction='row' gap='xsmall'>
@@ -14,12 +10,22 @@ const ErrorMessage = ({ message }: IErrorMessage) => {
       <Text>{message}</Text>
     </Box>
   )
+};
+
+interface IErrorMessage {
+  message: string
 }
 
-export const confirmPasswordMatching = (newPassword: string, confirmPassword: string) => {
-  return newPassword === confirmPassword
+interface IConfirmStringMatching {
+  firstString: string,
+  secondString: string,
+  errorText: string
+}
+
+export const confirmStringMatching = ({ firstString, secondString, errorText }: IConfirmStringMatching) => {
+  return firstString === secondString
     ? undefined
-    : { message: <ErrorMessage message="Passwords does not match" /> };
+    : { message: <ErrorMessage message={errorText} /> };
 };
 
 export const passwordRules = [

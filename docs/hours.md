@@ -17,4 +17,5 @@
 | 28.1.2023 | 4 | started working with register page |
 | 29.1.2023 | 5 | enhancements for login and register page, refactoring, lazy loading for failures and overview pages |
 | 30.1.2023 | 7 | working with edit profile page, modals created, account details and failure editing made possible, refactoring |
-| total    | 65  | | 
+| 31.1.2023 | 3 | started working with delete failure modal, refactori g |
+| total    | 68  | | 
