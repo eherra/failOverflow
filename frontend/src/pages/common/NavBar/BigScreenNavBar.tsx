@@ -1,12 +1,17 @@
-import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Box, Button } from 'grommet';
 import { Logout } from 'grommet-icons';
+import { UserContext } from '../../../context/UserContext';
 
 interface IBigScreenNavBar {
   isLoggedIn: boolean;
 }
 
 const BigScreenNavBar = ({ isLoggedIn }: IBigScreenNavBar) => {
+  const { logout } = useContext(UserContext);
+  const navigate = useNavigate();
+
   return (
     <>
       {isLoggedIn ? (
@@ -28,6 +33,10 @@ const BigScreenNavBar = ({ isLoggedIn }: IBigScreenNavBar) => {
             type='button'
             icon={<Logout />}
             label='Logout'
+            onClick={() => {
+              logout();
+              navigate('/landing');
+            }}
             color='fffff'
           />
         </>

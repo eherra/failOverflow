@@ -1,6 +1,8 @@
+import { useContext } from 'react';
 import { Menu } from 'grommet';
 import { Menu as Hambuger } from 'grommet-icons';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../../context/UserContext';
 
 interface ISmallScreenNavBar {
   isLoggedIn: boolean;
@@ -8,6 +10,8 @@ interface ISmallScreenNavBar {
 
 const SmallScreenNavBar = ({ isLoggedIn }: ISmallScreenNavBar) => {
   const navigate = useNavigate();
+  const { logout } = useContext(UserContext);
+
   return (
     <>
       <Menu
@@ -35,7 +39,8 @@ const SmallScreenNavBar = ({ isLoggedIn }: ISmallScreenNavBar) => {
                   {
                     label: 'Logout',
                     onClick: () => {
-                      console.log('create logout');
+                      logout();
+                      navigate('/landing');
                     },
                   },
                 ],
