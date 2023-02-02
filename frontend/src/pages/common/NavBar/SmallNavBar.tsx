@@ -12,6 +12,7 @@ const SmallScreenNavBar = ({ isLoggedIn }: ISmallScreenNavBar) => {
     <>
       <Menu
         icon={<Hambuger />}
+        style={{ marginLeft: 'auto' }}
         hoverIndicator
         items={
           isLoggedIn
@@ -40,6 +41,14 @@ const SmallScreenNavBar = ({ isLoggedIn }: ISmallScreenNavBar) => {
                 ],
               ]
             : [
+                [
+                  {
+                    label: 'Failures',
+                    onClick: () => {
+                      navigate('/failures');
+                    },
+                  },
+                ],
                 [
                   {
                     label: 'Sign in',
