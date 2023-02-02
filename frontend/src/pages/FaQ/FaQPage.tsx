@@ -1,17 +1,7 @@
 import PageProvider from '../common/PageProvider';
 import HeaderBackLink from '../common/HeaderBackLink';
-import {
-  Grid,
-  Page,
-  PageContent,
-  PageHeader,
-  Box,
-  Image,
-  Accordion,
-  AccordionPanel,
-} from 'grommet';
+import { Grid, Page, PageContent, PageHeader, Box, Image } from 'grommet';
 
-import { UserSettings, Scorecard } from 'grommet-icons';
 import QuestionAccordion from './components/QuestionAccordion';
 
 const FaQPage = () => {

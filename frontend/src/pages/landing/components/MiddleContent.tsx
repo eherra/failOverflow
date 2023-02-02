@@ -16,7 +16,9 @@ const MiddleContent = () => {
               </Text>{' '}
               ipsum dolor sit amet, consectetur adipiscing elit.
             </Paragraph>
-            <Paragraph size='xlarge'>Contribute your failures and make others fail faster.</Paragraph>
+            <Paragraph size='xlarge'>
+              Contribute your failures and make others fail faster.
+            </Paragraph>
           </Box>
           <Box height='medium'>
             <Image src={'/landingpage/connect.svg'} fit='contain' />
