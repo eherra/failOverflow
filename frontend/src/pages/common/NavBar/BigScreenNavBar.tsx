@@ -54,7 +54,7 @@ const BigScreenNavBar = ({ isLoggedIn }: IBigScreenNavBar) => {
                 hoverIndicator
                 color='#efefef'
                 label='Create account'
-                style={{ background: 'white' }}
+                style={{ background: '#efefef' }}
               />
             </Link>
           </Box>

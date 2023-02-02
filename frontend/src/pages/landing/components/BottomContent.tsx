@@ -1,4 +1,6 @@
 import { Box, Heading, Paragraph, Button, PageContent } from 'grommet';
+import { Link } from 'react-router-dom';
+import { Login } from 'grommet-icons';
 
 const BottomContent = () => {
   return (
@@ -12,8 +14,12 @@ const BottomContent = () => {
           eros vel, euismod magna.
         </Paragraph>
         <Box direction='row' gap='small' pad='small'>
-          <Button alignSelf='start' primary label='Share the bugs' size='large' />
-          <Button type='submit' size='large' label='Sign in' />
+          <Link to='/failures'>
+            <Button alignSelf='start' primary label='View failures' size='large' />
+          </Link>
+          <Link to='/login'>
+            <Button icon={<Login />} hoverIndicator label='Sign in here' size='large' />
+          </Link>
         </Box>
       </Box>
     </PageContent>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Card, CardHeader, Heading, CardBody, CardFooter, Button, Box } from 'grommet';
+import { Card, CardHeader, Heading, CardBody, CardFooter, Button, Box, Paragraph } from 'grommet';
 
 import { FormNext } from 'grommet-icons';
 
@@ -13,7 +13,12 @@ const StartExploringCard = () => {
           Feeling like failing today?
         </Heading>
       </CardHeader>
-      <CardBody>Start</CardBody>
+      <CardBody>
+        <Paragraph size='medium' margin={{ bottom: 'medium' }}>
+          Save the hassle from other developers, and start contributing your failures today! Lorem
+          Nunc vel elit facilisis, lacinia eros vel, euismod magna.
+        </Paragraph>
+      </CardBody>
       <CardFooter pad='small'>
         <Box direction='row' gap='small' pad='small'>
           <CreateFailureSideModal />
