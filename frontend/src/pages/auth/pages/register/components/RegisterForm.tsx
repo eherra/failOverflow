@@ -22,7 +22,7 @@ const RegisterForm = () => {
       <Box gap='medium' width='medium' pad={{ horizontal: 'xxsmall' }}>
         <Form
           messages={{
-            required: 'This is a required field.',
+            required: 'Provide some characters here.',
           }}
           onSubmit={({ value, touched }) => handleRegisterSubmit(value, touched)}
           value={formValues}
@@ -31,7 +31,10 @@ const RegisterForm = () => {
           <UsernamePasswordForm />
           <AvatarForm tipContent='Can be added/edited later on. (Max 2.5MB)' />
           <UsernameTakenError isUsernameTaken={isUsernameTakenError} />
-          <Box align={['xsmall', 'small'].includes(size) ? undefined : 'start'} pad={{ top: 'xxsmall' }} gap='small'>
+          <Box
+            align={['xsmall', 'small'].includes(size) ? undefined : 'start'}
+            pad={{ top: 'xxsmall' }}
+            gap='small'>
             <Button label='Register account' primary type='submit' />
             <AnchorWithText text='Already user? ' anchorLabel='Sign in here' anchorLink='/login' />
           </Box>

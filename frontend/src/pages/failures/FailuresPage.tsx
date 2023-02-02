@@ -1,25 +1,14 @@
-import { useContext } from 'react';
 import PageProvider from '../common/PageProvider';
 import FailureList from './components/FailureList';
-import { Box, PageContent, PageHeader, Text, ResponsiveContext } from 'grommet';
-import CreateFailureSideModal from '../common/CreateFailureSideModal/CreateFailureSideModal';
+import { PageContent, PageHeader } from 'grommet';
+import CreateYourOwnFailure from './components/CreateOwnFailureAction';
 
 const FailuresPage = () => {
-  const size = useContext(ResponsiveContext);
   return (
     <PageProvider>
       <PageContent>
-        <PageHeader title='Failures' />
+        <PageHeader title='Failures' actions={<CreateYourOwnFailure />} />
         <FailureList />
-        <Box
-          align={['xsmall', 'small'].includes(size) ? undefined : 'start'}
-          pad={{ top: 'small', bottom: 'small' }}
-          gap='small'>
-          <Text weight='bold' size='medium'>
-            Want to create your own?
-          </Text>
-          <CreateFailureSideModal />
-        </Box>
       </PageContent>
     </PageProvider>
   );

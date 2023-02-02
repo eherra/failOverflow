@@ -19,5 +19,5 @@
 | 30.1.2023 | 7 | working with edit profile page, modals created, account details and failure editing made possible, refactoring |
 | 31.1.2023 | 4 | started working with delete failure modal, refactoring, configured prettier and husky |
 | 1.2.2023 | 2 | created FAQ page |
-| 2.2.2023 | 5 | created hambuger navbar for smaller screens, enhancements for navbars, created userContext for user state info |
-| total    | 76 | | 
+| 2.2.2023 | 6 | created hambuger navbar for smaller screens, enhancements for navbars, created userContext for user state info, created implementation according users authorization |
+| total    | 77 | | 

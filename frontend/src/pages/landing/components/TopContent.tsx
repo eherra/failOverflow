@@ -1,11 +1,13 @@
-import { Box, Heading, Paragraph, Grid, PageContent, Image } from 'grommet';
+import { Box, Heading, Paragraph, Grid, PageContent, Image, Button } from 'grommet';
+import { Link } from 'react-router-dom';
+import { Deploy } from 'grommet-icons';
 
 const TopContent = () => {
   return (
     <PageContent>
       <Box height={{ min: 'medium' }}>
         <Grid
-          columns={['flex', 'large']}
+          columns={['flex', 'flex']}
           rows={['auto', 'auto']}
           areas={[
             ['empty', 'heading'],
@@ -27,10 +29,13 @@ const TopContent = () => {
             <Paragraph
               gridArea='introduction'
               size='xlarge'
-              margin={{ bottom: 'large', top: 'none' }}>
+              margin={{ bottom: 'medium', top: 'none' }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel elit facilisis,
               lacinia eros vel, euismod magna.
             </Paragraph>
+            <Link to='/register'>
+              <Button icon={<Deploy />} hoverIndicator primary label='Get started' size='large' />
+            </Link>
           </Box>
           <Box gridArea='svg'>
             <Image src={'/landingpage/time.svg'} />

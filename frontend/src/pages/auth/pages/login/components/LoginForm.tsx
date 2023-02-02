@@ -21,18 +21,18 @@ const LoginForm = () => {
     <Grid columns={{ count: 'fit', size: 'medium' }} gap='medium'>
       <Form
         messages={{
-          required: 'This is a required field.',
+          required: 'Characters here please.',
         }}
         onSubmit={({ value }) => handleLoginSubmit(value)}
         value={formValues}
         onChange={(value) => setFormValues(value)}
         method='post'>
         <Box direction='row' gap='large' pad='small'>
-          <FormField name='username' htmlFor='username' label='Username'>
+          <FormField required name='username' htmlFor='username' label='Username'>
             <TextInput name='username' />
           </FormField>
-          <FormField type='password' name='password' htmlFor='password' label='Password'>
-            <TextInput name='password' />
+          <FormField required name='password' htmlFor='password' label='Password'>
+            <TextInput type='password' name='password' />
           </FormField>
         </Box>
         <Box

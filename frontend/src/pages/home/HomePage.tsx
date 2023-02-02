@@ -4,15 +4,17 @@ import VoteOfTheWeekCard from './components/VoteOfTheWeekCard';
 import MostLikedFailureCard from './components/MostLikedFailureCard';
 import StartExploringCard from './components/StartExploringCard';
 import HomePageRow from './components/HomePageRow';
-
-const userName = 'John Wilkes';
+import { UserContext } from '../../context/UserContext';
+import { useContext } from 'react';
 
 const HomePage = () => {
-  const helloUser = `Hello, ${userName}`;
+  const { user } = useContext(UserContext);
+  const helloUserText = `Hello, ${user.username}`;
+
   return (
     <PageProvider>
       <PageContent>
-        <PageHeader title={helloUser} subtitle='Welcome to Failover Flow' />
+        <PageHeader title={helloUserText} subtitle='Welcome to Failover Flow' />
         <HomePageRow picFirst svgPath='/homepage/explore.svg' content={<StartExploringCard />} />
         <HomePageRow svgPath='/homepage/vote.svg' content={<VoteOfTheWeekCard />} />
         <HomePageRow picFirst svgPath='/homepage/review.svg' content={<MostLikedFailureCard />} />
