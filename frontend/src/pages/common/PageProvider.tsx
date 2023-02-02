@@ -1,6 +1,6 @@
 import { Page } from 'grommet';
 import { ReactNode } from 'react';
-import NavBar from './NavBar';
+import NavBar from './NavBar/NavBar';
 import MainFooter from './MainFooter';
 import styled from 'styled-components';
 

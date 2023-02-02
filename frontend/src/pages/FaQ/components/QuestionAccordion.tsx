@@ -1,13 +1,4 @@
-import {
-  Grid,
-  Page,
-  PageContent,
-  PageHeader,
-  Box,
-  Image,
-  Accordion,
-  AccordionPanel,
-} from 'grommet';
+import { Box, Image, Accordion, AccordionPanel } from 'grommet';
 
 const QuestionAccordion = () => {
   return (

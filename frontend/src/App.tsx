@@ -8,7 +8,7 @@ import LoginPage from './pages/auth/pages/login/LoginPage';
 import LandingPage from './pages/landing/LandingPage';
 import RegisterPage from './pages/auth/pages/register/RegisterPage';
 import ProfileEditPage from './pages/profile/pages/ProfileEditPage';
-import FaQPage from './pages/FaQ/FaQPage';
+import FaQPage from './pages/FAQ/FaQPage';
 
 const ProfileOverviewPage = React.lazy(() => import('./pages/profile/pages/ProfileOverviewPage'));
 const FailuresPage = React.lazy(() => import('./pages/failures/FailuresPage'));
