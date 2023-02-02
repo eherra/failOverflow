@@ -1,35 +1,50 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Box, Form, TextInput, FormField, Button, Grid, Image, ResponsiveContext } from 'grommet';
+import { useNavigate } from 'react-router-dom';
 import AnchorWithText from '../../../components/AnchorWithText';
+import { UserContext } from '../../../../../context/UserContext';
 
 const LoginForm = () => {
+  const { login } = useContext(UserContext);
   const size = useContext(ResponsiveContext);
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const [formValues, setFormValues] = useState('');
 
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setUsername(event.target.value);
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setPassword(event.target.value);
+  const handleLoginSubmit = (value: any) => {
+    console.log(value);
+    login(value.username);
+    navigate('/');
   };
 
   return (
     <Grid columns={{ count: 'fit', size: 'medium' }} gap='medium'>
-      <Form>
+      <Form
+        messages={{
+          required: 'This is a required field.',
+        }}
+        onSubmit={({ value }) => handleLoginSubmit(value)}
+        value={formValues}
+        onChange={(value) => setFormValues(value)}
+        method='post'>
         <Box direction='row' gap='large' pad='small'>
-          <FormField name='name' htmlFor='username' label='Username'>
-            <TextInput name='username' value={username} onChange={handleUsernameChange} />
+          <FormField name='username' htmlFor='username' label='Username'>
+            <TextInput name='username' />
           </FormField>
-          <FormField name='password' htmlFor='password' label='Password'>
-            <TextInput name='password' value={password} onChange={handlePasswordChange} />
+          <FormField type='password' name='password' htmlFor='password' label='Password'>
+            <TextInput name='password' />
           </FormField>
         </Box>
-        <Box align={['xsmall', 'small'].includes(size) ? undefined : 'start'} pad={{ top: 'small' }} gap='small'>
+        <Box
+          align={['xsmall', 'small'].includes(size) ? undefined : 'start'}
+          pad={{ top: 'small' }}
+          gap='small'>
           <Button label='Sign in' primary type='submit' />
-          <AnchorWithText text='No account? ' anchorLabel='Register user here' anchorLink='/register' />
+          <AnchorWithText
+            text='No account? '
+            anchorLabel='Register user here'
+            anchorLink='/register'
+          />
         </Box>
       </Form>
       <Box height='medium'>

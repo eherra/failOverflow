@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Grommet } from 'grommet';
 import { Spinner } from 'grommet';
+import { UserProvider } from './context/UserContext';
 
 const customTheme = {
   global: {
@@ -24,7 +25,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Grommet theme={customTheme} full>
     <Suspense fallback={<Spinner size='large' alignSelf='center' />}>
       <BrowserRouter>
-        <App />
+        <UserProvider>
+          <App />
+        </UserProvider>
       </BrowserRouter>
     </Suspense>
   </Grommet>,
