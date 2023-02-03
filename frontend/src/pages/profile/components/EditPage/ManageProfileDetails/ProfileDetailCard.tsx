@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
-import { Box, Button, NameValueList, NameValuePair, Heading, Text, Card, CardBody, CardHeader, Avatar } from 'grommet';
+import {
+  Box,
+  Button,
+  NameValueList,
+  NameValuePair,
+  Heading,
+  Text,
+  Card,
+  CardBody,
+  CardHeader,
+  Avatar,
+} from 'grommet';
 
 import PasswordChangeForm from './PasswordChangeForm';
 import AvatarChangeForm from './AvatarChangeForm';

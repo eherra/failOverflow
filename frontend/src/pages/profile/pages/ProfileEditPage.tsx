@@ -8,14 +8,17 @@ const ProfileEditPage = () => {
   return (
     <PageProvider>
       <PageContent>
-        <PageHeader parent={<HeaderBackLink label='Manage profile' link='/profile' />} title='Edit Profile' />
-        <Grid columns={{ count: 2, size: 'medium' }} gap='medium'>
+        <PageHeader
+          parent={<HeaderBackLink label='Manage profile' link='/profile' />}
+          title='Edit Profile'
+        />
+        <Grid columns={{ count: 'fit', size: 'medium' }} gap='medium'>
           <ProfileDetailCard />
           <Box height='medium'>
             <Image src={'/editProfile.svg'} fit='contain' />
           </Box>
         </Grid>
-        <Grid columns={{ count: 2, size: 'medium' }} gap='medium'>
+        <Grid columns={{ count: 'fit', size: 'medium' }} gap='medium'>
           <Box height='medium'>
             <Image src={'/surf.svg'} fit='contain' />
           </Box>

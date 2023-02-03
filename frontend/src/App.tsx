@@ -22,7 +22,6 @@ const App = () => {
         <Route path='landing' element={<LandingPage />} />
         <Route path='register' element={<RegisterPage />} />
         <Route path='faq' element={<FAQPage />} />
-        <Route index element={<HomePage />} />
         <Route
           path='failures'
           element={
@@ -33,6 +32,7 @@ const App = () => {
         />
 
         <Route element={<AuthorizedRoute />}>
+          <Route index element={<HomePage />} />
           <Route path='profile' element={<ProfilePage />} />
           <Route path='profile/edit' element={<ProfileEditPage />} />
           <Route
