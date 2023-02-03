@@ -9,7 +9,7 @@ import { useContext } from 'react';
 
 const HomePage = () => {
   const { user } = useContext(UserContext);
-  const helloUserText = `Hello, ${user.username}`;
+  const helloUserText = `Hello ${user.username},`;
 
   return (
     <PageProvider>
