@@ -1,6 +1,5 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Box, Layer, ResponsiveContext } from 'grommet';
-
 import { Add } from 'grommet-icons';
 
 import CreateFailureForm from './form/CreateFailureForm';

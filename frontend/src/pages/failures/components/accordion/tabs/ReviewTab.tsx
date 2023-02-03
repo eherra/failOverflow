@@ -5,13 +5,13 @@ import { Like, Dislike } from 'grommet-icons';
 import StarRatingForm from '../StarRatingForm';
 import { Login } from 'grommet-icons';
 
-interface ReviewTabProps {
+interface IReviewTab {
   stars: string;
   votes: number;
   isAuth: boolean;
 }
 
-const ReviewTab = ({ stars, votes, isAuth }: ReviewTabProps) => {
+const ReviewTab = ({ stars, votes, isAuth }: IReviewTab) => {
   const [votesAmount, setVotesAmount] = useState<number>(votes);
   const [hasVoted, setHasVote] = useState<boolean>(false);
 

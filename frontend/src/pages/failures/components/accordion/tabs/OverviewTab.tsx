@@ -1,14 +1,14 @@
 import { Box, NameValueList, NameValuePair, Tab } from 'grommet';
-import { createStyledDateInfo } from '../../../../../TimeUtils';
+import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
 
-interface OverviewProps {
+interface IOverview {
   description: string;
   solution: string;
   technologies: Array<string>;
   timeOfCreation: string;
 }
 
-const OverviewTab = ({ description, solution, technologies, timeOfCreation }: OverviewProps) => {
+const OverviewTab = ({ description, solution, technologies, timeOfCreation }: IOverview) => {
   return (
     <Tab title='Overview'>
       <Box gap='small' margin='medium'>

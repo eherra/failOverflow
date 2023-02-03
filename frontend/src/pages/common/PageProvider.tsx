@@ -9,11 +9,11 @@ const WrappedDiv = styled.div`
   min-height: calc(100vh - 8vh);
 `;
 
-interface PageProviderProps {
+interface IPageProvider {
   children?: ReactNode;
 }
 
-const PageProvider = ({ children }: PageProviderProps) => {
+const PageProvider = ({ children }: IPageProvider) => {
   return (
     <Page>
       <WrappedDiv>

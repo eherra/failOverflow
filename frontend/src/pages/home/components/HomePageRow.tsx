@@ -1,13 +1,13 @@
 import { Box, Image, Grid } from 'grommet';
 import { ReactNode } from 'react';
 
-interface HomePageRowProps {
+interface IHomePageRow {
   picFirst?: boolean;
   svgPath: string;
   content: ReactNode;
 }
 
-const HomePageRow = ({ picFirst, svgPath, content }: HomePageRowProps) => {
+const HomePageRow = ({ picFirst, svgPath, content }: IHomePageRow) => {
   const ImageColumn = () => {
     return (
       <Box height='medium'>

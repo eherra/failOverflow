@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Box, List, Menu, ResponsiveContext, Text } from 'grommet';
 import { More } from 'grommet-icons';
 import { failureData } from '../../../../../mockData';
-import { createStyledDateInfo } from '../../../../../TimeUtils';
+import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
 import { Failure } from '../../../../../types';
 import FailureDetailModal from './FailureDetailModal';
 import CommentsModal from './CommentsModal';
@@ -83,11 +83,17 @@ const ManageFailuresList = () => {
         }
       </List>
 
-      {detailsModalShow && <FailureDetailModal failure={toEdit} setDetailsModalShow={setDetailsModalShow} />}
+      {detailsModalShow && (
+        <FailureDetailModal failure={toEdit} setDetailsModalShow={setDetailsModalShow} />
+      )}
 
-      {commentsModaleShow && <CommentsModal comments={toEdit?.comments} setCommentsModalShow={setCommentsModalShow} />}
+      {commentsModaleShow && (
+        <CommentsModal comments={toEdit?.comments} setCommentsModalShow={setCommentsModalShow} />
+      )}
 
-      {deleteModalShow && <DeleteFailureModal confirmText={toEdit?.title} setDeleteModalShow={setDeleteModalShow} />}
+      {deleteModalShow && (
+        <DeleteFailureModal confirmText={toEdit?.title} setDeleteModalShow={setDeleteModalShow} />
+      )}
     </Box>
   );
 };

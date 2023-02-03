@@ -16,7 +16,7 @@ export const createTimePassedInfo = (date: string) => {
 
 export const createStyledDateInfo = (date: string) => {
   if (!date) {
-    return;
+    return '';
   }
   const time = new Date(date);
 

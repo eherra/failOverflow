@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
-import { Button, Box, CheckBox, Form, FormField, Header, Heading, Select, TextArea, TextInput } from 'grommet';
+import {
+  Button,
+  Box,
+  CheckBox,
+  Form,
+  FormField,
+  Header,
+  Heading,
+  Select,
+  TextArea,
+  TextInput,
+} from 'grommet';
 import SelectTechnologiesField from './SelectTechnologiesField';
 
-interface CreateFailureModalProps {
+interface ICreateFailureModal {
   setOpen(value: boolean): any;
 }
 
-const CreateFailureForm = ({ setOpen }: CreateFailureModalProps) => {
+const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
   const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>('Yes');
 
   const handleFormSubmit = (value: any) => {
@@ -36,7 +47,11 @@ const CreateFailureForm = ({ setOpen }: CreateFailureModalProps) => {
           <TextArea name='description' resize='vertical' placeholder='Explain what happend' />
         </FormField>
         <FormField label='Solution' htmlFor='solution' name='solution' tabIndex={-1}>
-          <TextArea name='solution' resize='vertical' placeholder='How did you overcome this failure?' />
+          <TextArea
+            name='solution'
+            resize='vertical'
+            placeholder='How did you overcome this failure?'
+          />
         </FormField>
         <SelectTechnologiesField />
 

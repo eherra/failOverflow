@@ -1,10 +1,11 @@
 export interface Creator {
-  name: string;
+  userId: string;
+  username: string;
   avatar: string;
 }
 
 export interface Failure {
-  id: number;
+  id: string;
   creator: Creator;
   title: string;
   description: string;

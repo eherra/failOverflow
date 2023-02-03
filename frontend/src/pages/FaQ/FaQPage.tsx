@@ -6,7 +6,7 @@ import { UserContext } from '../../context/UserContext';
 
 import QuestionAccordion from './components/QuestionAccordion';
 
-const FaQPage = () => {
+const FAQPage = () => {
   const { user } = useContext(UserContext);
 
   return (
@@ -29,4 +29,4 @@ const FaQPage = () => {
   );
 };
 
-export default FaQPage;
+export default FAQPage;

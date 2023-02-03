@@ -14,12 +14,12 @@ import {
 import ShowMoreCommentsButton from '../../../../common/ShowMoreCommentsButton';
 import { Login } from 'grommet-icons';
 
-interface CommentTabProps {
+interface ICommentTab {
   comments: Array<string>;
   isAuth: boolean;
 }
 
-const CommentTab = ({ comments, isAuth }: CommentTabProps) => {
+const CommentTab = ({ comments, isAuth }: ICommentTab) => {
   const [textAreaValue, setTextAreaValue] = useState<string>('');
   const [showAllComments, setShowAllComments] = useState<boolean>(false);
 

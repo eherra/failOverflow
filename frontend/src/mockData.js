@@ -1,9 +1,10 @@
 export const failureData = {
   failures: [
     {
-      id: 1,
+      id: "1sf123",
       creator: {
-        name: "Hessu Jacobsen",
+        userId: "dasd1",
+        username: "Hessu Jacobsen",
         avatar: "avatar.png"
       },
       title: "Called too early to fetch init data",
@@ -27,9 +28,10 @@ export const failureData = {
       ]
     },
     {
-      id: 2,
+      id: "1232sda",
       creator: {
-        name: "Jesse Powell",
+        userId: "scas123",
+        username: "Jesse Powell",
         avatar: "avatar.png"
       },
       title: "React Hooks acting weird",
@@ -47,9 +49,10 @@ export const failureData = {
       comments: ["good stuff", "Oh I spent so long with this as well!"]
     },
     {
-      id: 3,
+      id: "asd3das",
       creator: {
-        name: "Keke Boi",
+        userId: "sav123",
+        username: "Keke Boi",
         avatar: "avatar.png"
       },
       title: "React Hooks acting weird",

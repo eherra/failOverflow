@@ -8,6 +8,8 @@ interface IShowMoreCommentsButton {
 
 const ShowMoreCommentsButton = ({ showAll, setShowAll }: IShowMoreCommentsButton) => (
   <Button
+    plain
+    style={{ textDecoration: 'underline' }}
     alignSelf='start'
     size='small'
     label={`Show ${!showAll ? 'all' : 'less'} comments`}

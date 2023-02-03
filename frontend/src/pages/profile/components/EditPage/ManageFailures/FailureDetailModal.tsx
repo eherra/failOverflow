@@ -1,8 +1,16 @@
 import React, { useState, useContext } from 'react';
-import { Box, Button, Heading, Layer, NameValueList, NameValuePair, ResponsiveContext } from 'grommet';
+import {
+  Box,
+  Button,
+  Heading,
+  Layer,
+  NameValueList,
+  NameValuePair,
+  ResponsiveContext,
+} from 'grommet';
 import { Catalog } from 'grommet-icons';
 import { Failure } from '../../../../../types';
-import { createStyledDateInfo } from '../../../../../TimeUtils';
+import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
 
 interface IShowFailureDetailsModal {
   failure?: Failure;
@@ -13,7 +21,10 @@ const FailureDetailModal = ({ setDetailsModalShow, failure }: IShowFailureDetail
   const size = useContext(ResponsiveContext);
 
   return (
-    <Layer onClickOutside={() => setDetailsModalShow(false)} onEsc={() => setDetailsModalShow(false)} modal={false}>
+    <Layer
+      onClickOutside={() => setDetailsModalShow(false)}
+      onEsc={() => setDetailsModalShow(false)}
+      modal={false}>
       <Box pad='medium' direction='row' gap='medium'>
         <Box direction='row' align='start' gap='small'>
           <Catalog />
