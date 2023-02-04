@@ -21,4 +21,5 @@
 | 1.2.2023 | 2 | created FAQ page |
 | 2.2.2023 | 6 | created hambuger navbar for smaller screens, enhancements for navbars, created userContext for user state info, created implementation according users authorization |
 | 3.2.2023 | 4 | added implementation for authorized routes, refactoring, github issues created, active navlink underline addition |
-| total    | 81 | | 
+| 4.2.2023 | 3 | started working with backend, MongoDB configs started|
+| total    | 84 | | 
