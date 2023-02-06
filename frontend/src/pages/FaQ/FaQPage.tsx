@@ -1,13 +1,12 @@
-import { useContext } from 'react';
 import PageProvider from '../common/PageProvider';
 import HeaderBackLink from '../common/HeaderBackLink';
 import { Grid, Page, PageContent, PageHeader, Box, Image } from 'grommet';
-import { UserContext } from '../../context/UserContext';
 
 import QuestionAccordion from './components/QuestionAccordion';
+import useAuth from '../../hooks/useAuth';
 
 const FAQPage = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
 
   return (
     <PageProvider>
@@ -15,7 +14,7 @@ const FAQPage = () => {
         <PageContent>
           <PageHeader
             title='Frequently asked questions'
-            parent={<HeaderBackLink label='Return' link={user.auth ? '/' : '/landing'} />}
+            parent={<HeaderBackLink label='Return' link={user ? '/' : '/landing'} />}
           />
           <Grid columns={{ count: 'fit', size: 'medium' }} gap='medium'>
             <QuestionAccordion />

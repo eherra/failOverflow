@@ -1,6 +1,6 @@
-import { ReactNode, useContext } from 'react';
+import { ReactNode } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { UserContext } from '../../../context/UserContext';
+import useAuth from '../../../hooks/useAuth';
 
 interface IAuthorizedRoute {
   redirectPath?: string;
@@ -8,9 +8,9 @@ interface IAuthorizedRoute {
 }
 
 const AuthorizedRoute = ({ redirectPath = '/landing', children }: IAuthorizedRoute) => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
 
-  if (!user.auth) {
+  if (!user) {
     return <Navigate to={redirectPath} replace />;
   }
 

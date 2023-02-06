@@ -17,3 +17,8 @@ export interface Failure {
   timeOfCreation: string;
   comments: Array<string>;
 }
+
+export interface ILoginValues {
+  username: string;
+  password: string;
+}

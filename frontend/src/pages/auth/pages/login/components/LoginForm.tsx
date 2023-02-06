@@ -2,19 +2,24 @@ import { useState, useContext } from 'react';
 import { Box, Form, TextInput, FormField, Button, Grid, Image, ResponsiveContext } from 'grommet';
 import { useNavigate } from 'react-router-dom';
 import AnchorWithText from '../../../components/AnchorWithText';
-import { UserContext } from '../../../../../context/UserContext';
+import { ILoginValues } from '../../../../../types';
+import useAuth from '../../../../../hooks/useAuth';
 
 const LoginForm = () => {
-  const { login } = useContext(UserContext);
-  const size = useContext(ResponsiveContext);
-
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const [formValues, setFormValues] = useState('');
+  const [formValues, setFormValues] = useState<ILoginValues>();
+  const screenSize = useContext(ResponsiveContext);
 
-  const handleLoginSubmit = (value: any) => {
+  const handleLoginSubmit = (value: ILoginValues) => {
     console.log(value);
-    login(value.username);
-    navigate('/');
+    try {
+      login(value);
+      navigate('/');
+    } catch (e) {
+      console.log('yolo');
+      console.log(e);
+    }
   };
 
   return (
@@ -36,7 +41,7 @@ const LoginForm = () => {
           </FormField>
         </Box>
         <Box
-          align={['xsmall', 'small'].includes(size) ? undefined : 'start'}
+          align={['xsmall', 'small'].includes(screenSize) ? undefined : 'start'}
           pad={{ top: 'small' }}
           gap='small'>
           <Button label='Sign in' primary type='submit' />

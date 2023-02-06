@@ -1,12 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
-
-interface IUser {
-  username: string;
-  passwordHash: string;
-  avatarUrl?: string;
-  failures?: Array<any>;
-}
+import { IUser } from "../types";
 
 const userSchema: Schema = new mongoose.Schema({
   username: {

@@ -4,12 +4,11 @@ import VoteOfTheWeekCard from './components/VoteOfTheWeekCard';
 import MostLikedFailureCard from './components/MostLikedFailureCard';
 import StartExploringCard from './components/StartExploringCard';
 import HomePageRow from './components/HomePageRow';
-import { UserContext } from '../../context/UserContext';
-import { useContext } from 'react';
+import useAuth from '../../hooks/useAuth';
 
 const HomePage = () => {
-  const { user } = useContext(UserContext);
-  const helloUserText = `Hello ${user.username},`;
+  const { user } = useAuth();
+  const helloUserText = `Hello ${user?.username},`;
 
   return (
     <PageProvider>
