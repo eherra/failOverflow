@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -11,11 +11,13 @@ import {
   CardHeader,
   Avatar,
 } from 'grommet';
-
 import PasswordChangeForm from './PasswordChangeForm';
 import AvatarChangeForm from './AvatarChangeForm';
+import { useUserContext } from '../../../../../context/UserContext';
 
 const ProfileDetailCard = () => {
+  const { user } = useUserContext();
+
   const [changePassword, setChangePassword] = useState(false);
   const [changeAvatar, setChangeAvatar] = useState(false);
 
@@ -32,7 +34,7 @@ const ProfileDetailCard = () => {
           <CardBody>
             <NameValueList pairProps={{ direction: 'row' }} gap='medium'>
               <NameValuePair name='Username'>
-                <Text>hessu</Text>
+                <Text>{user?.username}</Text>
               </NameValuePair>
 
               <NameValuePair name='Password'>

@@ -1,6 +1,11 @@
-const logger = require("./logger");
+import logger from "./logger";
+import { Request, Response, NextFunction } from "express";
 
-const requestLogger = (request: any, _response: any, next: any) => {
+const requestLogger = (
+  request: Request,
+  _response: Response,
+  next: NextFunction
+) => {
   logger.info("Method:", request.method);
   logger.info("Path:  ", request.path);
   logger.info("Body:  ", request.body);
@@ -8,17 +13,31 @@ const requestLogger = (request: any, _response: any, next: any) => {
   next();
 };
 
-const unknownEndpoint = (_request: any, response: any) => {
+const unknownEndpoint = (_request: Request, response: Response) => {
   response.status(404).send({ error: "unknown endpoint" });
 };
 
-const errorHandler = (error: any, _request: any, response: any, next: any) => {
+const errorHandler = (
+  error: any,
+  _request: Request,
+  response: Response,
+  next: NextFunction
+) => {
   logger.error(error.message);
 
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" });
-  } else if (error.name === "ValidationError") {
-    return response.status(400).json({ error: error.message });
+  switch (error.name) {
+    case "CastError":
+      return response.status(400).send({ error: "malformatted id" });
+    case "ValidationError":
+      return response.status(400).json({ error: error.message });
+    case "JsonWebTokenError":
+      return response.status(401).json({
+        error: "token not valid",
+      });
+    case "TokenExpiredError":
+      return response.status(401).json({
+        error: "token has been expired",
+      });
   }
 
   next(error);

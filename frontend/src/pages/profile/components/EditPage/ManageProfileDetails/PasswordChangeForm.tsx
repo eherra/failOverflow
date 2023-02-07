@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Box, Button, Form, FormField, ResponsiveContext, TextInput } from 'grommet';
 import { passwordRules, confirmStringMatching } from '../../../../common/FormValidation';
 
 interface IPasswordChangeForm {
-  setChangePassword(boolean: any): void;
+  setChangePassword(boolean: unknown): void;
 }
 
 interface IPasswordFormValues {
@@ -13,14 +13,14 @@ interface IPasswordFormValues {
 }
 
 const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
-  const size = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
   const [passwordValues, setPasswordValues] = useState<IPasswordFormValues>({
     currentPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
 
-  const handlePasswordSubmit = (value: any, touched: any) => {
+  const handlePasswordSubmit = (value: unknown, touched: unknown) => {
     console.log('api calls herer');
   };
 
@@ -31,10 +31,19 @@ const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
         onChange={setPasswordValues}
         onSubmit={({ value, touched }) => handlePasswordSubmit(value, touched)}
         method='post'>
-        <FormField required htmlFor='currentPassword' name='currentPassword' label='Current password'>
+        <FormField
+          required
+          htmlFor='currentPassword'
+          name='currentPassword'
+          label='Current password'>
           <TextInput id='currentPassword' name='currentPassword' type='password' />
         </FormField>
-        <FormField required htmlFor='newPassword' name='newPassword' label='New password' validate={passwordRules}>
+        <FormField
+          required
+          htmlFor='newPassword'
+          name='newPassword'
+          label='New password'
+          validate={passwordRules}>
           <TextInput name='newPassword' type='password' />
         </FormField>
         <FormField
@@ -53,7 +62,7 @@ const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
         </FormField>
         <Box
           direction='row'
-          align={!['xsmall', 'small'].includes(size) ? 'start' : undefined}
+          align={!['xsmall', 'small'].includes(screenSize) ? 'start' : undefined}
           margin={{ top: 'medium', bottom: 'small' }}
           gap='small'>
           <Button label='Change password' primary type='submit' />

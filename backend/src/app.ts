@@ -3,11 +3,13 @@ import express from "express";
 import cors from "cors";
 import failuresRouter from "./controllers/failures";
 import userRouter from "./controllers/users";
+import loginRouter from "./controllers/login";
 import middleware from "./utils/middleware";
 import logger from "./utils/logger";
 import mongoose from "mongoose";
 
 const app = express();
+
 app.use(cors());
 app.use(express.static("build"));
 app.use(express.json());
@@ -27,8 +29,9 @@ mongoose
 
 app.use(middleware.requestLogger);
 
-app.use("/api/failures", failuresRouter);
+app.use("/api/login", loginRouter);
 app.use("/api/users", userRouter);
+app.use("/api/failures", failuresRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
