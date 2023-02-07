@@ -28,3 +28,9 @@ export interface IRegisterValues {
   password: string;
   avatarFile?: File;
 }
+
+export interface IPasswordChangeFormValues {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}

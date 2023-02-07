@@ -2,7 +2,7 @@ import { createContext, ReactNode, useState, useEffect, useContext } from 'react
 import { ILoginValues } from '../types';
 import loginService from '../api/login';
 import { useNavigate } from 'react-router-dom';
-import registerService from '../api/register';
+import userService from '../api/user';
 import { IRegisterValues } from '../types';
 
 interface User {
@@ -78,9 +78,8 @@ export const UserProvider = ({ children }: IUserProvider) => {
   const handleRegister = async (registerValues: IRegisterValues) => {
     setIsUserContextLoading(true);
     try {
-      const createdUser = await registerService.register(registerValues);
+      const createdUser = await userService.registerNewUser(registerValues);
       setUser({ id: createdUser.id, username: createdUser.username });
-      console.log(createdUser);
       localStorage.setItem('loggedUser', JSON.stringify(createdUser));
       setIsUserContextLoading(false);
       navigate('/');
