@@ -9,9 +9,9 @@ interface IAuthorizedRoute {
 }
 
 const AuthorizedRoute = ({ redirectPath = '/landing', children }: IAuthorizedRoute) => {
-  const { user, userContextLoading } = useUserContext();
+  const { user, isUserContextLoading } = useUserContext();
 
-  if (userContextLoading) {
+  if (isUserContextLoading) {
     return <Spinner size='large' />;
   }
 

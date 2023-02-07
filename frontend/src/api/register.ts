@@ -1,13 +1,12 @@
 import axios from 'axios';
-const baseUrl = '/api/users';
+import { IRegisterValues } from '../types';
 
-interface IUser {
-  username: string;
-  avatar?: string;
-}
+const baseUrl = 'http://localhost:8080';
+const restUrl = '/api/users';
+const url = baseUrl + restUrl;
 
-const register = async (user: IUser) => {
-  const response = await axios.post(baseUrl, user);
+const register = async (registerValues: IRegisterValues) => {
+  const response = await axios.post(url, registerValues);
   return response.data;
 };
 

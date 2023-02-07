@@ -8,7 +8,7 @@ import LoginPage from './pages/auth/pages/login/LoginPage';
 import LandingPage from './pages/landing/LandingPage';
 import RegisterPage from './pages/auth/pages/register/RegisterPage';
 import ProfileEditPage from './pages/profile/pages/ProfileEditPage';
-import FAQPage from './pages/FAQ/FAQPage';
+import FAQPage from './pages/FAQ/FaQPage';
 import AuthorizedRoute from './pages/auth/components/AuthorizedRoute';
 
 const ProfileOverviewPage = React.lazy(() => import('./pages/profile/pages/ProfileOverviewPage'));
