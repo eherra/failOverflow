@@ -32,11 +32,11 @@ const errorHandler = (
       return response.status(400).json({ error: error.message });
     case "JsonWebTokenError":
       return response.status(401).json({
-        error: "invalid token",
+        error: "token not valid",
       });
     case "TokenExpiredError":
       return response.status(401).json({
-        error: "token expired",
+        error: "token has been expired",
       });
   }
 

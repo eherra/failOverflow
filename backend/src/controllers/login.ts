@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { SECRET } from "../utils/config";
+import { SECRET, TOKEN_EXPIRING_TIME } from "../utils/config";
 import { IDBUser } from "../types";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -20,7 +20,7 @@ loginRouter.post("/", async (req: Request, res: Response) => {
   }
 
   const token = jwt.sign({ username: user.username, id: user._id }, SECRET, {
-    expiresIn: 30 * 60, // get from config file
+    expiresIn: TOKEN_EXPIRING_TIME,
   });
 
   res.status(200).send({ token, username: user.username, id: user._id });

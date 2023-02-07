@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Box, Text, Button } from 'grommet';
 import CreateFailureSideModal from '../../common/CreateFailureSideModal/CreateFailureSideModal';
-import useAuth from '../../../hooks/useAuth';
+import { useUserContext } from '../../../context/UserContext';
 
 const CreateYourOwnFailure = () => {
-  const { user } = useAuth();
+  const { user } = useUserContext();
 
   return (
     <Box pad={{ top: 'small', bottom: 'small' }} gap='small'>

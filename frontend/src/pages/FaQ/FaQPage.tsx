@@ -3,10 +3,10 @@ import HeaderBackLink from '../common/HeaderBackLink';
 import { Grid, Page, PageContent, PageHeader, Box, Image } from 'grommet';
 
 import QuestionAccordion from './components/QuestionAccordion';
-import useAuth from '../../hooks/useAuth';
+import { useUserContext } from '../../context/UserContext';
 
 const FAQPage = () => {
-  const { user } = useAuth();
+  const { user } = useUserContext();
 
   return (
     <PageProvider>

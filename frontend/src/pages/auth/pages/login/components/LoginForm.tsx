@@ -3,10 +3,10 @@ import { Box, Form, TextInput, FormField, Button, Grid, Image, ResponsiveContext
 import { useNavigate } from 'react-router-dom';
 import AnchorWithText from '../../../components/AnchorWithText';
 import { ILoginValues } from '../../../../../types';
-import useAuth from '../../../../../hooks/useAuth';
+import { useUserContext } from '../../../../../context/UserContext';
 
 const LoginForm = () => {
-  const { login } = useAuth();
+  const { handleLogin } = useUserContext();
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState<ILoginValues>();
   const screenSize = useContext(ResponsiveContext);
@@ -14,10 +14,9 @@ const LoginForm = () => {
   const handleLoginSubmit = (value: ILoginValues) => {
     console.log(value);
     try {
-      login(value);
+      handleLogin(value);
       navigate('/');
     } catch (e) {
-      console.log('yolo');
       console.log(e);
     }
   };

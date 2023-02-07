@@ -13,10 +13,10 @@ import {
 } from 'grommet';
 import PasswordChangeForm from './PasswordChangeForm';
 import AvatarChangeForm from './AvatarChangeForm';
-import useAuth from '../../../../../hooks/useAuth';
+import { useUserContext } from '../../../../../context/UserContext';
 
 const ProfileDetailCard = () => {
-  const { user } = useAuth();
+  const { user } = useUserContext();
 
   const [changePassword, setChangePassword] = useState(false);
   const [changeAvatar, setChangeAvatar] = useState(false);

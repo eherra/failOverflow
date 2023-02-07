@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import useAuth from '../../../hooks/useAuth';
+import { Spinner } from 'grommet';
+import { useUserContext } from '../../../context/UserContext';
 
 interface IAuthorizedRoute {
   redirectPath?: string;
@@ -8,7 +9,11 @@ interface IAuthorizedRoute {
 }
 
 const AuthorizedRoute = ({ redirectPath = '/landing', children }: IAuthorizedRoute) => {
-  const { user } = useAuth();
+  const { user, userContextLoading } = useUserContext();
+
+  if (userContextLoading) {
+    return <Spinner size='large' />;
+  }
 
   if (!user) {
     return <Navigate to={redirectPath} replace />;

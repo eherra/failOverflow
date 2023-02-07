@@ -2,7 +2,7 @@ import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Box, Button } from 'grommet';
 import { Logout } from 'grommet-icons';
 import styled from 'styled-components';
-import useAuth from '../../../hooks/useAuth';
+import { useUserContext } from '../../../context/UserContext';
 
 const StyledNavButton = styled(Button)<{ isActive: boolean }>`
   text-decoration: ${(props) => (props.isActive ? 'underline #454545 3px' : undefined)};
@@ -14,7 +14,7 @@ interface IBigScreenNavBar {
 }
 
 const BigScreenNavBar = ({ isLoggedIn }: IBigScreenNavBar) => {
-  const { logout } = useAuth();
+  const { handleLogout } = useUserContext();
   const navigate = useNavigate();
 
   return (
@@ -46,7 +46,7 @@ const BigScreenNavBar = ({ isLoggedIn }: IBigScreenNavBar) => {
             icon={<Logout />}
             label='Logout'
             onClick={() => {
-              logout();
+              handleLogout();
               navigate('/landing');
             }}
             color='fffff'

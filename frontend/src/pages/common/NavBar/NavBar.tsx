@@ -3,11 +3,11 @@ import { Box, ResponsiveContext } from 'grommet';
 import SmallScreenNavBar from './SmallNavBar';
 import BigScreenNavBar from './BigScreenNavBar';
 import LogoHeader from './LogoHeader';
-import useAuth from '../../../hooks/useAuth';
+import { useUserContext } from '../../../context/UserContext';
 
 const NavBar = () => {
   const screenSize = useContext(ResponsiveContext);
-  const { user } = useAuth();
+  const { user } = useUserContext();
 
   const isSmallScreen = ['xsmall', 'small'].includes(screenSize);
 

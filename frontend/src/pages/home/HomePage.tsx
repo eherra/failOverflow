@@ -4,10 +4,10 @@ import VoteOfTheWeekCard from './components/VoteOfTheWeekCard';
 import MostLikedFailureCard from './components/MostLikedFailureCard';
 import StartExploringCard from './components/StartExploringCard';
 import HomePageRow from './components/HomePageRow';
-import useAuth from '../../hooks/useAuth';
+import { useUserContext } from '../../context/UserContext';
 
 const HomePage = () => {
-  const { user } = useAuth();
+  const { user } = useUserContext();
   const helloUserText = `Hello ${user?.username},`;
 
   return (
