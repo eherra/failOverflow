@@ -1,20 +1,25 @@
-import React, { useContext, useState } from 'react';
-import { Box, Button, Form, ResponsiveContext, Grid, Image } from 'grommet';
-
+import { useContext, useState } from 'react';
+import { Box, Button, Form, ResponsiveContext, Grid, Image, Spinner } from 'grommet';
 import AvatarForm from './AvatarForm';
 import UsernamePasswordForm from './UsernamePasswordForm';
 import UsernameTakenError from './UsernameTakenError';
 import AnchorWithText from '../../../components/AnchorWithText';
+import { IRegisterValues } from '../../../../../types';
+import { useUserContext } from '../../../../../context/UserContext';
 
 const RegisterForm = () => {
+  const { isUserContextLoading, handleRegister } = useUserContext();
   const size = useContext(ResponsiveContext);
-  const [formValues, setFormValues] = useState();
+  const [formValues, setFormValues] = useState<IRegisterValues>();
   const [isUsernameTakenError, setIsUsernameTakenError] = useState<boolean>(false);
 
-  const handleRegisterSubmit = (value: any, touched: any) => {
-    console.log('perkele');
-    // call api to save user here
-    // if error, set Error to setIsUsernameTakenError
+  const handleRegisterSubmit = async (value: IRegisterValues) => {
+    try {
+      handleRegister(value);
+    } catch (e) {
+      // error should be caught here and update e.g. setIsUsernameTakenError
+      console.log(e);
+    }
   };
 
   return (
@@ -24,7 +29,7 @@ const RegisterForm = () => {
           messages={{
             required: 'Provide some characters here.',
           }}
-          onSubmit={({ value, touched }) => handleRegisterSubmit(value, touched)}
+          onSubmit={({ value }) => handleRegisterSubmit(value)}
           value={formValues}
           onChange={(value) => setFormValues(value)}
           method='post'>
@@ -35,7 +40,12 @@ const RegisterForm = () => {
             align={['xsmall', 'small'].includes(size) ? undefined : 'start'}
             pad={{ top: 'xxsmall' }}
             gap='small'>
-            <Button label='Register account' primary type='submit' />
+            <Button
+              icon={isUserContextLoading ? <Spinner /> : undefined}
+              label={isUserContextLoading ? 'Registering account' : 'Register account'}
+              primary
+              type='submit'
+            />
             <AnchorWithText text='Already user? ' anchorLabel='Sign in here' anchorLink='/login' />
           </Box>
         </Form>

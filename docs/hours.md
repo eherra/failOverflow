@@ -23,5 +23,5 @@
 | 3.2.2023 | 4 | added implementation for authorized routes, refactoring, github issues created, active navlink underline addition |
 | 4.2.2023 | 3 | started working with backend, MongoDB configs started |
 | 6.2.2023 | 6 | login enabled to backend, debugged hours with user context for the frontend... |
-| 7.2.2023 | 4 | solved userContext problems and made it work for login authentication |
-| total    | 94 | | 
+| 7.2.2023 | 6 | solved userContext problems and made it work for login authentication, made registering possible, enhancements to frontend |
+| total    | 96 | | 

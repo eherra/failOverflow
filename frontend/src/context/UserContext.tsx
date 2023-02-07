@@ -2,6 +2,8 @@ import { createContext, ReactNode, useState, useEffect, useContext } from 'react
 import { ILoginValues } from '../types';
 import loginService from '../api/login';
 import { useNavigate } from 'react-router-dom';
+import registerService from '../api/register';
+import { IRegisterValues } from '../types';
 
 interface User {
   id: string;
@@ -12,10 +14,11 @@ interface User {
 interface IUserContext {
   user: User | null;
   setUser: (user: User) => void;
-  userContextLoading: boolean;
-  setUserContextLoading: (isLoading: boolean) => void;
+  isUserContextLoading: boolean;
+  setIsUserContextLoading: (isLoading: boolean) => void;
   checkLogin: () => void;
   handleLogin: (data: ILoginValues) => void;
+  handleRegister: (values: any) => void;
   handleLogout: () => void;
 }
 
@@ -26,16 +29,17 @@ interface IUserProvider {
 export const UserContext = createContext<IUserContext>({
   user: null,
   setUser: () => null,
-  userContextLoading: false,
-  setUserContextLoading: (val: boolean) => null,
+  isUserContextLoading: false,
+  setIsUserContextLoading: (val: boolean) => null,
   checkLogin: () => {},
   handleLogin: () => {},
+  handleRegister: () => {},
   handleLogout: () => {},
 });
 
 export const UserProvider = ({ children }: IUserProvider) => {
   const [user, setUser] = useState<User | null>(null);
-  const [userContextLoading, setUserContextLoading] = useState<boolean>(true);
+  const [isUserContextLoading, setIsUserContextLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
@@ -44,17 +48,17 @@ export const UserProvider = ({ children }: IUserProvider) => {
   }, []);
 
   const checkLogin = () => {
-    setUserContextLoading(true);
+    setIsUserContextLoading(true);
     const loggedUserJSON = localStorage.getItem('loggedUser');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
     }
-    setUserContextLoading(false);
+    setIsUserContextLoading(false);
   };
 
   const handleLogin = async (data: ILoginValues) => {
-    setUserContextLoading(true);
+    setIsUserContextLoading(true);
     try {
       const loggedUserFromDB = await loginService.login({
         username: data.username,
@@ -62,12 +66,27 @@ export const UserProvider = ({ children }: IUserProvider) => {
       });
       setUser({ id: loggedUserFromDB.id, username: loggedUserFromDB.username });
       localStorage.setItem('loggedUser', JSON.stringify(loggedUserFromDB));
-      setUserContextLoading(false);
+      setIsUserContextLoading(false);
       navigate('/');
     } catch (err) {
-      setUserContextLoading(false);
-      navigate('/login'); // needs to fixed, directs now first to landing page
+      setIsUserContextLoading(false);
+      navigate('/login');
       console.log(err);
+    }
+  };
+
+  const handleRegister = async (registerValues: IRegisterValues) => {
+    setIsUserContextLoading(true);
+    try {
+      const createdUser = await registerService.register(registerValues);
+      setUser({ id: createdUser.id, username: createdUser.username });
+      console.log(createdUser);
+      localStorage.setItem('loggedUser', JSON.stringify(createdUser));
+      setIsUserContextLoading(false);
+      navigate('/');
+    } catch (err) {
+      setIsUserContextLoading(false);
+      navigate('/register');
     }
   };
 
@@ -81,10 +100,11 @@ export const UserProvider = ({ children }: IUserProvider) => {
       value={{
         user,
         setUser,
-        userContextLoading,
-        setUserContextLoading,
+        isUserContextLoading,
+        setIsUserContextLoading,
         checkLogin,
         handleLogin,
+        handleRegister,
         handleLogout,
       }}>
       {children}
