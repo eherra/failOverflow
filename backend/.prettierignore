@@ -1,6 +1,6 @@
 mockData.ts
 node_modules
 build
-public
 .gitignore
 package-lock.json
+docker-compose.yml
