@@ -1,0 +1,6 @@
+mockData.ts
+node_modules
+build
+.gitignore
+package-lock.json
+docker-compose.yml
