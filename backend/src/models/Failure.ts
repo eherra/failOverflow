@@ -21,7 +21,7 @@ const failureSchema: Schema = new mongoose.Schema({
     required: true,
   },
   technologies: {
-    type: Array<String>,
+    type: Array<string>,
     required: false,
     default: [],
   },
@@ -31,7 +31,7 @@ const failureSchema: Schema = new mongoose.Schema({
     default: Date.now,
   },
   tags: {
-    type: Array<String>,
+    type: Array<string>,
     required: false,
     default: [],
   },
@@ -64,6 +64,14 @@ const failureSchema: Schema = new mongoose.Schema({
       default: [],
     },
   ],
+});
+
+failureSchema.set("toJSON", {
+  transform: (_document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
 });
 
 failureSchema.plugin(uniqueValidator);

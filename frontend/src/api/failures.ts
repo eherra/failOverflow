@@ -13,4 +13,9 @@ const getUsersFailuresById = async (id: string) => {
   return response.data;
 };
 
-export default { getAllFailures, getUsersFailuresById };
+const createFailure = async (failure: any, id: string) => {
+  const response = await axios.post(url, { failure: failure, creatorId: id });
+  return response.data;
+};
+
+export default { createFailure, getAllFailures, getUsersFailuresById };

@@ -9,7 +9,6 @@ export interface IUserDTO extends IUser {
 }
 
 export interface IVote {
-  id: string;
   givenBy: string;
   createdAt: string;
 }

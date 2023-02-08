@@ -24,5 +24,5 @@
 | 4.2.2023 | 3 | started working with backend, MongoDB configs started |
 | 6.2.2023 | 6 | login enabled to backend, debugged hours with user context for the frontend... |
 | 7.2.2023 | 6 | solved userContext problems and made it work for login authentication, made registering possible, enhancements to frontend, password changing added |
-| 8.2.2023 | 5 | working with mongoose configs and ts types, failures fetching for backend and frontend, refactoring, documenting endpoints |
-| total    | 101 | | 
+| 8.2.2023 | 7 | working with mongoose configs and ts types, failures fetching for backend and frontend, refactoring, documenting endpoints, started working with failure storing to db and fetching them and mapping |
+| total    | 103 | | 
