@@ -21,7 +21,4 @@ const starRatingSchema: Schema = new mongoose.Schema({
 
 starRatingSchema.plugin(uniqueValidator);
 
-export default mongoose.model<IStarReview & Document>(
-  "StarRating",
-  starRatingSchema
-);
+export default mongoose.model<IStarReview & Document>("StarRating", starRatingSchema);

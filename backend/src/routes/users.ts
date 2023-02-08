@@ -1,10 +1,7 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, RequestHandler } from "express";
 import User from "../models/User";
 import { IUserDTO } from "../types";
-import {
-  isPasswordMatching,
-  generatePasswordHash,
-} from "./utils/passwordUtils";
+import { isPasswordMatching, generatePasswordHash } from "./utils/passwordUtils";
 import { generateJwtToken } from "./utils/tokenUtils";
 
 const userRouter = express.Router();
@@ -14,7 +11,7 @@ const userRouter = express.Router();
  * @summary Creates new user, and login the user
  * @return {} 201 - Created user and its generated token
  */
-userRouter.post("/", async (req: Request, res: Response) => {
+userRouter.post("/", (async (req: Request, res: Response) => {
   const { username, password } = req.body;
   const passwordHash = await generatePasswordHash(password, 15);
 
@@ -28,10 +25,8 @@ userRouter.post("/", async (req: Request, res: Response) => {
   // login the user in when registering
   const token = generateJwtToken(savedUser);
 
-  res
-    .status(201)
-    .send({ token, username: savedUser.username, id: savedUser.id });
-});
+  return res.status(201).send({ token, username: savedUser.username, id: savedUser.id });
+}) as RequestHandler);
 
 /**
  * PUT /api/users/:userId
@@ -39,7 +34,7 @@ userRouter.post("/", async (req: Request, res: Response) => {
  * @param {} request.body.required - currentPassword, newPassword, confirmPassword
  * @return {} 200 - success
  */
-userRouter.put("/:userId", async (req: Request, res: Response) => {
+userRouter.put("/:userId", (async (req: Request, res: Response) => {
   const { currentPassword, newPassword, confirmPassword } = req.body;
   const userId = req.params.userId;
 
@@ -65,6 +60,6 @@ userRouter.put("/:userId", async (req: Request, res: Response) => {
   res.status(200).json({
     isSuccess: true,
   });
-});
+}) as RequestHandler);
 
 export default userRouter;
