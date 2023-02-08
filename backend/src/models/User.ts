@@ -11,19 +11,11 @@ const userSchema: Schema = new mongoose.Schema({
   passwordHash: {
     type: String,
     required: true,
-    unique: false,
   },
   avatarUrl: {
     type: String,
     required: false,
-    unique: false,
   },
-  failures: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Failure",
-    },
-  ],
 });
 
 userSchema.set("toJSON", {
