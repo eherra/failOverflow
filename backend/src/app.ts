@@ -1,9 +1,9 @@
 import { MONGODB_URI } from "./utils/config";
 import express from "express";
 import cors from "cors";
-import failuresRouter from "./controllers/failures";
-import userRouter from "./controllers/users";
-import loginRouter from "./controllers/login";
+import failuresRouter from "./routes/failures";
+import userRouter from "./routes/users";
+import loginRouter from "./routes/login";
 import middleware from "./utils/middleware";
 import logger from "./utils/logger";
 import mongoose from "mongoose";

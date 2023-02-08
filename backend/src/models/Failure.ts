@@ -1,20 +1,13 @@
 import mongoose, { Schema, Document } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
-
-interface IFailure {
-  title: string;
-  description: string;
-  solution: string;
-  technologies: Array<string>;
-  comments: Array<string>;
-  starRatings: Array<number>;
-  votes: Array<string>;
-  timeOfCreation: string;
-  tags: Array<string>;
-  user: any;
-}
+import { IFailure } from "../types";
 
 const failureSchema: Schema = new mongoose.Schema({
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "User",
+  },
   title: {
     type: String,
     required: true,
@@ -30,39 +23,47 @@ const failureSchema: Schema = new mongoose.Schema({
   technologies: {
     type: Array<String>,
     required: false,
+    default: [],
   },
-  comments: {
-    type: Array<String>,
-    required: false,
-  },
-  starRatings: {
-    type: Array<Number>,
-    required: false,
-  },
-  votes: {
-    type: Array<String>, // store here user id who has vote
-    required: false,
-  },
-  timeOfCreation: {
-    type: String,
+  createdAt: {
+    type: Date,
     required: true,
+    default: Date.now,
   },
   tags: {
     type: Array<String>,
     required: false,
+    default: [],
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+  enableComments: {
+    type: Boolean,
+    required: true,
+    default: true,
   },
-});
-
-failureSchema.set("toJSON", {
-  transform: (_document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "Comment",
+      default: [],
+    },
+  ],
+  starRatings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "StarRating",
+      default: [],
+    },
+  ],
+  votes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "Vote",
+      default: [],
+    },
+  ],
 });
 
 failureSchema.plugin(uniqueValidator);

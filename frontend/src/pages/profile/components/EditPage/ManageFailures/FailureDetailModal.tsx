@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useContext } from 'react';
 import {
   Box,
   Button,
@@ -18,7 +18,7 @@ interface IShowFailureDetailsModal {
 }
 
 const FailureDetailModal = ({ setDetailsModalShow, failure }: IShowFailureDetailsModal) => {
-  const size = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
 
   return (
     <Layer
@@ -56,7 +56,10 @@ const FailureDetailModal = ({ setDetailsModalShow, failure }: IShowFailureDetail
           </NameValuePair>
         </NameValueList>
       </Box>
-      <Box align={['xsmall', 'small'].includes(size) ? undefined : 'end'} pad='small' gap='xsmall'>
+      <Box
+        align={['xsmall', 'small'].includes(screenSize) ? undefined : 'end'}
+        pad='small'
+        gap='xsmall'>
         <Button
           label='Close details'
           onClick={() => {
