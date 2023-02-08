@@ -1,26 +1,52 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Box, List, Menu, ResponsiveContext, Text } from 'grommet';
+import { useState, useContext, useEffect } from 'react';
+import { Box, List, Menu, ResponsiveContext, Text, Spinner } from 'grommet';
 import { More } from 'grommet-icons';
-import { failureData } from '../../../../../mockData';
 import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
 import { Failure } from '../../../../../types';
 import FailureDetailModal from './FailureDetailModal';
 import CommentsModal from './CommentsModal';
 import DeleteFailureModal from './DeleteFailureModal';
+import failureService from '../../../../../api/failures';
+import { useUserContext } from '../../../../../context/UserContext';
 
 const ManageFailuresList = () => {
-  const size = useContext(ResponsiveContext);
-  const [toEdit, setToEdit] = useState<Failure | undefined>(undefined);
-  const [failures, setFailures] = useState<Array<Failure>>([]);
-
-  useEffect(() => {
-    // call here to fetch failures of logged in user
-    setFailures(() => failureData.failures);
-  }, []);
+  const { user } = useUserContext();
+  const screenSize = useContext(ResponsiveContext);
 
   const [detailsModalShow, setDetailsModalShow] = useState<boolean>(false);
   const [commentsModaleShow, setCommentsModalShow] = useState<boolean>(false);
   const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
+  const [toEdit, setToEdit] = useState<Failure | undefined>(undefined);
+
+  const [failures, setFailures] = useState<Array<Failure>>([]);
+  const [isFetchingFailures, setIsFetchingFailures] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchUsersFailures = async () => {
+      try {
+        setIsFetchingFailures(true);
+        const userDbFailures = await failureService.getUsersFailuresById(user?.id || '');
+        setFailures(userDbFailures.failures);
+        setIsFetchingFailures(false);
+      } catch (err) {
+        console.log(err);
+        setIsFetchingFailures(false);
+        setIsError(true);
+      }
+    };
+
+    fetchUsersFailures();
+  }, []);
+
+  // TODO: better error message
+  if (isError) {
+    return <p>Could not fetch failures of user</p>;
+  }
+
+  if (isFetchingFailures) {
+    return <Spinner size='large' />;
+  }
 
   return (
     <Box overflow='auto' pad='xsmall'>
@@ -67,7 +93,7 @@ const ManageFailuresList = () => {
           border: 'top',
           direction: 'row',
           fill: 'horizontal',
-          justify: !['xsmall', 'small'].includes(size) ? 'end' : 'center',
+          justify: !['xsmall', 'small'].includes(screenSize) ? 'end' : 'center',
           pad: { top: 'xsmall' },
         }}>
         {

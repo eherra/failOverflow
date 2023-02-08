@@ -4,7 +4,7 @@ export interface IUser {
   avatarUrl?: string;
 }
 
-export interface IDBUser extends IUser {
+export interface IUserDTO extends IUser {
   _id: string;
 }
 
