@@ -53,7 +53,7 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
             <ReviewTab isAuth={!!user} stars={starRating} votes={votes} />
           </>
           <>
-            <CommentTab isAuth={!!user} comments={failure.comments} />
+            <CommentTab isAuth={!!user} comments={failure.comments} failureId={failure.id} />
           </>
         </Tabs>
       </Box>
