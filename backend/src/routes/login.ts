@@ -1,8 +1,7 @@
 import express, { Request, Response } from "express";
 import { IUserDTO } from "../types";
-import User from "../models/User";
-import { isPasswordMatching } from "./utils/passwordUtils";
 import { generateJwtToken } from "./utils/tokenUtils";
+import loginService from "../services/loginService";
 
 const loginRouter = express.Router();
 
@@ -15,17 +14,17 @@ const loginRouter = express.Router();
 loginRouter.post("/", async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
-  const user: IUserDTO | null = await User.findOne({ username });
-  const passwordMatch = await isPasswordMatching(user, password);
-
-  if (!user || !passwordMatch) {
+  try {
+    const loggedUser: IUserDTO | null = await loginService.loginUser(username, password);
+    const token = generateJwtToken(loggedUser);
+    return res.status(200).send({ token, username: loggedUser.username, id: loggedUser._id });
+  } catch (err: any) {
+    console.log("Error while login user");
+    console.log(err);
     return res.status(401).json({
-      error: "incorrect username or password",
+      error: err.message,
     });
   }
-
-  const token = generateJwtToken(user);
-  res.status(200).send({ token, username: user.username, id: user._id });
 });
 
 export default loginRouter;
