@@ -8,7 +8,7 @@ const starRatingSchema: Schema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
-  starReview: {
+  starRating: {
     type: Number,
     required: true,
   },

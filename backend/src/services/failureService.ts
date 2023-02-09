@@ -1,6 +1,8 @@
 import Failure from "../models/Failure";
 import Comment from "../models/Comment";
+import Vote from "../models/Vote";
 import User from "../models/User";
+import StarRating from "../models/StarRating";
 
 interface FailureValues {
   creatorId: string;
@@ -16,6 +18,17 @@ interface ICommentValues {
   comment: string;
   commentorId: string;
   failureId: string;
+}
+
+interface IVoteValues {
+  voterId: string;
+  failureId: string;
+}
+
+interface IStarReviewValues {
+  failureId: string;
+  raterId: string;
+  ratingValue: string;
 }
 
 const createFailure = async (failure: FailureValues, creatorId: string) => {
@@ -59,4 +72,48 @@ const addCommentToFailure = async ({ comment, commentorId, failureId }: IComment
   return savedComment;
 };
 
-export default { createFailure, getAllFailures, addCommentToFailure };
+const addVoteToFailure = async ({ voterId, failureId }: IVoteValues) => {
+  // TODO: check taht voterId is not already existing in votes
+  const voteModel = new Vote({
+    givenBy: voterId,
+  });
+
+  const savedVote = await voteModel.save();
+  await Failure.findByIdAndUpdate(failureId, { $push: { votes: savedVote.id } });
+
+  return savedVote;
+};
+
+const deleteVoteFromFailure = async ({ voterId, failureId }: IVoteValues) => {
+  const vote = await Vote.findOne({ givenBy: voterId });
+  await Failure.findByIdAndUpdate(failureId, { $pull: { votes: vote?._id } });
+  await Vote.findByIdAndDelete(vote?._id);
+};
+
+const addStarRating = async ({ ratingValue, failureId, raterId }: IStarReviewValues) => {
+  const userRating = await StarRating.findOne({ givenBy: raterId });
+
+  if (!userRating) {
+    const starRatingModel = new StarRating({
+      starRating: ratingValue,
+      givenBy: raterId,
+    });
+
+    const savedStarRating = await starRatingModel.save();
+    await Failure.findByIdAndUpdate(failureId, { $push: { starRatings: savedStarRating.id } });
+    return savedStarRating;
+  } else {
+    await StarRating.findOneAndUpdate({ givenBy: raterId }, { starRating: ratingValue });
+  }
+
+  return "OK";
+};
+
+export default {
+  createFailure,
+  getAllFailures,
+  addCommentToFailure,
+  addVoteToFailure,
+  deleteVoteFromFailure,
+  addStarRating,
+};

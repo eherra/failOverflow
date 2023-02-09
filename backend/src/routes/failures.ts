@@ -97,4 +97,67 @@ failuresRouter.post("/comment/:failureId", async (req: Request, res: Response) =
   }
 });
 
+/**
+ * POST /api/failures/vote/:failureId
+ * @summary Creates or deletes vote from failure
+ * @param {} path - failureId
+ * @param {} request.body.required - voterId, isAddingVote
+ * @return {} 200 - All user failures
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.post("/vote/:failureId", async (req: Request, res: Response) => {
+  // add token
+  const failureId = req.params.failureId;
+  const { voterId, isDeletingVote } = req.body;
+  try {
+    if (isDeletingVote) {
+      await failureService.deleteVoteFromFailure({
+        voterId,
+        failureId,
+      });
+    } else {
+      await failureService.addVoteToFailure({
+        voterId,
+        failureId,
+      });
+    }
+    res.status(201).json({
+      isSuccess: true,
+    });
+  } catch (e) {
+    res.status(400).json({
+      isSuccess: false,
+    });
+  }
+});
+
+/**
+ * POST /api/failures/rate/:failureId
+ * @summary Gives a rating to a failure according to param failureId
+ * @param {} path - failureId
+ * @param {} request.body.required - raterId, ratingValue
+ * @return {} 200 - All user failures
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.post("/rate/:failureId", async (req: Request, res: Response) => {
+  // add token
+  const failureId = req.params.failureId;
+  const { raterId, ratingValue } = req.body;
+  try {
+    const rating = await failureService.addStarRating({
+      raterId,
+      ratingValue,
+      failureId,
+    });
+    res.status(200).json({
+      rating: rating,
+      isSuccess: true,
+    });
+  } catch (e) {
+    res.status(400).json({
+      isSuccess: false,
+    });
+  }
+});
+
 export default failuresRouter;
