@@ -23,7 +23,8 @@
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-unsafe-call": 1,
     "@typescript-eslint/no-unsafe-argument": 1,
-    "@typescript-eslint/no-unsafe-assignment": 1
+    "@typescript-eslint/no-unsafe-assignment": 1,
+    "@typescript-eslint/no-misused-promises": 1
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

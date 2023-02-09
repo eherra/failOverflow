@@ -1,35 +1,28 @@
-import express, { Request, Response, RequestHandler } from "express";
+import express, { Request, Response } from "express";
 import { failureData } from "../mockData";
-import Failure from "../models/Failure";
+import failureService from "../services/failureService";
 
 const failuresRouter = express.Router();
 
-// interface FailureValues {
-//   creatorId: string;
-//   title: string;
-//   description: string;
-//   solution: string;
-//   technologies?: Array<string>;
-//   tags?: string;
-//   allowComments: boolean;
-// }
-
-failuresRouter.post("/", (async (req: Request, res: Response) => {
+/**
+ * POST /api/failures
+ * @summary Creates new failure to DB
+ * @return {} 201 - Created failure
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.post("/", async (req: Request, res: Response) => {
   const { failure, creatorId } = req.body;
-
-  const failureModel = new Failure({
-    creator: creatorId,
-    title: failure.title,
-    description: failure.description,
-    solution: failure.solution,
-    technologies: failure?.technologies,
-    tags: failure?.tags,
-    allowComments: failure.allowComments,
-  });
-
-  const savedFailure = await failureModel.save();
-  return res.status(201).send({ savedFailure });
-}) as RequestHandler);
+  try {
+    const createdFailure = await failureService.createFailure(failure, creatorId);
+    res.status(201).send({ createdFailure });
+  } catch (err) {
+    console.log("Error while creating failure");
+    console.log(err);
+    res.status(400).json({
+      error: "Something went wrong",
+    });
+  }
+});
 
 /**
  * GET /api/failures
@@ -37,22 +30,24 @@ failuresRouter.post("/", (async (req: Request, res: Response) => {
  * @return {} 200 - All failures
  * @return {} 400 - Bad request response
  */
-failuresRouter.get("/all", (async (_req: Request, res: Response) => {
+failuresRouter.get("/all", async (_req: Request, res: Response) => {
   try {
-    const failures = await Failure.find();
-    // this needs to be mapped for a failure like on frontend
-    console.log(failures);
+    const allFailures = await failureService.getAllFailures();
+    console.log(allFailures);
 
+    // still returning mockData
     res.status(200).json({
       isSuccess: true,
       failures: failureData.failures,
     });
-  } catch (e) {
+  } catch (err) {
+    console.log("Error while fetching all failures");
+    console.log(err);
     res.status(400).json({
       isSuccess: false,
     });
   }
-}) as RequestHandler);
+});
 
 /**
  * GET /api/failures/:userId
