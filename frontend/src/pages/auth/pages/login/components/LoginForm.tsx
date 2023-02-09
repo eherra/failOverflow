@@ -1,21 +1,27 @@
 import { useState, useContext } from 'react';
-import { Box, Form, TextInput, FormField, Button, Grid, Image, ResponsiveContext } from 'grommet';
-import { useNavigate } from 'react-router-dom';
+import {
+  Box,
+  Form,
+  TextInput,
+  FormField,
+  Button,
+  Grid,
+  Image,
+  ResponsiveContext,
+  Spinner,
+} from 'grommet';
 import AnchorWithText from '../../../components/AnchorWithText';
 import { ILoginValues } from '../../../../../types';
 import { useUserContext } from '../../../../../context/UserContext';
 
 const LoginForm = () => {
-  const { handleLogin } = useUserContext();
-  const navigate = useNavigate();
+  const { isUserContextLoading, handleLogin } = useUserContext();
   const [formValues, setFormValues] = useState<ILoginValues>();
   const screenSize = useContext(ResponsiveContext);
 
   const handleLoginSubmit = (value: ILoginValues) => {
-    console.log(value);
     try {
       handleLogin(value);
-      navigate('/');
     } catch (e) {
       console.log(e);
     }
@@ -43,7 +49,12 @@ const LoginForm = () => {
           align={['xsmall', 'small'].includes(screenSize) ? undefined : 'start'}
           pad={{ top: 'small' }}
           gap='small'>
-          <Button label='Sign in' primary type='submit' />
+          <Button
+            icon={isUserContextLoading ? <Spinner /> : undefined}
+            label={isUserContextLoading ? 'Signing in' : 'Sign in'}
+            primary
+            type='submit'
+          />
           <AnchorWithText
             text='No account? '
             anchorLabel='Register user here'

@@ -69,9 +69,8 @@ export const UserProvider = ({ children }: IUserProvider) => {
       setIsUserContextLoading(false);
       navigate('/');
     } catch (err) {
-      setIsUserContextLoading(false);
-      navigate('/login');
       console.log(err);
+      setIsUserContextLoading(false);
     }
   };
 

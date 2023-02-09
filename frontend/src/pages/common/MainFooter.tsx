@@ -1,5 +1,6 @@
 import { Box, Button, Footer, Text } from 'grommet';
-import { Link } from 'react-router-dom';
+import { WavyLink } from 'react-wavy-transitions';
+
 const MainFooter = () => {
   return (
     <Footer
@@ -10,9 +11,9 @@ const MainFooter = () => {
         <Text size='medium'>&copy; {new Date().getFullYear()} Fail Overflow</Text>
       </Box>
       <Box direction='row' gap='xsmall' wrap>
-        <Link to='/faq'>
+        <WavyLink to='/faq' color='#dae4dd' duration='800' direction='down'>
           <Button hoverIndicator label='FAQ' />
-        </Link>
+        </WavyLink>
         <Button label='Give feedback' />
       </Box>
     </Footer>

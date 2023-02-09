@@ -6,9 +6,8 @@ import LogoHeader from './LogoHeader';
 import { useUserContext } from '../../../context/UserContext';
 
 const NavBar = () => {
-  const screenSize = useContext(ResponsiveContext);
   const { user } = useUserContext();
-
+  const screenSize = useContext(ResponsiveContext);
   const isSmallScreen = ['xsmall', 'small'].includes(screenSize);
 
   return (
