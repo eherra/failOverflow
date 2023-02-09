@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Box,
@@ -12,17 +12,37 @@ import {
   TextInput,
 } from 'grommet';
 import SelectTechnologiesField from './SelectTechnologiesField';
+import failureService from '../../../../api/failures';
+import { useUserContext } from '../../../../context/UserContext';
 
 interface ICreateFailureModal {
   setOpen(value: boolean): any;
 }
 
+interface ICreateFailureFormValues {
+  title: string;
+  description: string;
+  solution: string;
+  technologies?: Array<string>;
+  tags?: string;
+  allowComments: boolean;
+}
+
+interface IValue {
+  value: ICreateFailureFormValues;
+}
+
 const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
+  const { user } = useUserContext();
   const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>('Yes');
 
-  const handleFormSubmit = (value: any) => {
-    // call backend with values
-    console.log(value);
+  const handleFormSubmit = async ({ value }: IValue) => {
+    try {
+      const createdFailure = await failureService.createFailure(value, user?.id || '');
+      console.log(createdFailure);
+    } catch (err) {
+      console.log(err);
+    }
     setOpen(false);
   };
 
@@ -39,14 +59,25 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
           </Heading>
         </Box>
       </Header>
-      <Form validate='blur' method='post' onSubmit={({ value }) => handleFormSubmit(value)}>
-        <FormField label='Title' htmlFor='title' name='title'>
+      <Form
+        messages={{
+          required: 'Characters here please.',
+        }}
+        validate='blur'
+        method='post'
+        onSubmit={({ value }: IValue) => handleFormSubmit({ value })}>
+        <FormField required label='Title' htmlFor='title' name='title'>
           <TextInput name='title' placeholder='Short title of your failure' />
         </FormField>
-        <FormField label='Description' htmlFor='description' name='description' tabIndex={-1}>
+        <FormField
+          required
+          label='Description'
+          htmlFor='description'
+          name='description'
+          tabIndex={-1}>
           <TextArea name='description' resize='vertical' placeholder='Explain what happend' />
         </FormField>
-        <FormField label='Solution' htmlFor='solution' name='solution' tabIndex={-1}>
+        <FormField required label='Solution' htmlFor='solution' name='solution' tabIndex={-1}>
           <TextArea
             name='solution'
             resize='vertical'
@@ -56,12 +87,12 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
         <SelectTechnologiesField />
 
         <FormField label='Tags' htmlFor='tags' name='tags'>
-          <Select name='tags' options={['Item 1', 'Item 2', 'Item 3']} placeholder='Select tags' />
+          <Select name='tags' options={['tag 1', 'tag 2', 'tag 3']} placeholder='Select tags' />
         </FormField>
 
-        <FormField label='Comments allowed?' htmlFor='comments' name='comments'>
+        <FormField label='Comments allowed?' htmlFor='allowComments' name='allowComments'>
           <CheckBox
-            name='comments'
+            name='allowComments'
             label={commentsAllowedLabel}
             checked={commentsAllowedLabel === 'Yes'}
             toggle

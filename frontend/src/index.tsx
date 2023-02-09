@@ -5,6 +5,7 @@ import App from './App';
 import { Grommet } from 'grommet';
 import { Spinner } from 'grommet';
 import { UserProvider } from './context/UserContext';
+import { WavyContainer } from 'react-wavy-transitions';
 
 const customTheme = {
   global: {
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Grommet theme={customTheme} full>
     <Suspense fallback={<Spinner size='large' alignSelf='center' />}>
       <BrowserRouter>
+        <WavyContainer />
         <UserProvider>
           <App />
         </UserProvider>

@@ -1,6 +1,6 @@
 import { Button, Card, CardHeader, Heading, Text, CardFooter } from 'grommet';
 import { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { WavyLink } from 'react-wavy-transitions';
 
 interface ProfilePageCardProps {
   title: string;
@@ -21,9 +21,9 @@ const ProfilePageCard = ({ title, subtitle, buttonLabel, link, icon }: ProfilePa
         <Text size='small'>{subtitle}</Text>
       </CardHeader>
       <CardFooter>
-        <Link to={link}>
+        <WavyLink to={link} color='#A7BEAE' duration='800' direction='up'>
           <Button focusIndicator label={buttonLabel} />
-        </Link>
+        </WavyLink>
       </CardFooter>
     </Card>
   );

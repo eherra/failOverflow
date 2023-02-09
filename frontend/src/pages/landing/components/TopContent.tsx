@@ -1,8 +1,20 @@
-import { Box, Heading, Paragraph, Grid, PageContent, Image, Button } from 'grommet';
-import { Link } from 'react-router-dom';
-import { Deploy } from 'grommet-icons';
+import { useContext } from 'react';
+import {
+  Box,
+  Heading,
+  Paragraph,
+  Grid,
+  PageContent,
+  Image,
+  Button,
+  ResponsiveContext,
+} from 'grommet';
+import { FastForward } from 'grommet-icons';
+import { WavyLink } from 'react-wavy-transitions';
 
 const TopContent = () => {
+  const screenSize = useContext(ResponsiveContext);
+
   return (
     <PageContent>
       <Box height={{ min: 'medium' }}>
@@ -33,9 +45,18 @@ const TopContent = () => {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel elit facilisis,
               lacinia eros vel, euismod magna.
             </Paragraph>
-            <Link to='/register'>
-              <Button icon={<Deploy />} hoverIndicator primary label='Get started' size='large' />
-            </Link>
+            <Box align={['xsmall', 'small'].includes(screenSize) ? undefined : 'start'}>
+              <WavyLink to='/register' color='#A7BEAE' duration='1000' direction='down'>
+                <Button
+                  icon={<FastForward />}
+                  reverse
+                  hoverIndicator
+                  primary
+                  label='Get started'
+                  size='large'
+                />
+              </WavyLink>
+            </Box>
           </Box>
           <Box gridArea='svg'>
             <Image src={'/landingpage/time.svg'} />
