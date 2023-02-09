@@ -32,9 +32,7 @@ failuresRouter.post("/", async (req: Request, res: Response) => {
  */
 failuresRouter.get("/all", async (_req: Request, res: Response) => {
   try {
-    const allFailures = await failureService.getAllFailures();
-    console.log(allFailures);
-
+    await failureService.getAllFailures();
     // still returning mockData
     res.status(200).json({
       isSuccess: true,
@@ -62,6 +60,35 @@ failuresRouter.get("/all/:userId", (req: Request, res: Response) => {
       isSuccess: true,
       userId: userId,
       failures: failureData.userFailure,
+    });
+  } catch (e) {
+    res.status(400).json({
+      isSuccess: false,
+    });
+  }
+});
+
+/**
+ * POST /api/failures/comment/:failureId
+ * @summary Created comment to Comment collections and attached it to failure given as path param
+ * @param {} path - failureId
+ * @param {} request.body.required - comment, commentorId
+ * @return {} 200 - All user failures
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.post("/comment/:failureId", async (req: Request, res: Response) => {
+  const failureId = req.params.failureId;
+  const { comment, commentorId } = req.body;
+  try {
+    const createdComment = await failureService.addCommentToFailure({
+      comment,
+      commentorId,
+      failureId,
+    });
+
+    res.status(201).json({
+      comment: createdComment,
+      isSuccess: true,
     });
   } catch (e) {
     res.status(400).json({

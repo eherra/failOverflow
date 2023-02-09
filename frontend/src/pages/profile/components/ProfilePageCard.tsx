@@ -21,7 +21,7 @@ const ProfilePageCard = ({ title, subtitle, buttonLabel, link, icon }: ProfilePa
         <Text size='small'>{subtitle}</Text>
       </CardHeader>
       <CardFooter>
-        <WavyLink to={link} color='#A7BEAE' duration='800' direction='up'>
+        <WavyLink to={link} color='#dae4dd' duration='800' direction='up'>
           <Button focusIndicator label={buttonLabel} />
         </WavyLink>
       </CardFooter>

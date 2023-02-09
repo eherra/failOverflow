@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, SyntheticEvent } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -10,18 +10,44 @@ import {
   TextArea,
   Button,
   Text,
+  Spinner,
 } from 'grommet';
 import ShowMoreCommentsButton from '../../../../common/ShowMoreCommentsButton';
+import failureService from '../../../../../api/failures';
 import { Login } from 'grommet-icons';
+import { useUserContext } from '../../../../../context/UserContext';
 
 interface ICommentTab {
+  failureId: string;
   comments: Array<string>;
   isAuth: boolean;
 }
 
-const CommentTab = ({ comments, isAuth }: ICommentTab) => {
-  const [textAreaValue, setTextAreaValue] = useState<string>('');
+const CommentTab = ({ failureId, comments, isAuth }: ICommentTab) => {
+  const { user } = useUserContext();
+  const [commentInput, setCommentInput] = useState<string>('');
   const [showAllComments, setShowAllComments] = useState<boolean>(false);
+  const [isSendingComment, setIsSendingComment] = useState<boolean>(false);
+  const [currComments, setCurrComments] = useState<Array<string>>(comments);
+
+  const handleCommentSubmit = async (event: SyntheticEvent) => {
+    event.preventDefault();
+    try {
+      setIsSendingComment(true);
+      const newComment = await failureService.addCommentToFailure({
+        comment: commentInput,
+        commentorId: user?.id || '',
+        failureId: failureId,
+      });
+      setCurrComments([...currComments, newComment.comment.comment]);
+      setCommentInput('');
+      setIsSendingComment(false);
+    } catch (e) {
+      setIsSendingComment(false);
+      console.log(e);
+      setCommentInput('');
+    }
+  };
 
   return (
     <Tab title='Comments'>
@@ -32,17 +58,22 @@ const CommentTab = ({ comments, isAuth }: ICommentTab) => {
           valueProps={{ width: 'medium' }}
           justifyContent='center'>
           {isAuth ? (
-            <Form>
+            <Form onSubmit={handleCommentSubmit}>
               <FormField label='Leave a comment' htmlFor='text-area-example'>
                 <TextArea
                   placeholder='e.g. did you find it helpful?'
                   id='text-area-example'
-                  value={textAreaValue}
-                  onChange={(event) => setTextAreaValue(event.target.value)}
+                  value={commentInput}
+                  onChange={(event) => setCommentInput(event.target.value)}
                 />
               </FormField>
               <Box direction='row' gap='medium'>
-                <Button type='submit' color='#A7BEAE' primary label='Send' />
+                <Button
+                  icon={isSendingComment ? <Spinner /> : undefined}
+                  label={isSendingComment ? 'Sending' : 'Send'}
+                  primary
+                  type='submit'
+                />
               </Box>
             </Form>
           ) : (
@@ -56,16 +87,16 @@ const CommentTab = ({ comments, isAuth }: ICommentTab) => {
             </Box>
           )}
 
-          <NameValuePair name="People's comments">
+          <NameValuePair name="User's comments">
             <>
               <ul>
-                {comments
-                  .slice(0, showAllComments || comments.length < 3 ? comments.length : 3)
+                {currComments
+                  .slice(0, showAllComments || currComments.length < 3 ? currComments.length : 3)
                   .map((comment) => (
                     <li key={comment}>{comment}</li>
                   ))}
               </ul>
-              {comments.length >= 3 && (
+              {currComments.length >= 3 && (
                 <ShowMoreCommentsButton showAll={showAllComments} setShowAll={setShowAllComments} />
               )}
             </>
