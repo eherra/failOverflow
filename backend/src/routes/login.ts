@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import { IUserDTO } from "../types";
-import { generateJwtToken } from "./utils/tokenUtils";
 import loginService from "../services/loginService";
 
 const loginRouter = express.Router();
@@ -16,12 +15,11 @@ loginRouter.post("/", async (req: Request, res: Response) => {
 
   try {
     const loggedUser: IUserDTO | null = await loginService.loginUser(username, password);
-    const token = generateJwtToken(loggedUser);
-    return res.status(200).send({ token, username: loggedUser.username, id: loggedUser._id });
+    res.status(200).send(loggedUser);
   } catch (err: any) {
     console.log("Error while login user");
     console.log(err);
-    return res.status(401).json({
+    res.status(401).json({
       error: err.message,
     });
   }

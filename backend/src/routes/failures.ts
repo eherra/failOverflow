@@ -14,11 +14,13 @@ failuresRouter.post("/", async (req: Request, res: Response) => {
   const { failure, creatorId } = req.body;
   try {
     const createdFailure = await failureService.createFailure(failure, creatorId);
-    return res.status(201).send({ createdFailure });
+    res.status(201).send({ createdFailure });
   } catch (err) {
     console.log("Error while creating failure");
     console.log(err);
-    return res.status(400);
+    res.status(400).json({
+      error: "Something went wrong",
+    });
   }
 });
 
