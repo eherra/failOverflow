@@ -1,6 +1,6 @@
 import User from "../models/User";
 import { IUserDTO } from "../types";
-import { isPasswordMatching } from "../routes/utils/passwordUtils";
+import { isPasswordMatching } from "./utils/passwordUtils";
 
 const loginUser = async (username: string, password: string): Promise<IUserDTO> => {
   const user: IUserDTO | null = await User.findOne({ username });

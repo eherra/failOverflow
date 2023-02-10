@@ -3,6 +3,8 @@ import Comment from "../models/Comment";
 import Vote from "../models/Vote";
 import User from "../models/User";
 import StarRating from "../models/StarRating";
+import { ObjectId } from "mongodb";
+import { getReviewAverage, getUserReview } from "./utils/ratingUtils";
 
 interface FailureValues {
   creatorId: string;
@@ -109,6 +111,35 @@ const addStarRating = async ({ ratingValue, failureId, raterId }: IStarReviewVal
   return "OK";
 };
 
+const getRatingData = async (failureId: string, userId: string) => {
+  const ratingsData: any = await Failure.aggregate([
+    {
+      $match: {
+        _id: new ObjectId(failureId),
+      },
+    },
+    {
+      $lookup: {
+        from: "starratings",
+        localField: "starRatings",
+        foreignField: "_id",
+        as: "starReviews",
+      },
+    },
+    {
+      $project: {
+        starReviews: 1,
+      },
+    },
+  ]);
+  const reviewAsArray = ratingsData[0].starReviews;
+
+  return {
+    ratingAverage: getReviewAverage(reviewAsArray),
+    userRating: getUserReview(reviewAsArray, userId),
+  };
+};
+
 export default {
   createFailure,
   getAllFailures,
@@ -116,4 +147,5 @@ export default {
   addVoteToFailure,
   deleteVoteFromFailure,
   addStarRating,
+  getRatingData,
 };

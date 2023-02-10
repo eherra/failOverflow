@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, Tabs, AccordionPanel } from 'grommet';
-import ReviewTab from './tabs/ReviewTab';
+import ReviewTab from './tabs/reviewTab/ReviewTab';
 import AccordionTitle from './AccordionTitle';
 import OverviewTab from './tabs/OverviewTab';
 import CommentTab from './tabs/CommentTab';
@@ -16,17 +16,7 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
   const { user } = useUserContext();
 
   const onActive = (nextIndex: any) => setIndex(nextIndex);
-  const {
-    title,
-    creator,
-    description,
-    solution,
-    technologies,
-    starRating,
-    tags,
-    votes,
-    timeOfCreation,
-  } = failure;
+  const { title, creator, description, solution, technologies, tags, timeOfCreation } = failure;
 
   return (
     <AccordionPanel
@@ -50,7 +40,7 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
             />
           </>
           <>
-            <ReviewTab isAuth={!!user} stars={starRating} votes={votes} failureId={failure.id} />
+            <ReviewTab isAuth={!!user} failureId={failure.id} />
           </>
           <>
             <CommentTab isAuth={!!user} comments={failure.comments} failureId={failure.id} />

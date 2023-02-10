@@ -60,6 +60,16 @@ const sendRating = async ({ raterId, failureId, ratingValue }: IReviewValues) =>
   return response.data;
 };
 
+const getRatingData = async (failureId: string, userId: string) => {
+  const response = await axios.get(`${url}/rate/${failureId}/user/${userId}`);
+  return response.data;
+};
+
+const getVotingData = async (failureId: string, userId: string) => {
+  const response = await axios.get(`${url}/vote/${failureId}/user/${userId}`);
+  return response.data;
+};
+
 export default {
   createFailure,
   getAllFailures,
@@ -67,4 +77,6 @@ export default {
   addCommentToFailure,
   handleVoting,
   sendRating,
+  getRatingData,
+  getVotingData,
 };
