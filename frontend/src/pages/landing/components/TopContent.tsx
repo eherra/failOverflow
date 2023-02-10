@@ -9,7 +9,7 @@ import {
   Button,
   ResponsiveContext,
 } from 'grommet';
-import { FastForward } from 'grommet-icons';
+import { LinkNext } from 'grommet-icons';
 import { WavyLink } from 'react-wavy-transitions';
 
 const TopContent = () => {
@@ -48,7 +48,7 @@ const TopContent = () => {
             <Box align={['xsmall', 'small'].includes(screenSize) ? undefined : 'start'}>
               <WavyLink to='/register' color='#A7BEAE' duration='1000' direction='down'>
                 <Button
-                  icon={<FastForward />}
+                  icon={<LinkNext />}
                   reverse
                   hoverIndicator
                   primary

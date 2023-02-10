@@ -9,6 +9,18 @@ interface ICommentValues {
   failureId: string;
 }
 
+interface IVotingValues {
+  voterId: string;
+  failureId: string;
+  isDeletingVote: boolean;
+}
+
+interface IReviewValues {
+  raterId: string;
+  failureId: string;
+  ratingValue: number;
+}
+
 const getAllFailures = async () => {
   const response = await axios.get(`${url}/all`);
   return response.data;
@@ -32,4 +44,39 @@ const addCommentToFailure = async ({ comment, commentorId, failureId }: IComment
   return response.data;
 };
 
-export default { createFailure, getAllFailures, getUsersFailuresById, addCommentToFailure };
+const handleVoting = async ({ voterId, failureId, isDeletingVote }: IVotingValues) => {
+  const response = await axios.post(`${url}/vote/${failureId}`, {
+    voterId,
+    isDeletingVote,
+  });
+  return response.data;
+};
+
+const sendRating = async ({ raterId, failureId, ratingValue }: IReviewValues) => {
+  const response = await axios.post(`${url}/rate/${failureId}`, {
+    raterId,
+    ratingValue,
+  });
+  return response.data;
+};
+
+const getRatingData = async (failureId: string, userId: string) => {
+  const response = await axios.get(`${url}/rate/${failureId}/user/${userId}`);
+  return response.data;
+};
+
+const getVotingData = async (failureId: string, userId: string) => {
+  const response = await axios.get(`${url}/vote/${failureId}/user/${userId}`);
+  return response.data;
+};
+
+export default {
+  createFailure,
+  getAllFailures,
+  getUsersFailuresById,
+  addCommentToFailure,
+  handleVoting,
+  sendRating,
+  getRatingData,
+  getVotingData,
+};

@@ -20,10 +20,9 @@ import { useUserContext } from '../../../../../context/UserContext';
 interface ICommentTab {
   failureId: string;
   comments: Array<string>;
-  isAuth: boolean;
 }
 
-const CommentTab = ({ failureId, comments, isAuth }: ICommentTab) => {
+const CommentTab = ({ failureId, comments }: ICommentTab) => {
   const { user } = useUserContext();
   const [commentInput, setCommentInput] = useState<string>('');
   const [showAllComments, setShowAllComments] = useState<boolean>(false);
@@ -57,7 +56,7 @@ const CommentTab = ({ failureId, comments, isAuth }: ICommentTab) => {
           layout='grid'
           valueProps={{ width: 'medium' }}
           justifyContent='center'>
-          {isAuth ? (
+          {user ? (
             <Form onSubmit={handleCommentSubmit}>
               <FormField label='Leave a comment' htmlFor='text-area-example'>
                 <TextArea

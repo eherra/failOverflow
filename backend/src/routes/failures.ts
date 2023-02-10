@@ -97,4 +97,110 @@ failuresRouter.post("/comment/:failureId", async (req: Request, res: Response) =
   }
 });
 
+/**
+ * POST /api/failures/vote/:failureId
+ * @summary Creates or deletes vote from failure
+ * @param {} path - failureId
+ * @param {} request.body.required - voterId, isAddingVote
+ * @return {} 200 - All user failures
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.post("/vote/:failureId", async (req: Request, res: Response) => {
+  // add token
+  const failureId = req.params.failureId;
+  const { voterId, isDeletingVote } = req.body;
+  try {
+    if (isDeletingVote) {
+      await failureService.deleteVoteFromFailure({
+        voterId,
+        failureId,
+      });
+    } else {
+      await failureService.addVoteToFailure({
+        voterId,
+        failureId,
+      });
+    }
+    res.status(201).json({
+      isSuccess: true,
+    });
+  } catch (e) {
+    res.status(400).json({
+      isSuccess: false,
+    });
+  }
+});
+
+/**
+ * POST /api/failures/rate/:failureId
+ * @summary Gives a rating to a failure according to param failureId
+ * @param {} path - failureId
+ * @param {} request.body.required - raterId, ratingValue
+ * @return {} 200 - All user failures
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.post("/rate/:failureId", async (req: Request, res: Response) => {
+  // add token
+  const failureId = req.params.failureId;
+  const { raterId, ratingValue } = req.body;
+  try {
+    const rating = await failureService.addStarRating({
+      raterId,
+      ratingValue,
+      failureId,
+    });
+    res.status(200).json({
+      rating: rating,
+      isSuccess: true,
+    });
+  } catch (e) {
+    res.status(400).json({
+      isSuccess: false,
+    });
+  }
+});
+
+/**
+ * GET /api/failures/rate/:failureId/user/:userId
+ * @summary Gets ratings average and user ratings
+ * @param   req.params  failureId: required, userId: Not required -> if user not logged in
+ * @return {} 200 - ratingAverage, userRating -> if userId provided
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/rate/:failureId/user/:userId?", async (req: Request, res: Response) => {
+  const { failureId, userId } = req.params;
+  try {
+    const ratingData = await failureService.getRatingData(failureId, userId);
+    res.status(200).json({
+      ratingData: ratingData,
+    });
+  } catch (e) {
+    res.status(400).json({
+      isSuccess: false,
+    });
+  }
+});
+
+/**
+ * GET /api/failures/vote/:failureId/user/:userId
+ * @summary Gets amount of votes and users vote info according to the failure given by param
+ * @param   req.params  failureId: required, userId: Not required -> if user not logged in
+ * @return {} 200 - votesAmount, hasUserVoted -> if userId provided
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/vote/:failureId/user/:userId?", async (req: Request, res: Response) => {
+  const { failureId, userId } = req.params;
+  try {
+    const votesData = await failureService.getVoteData(failureId, userId);
+    res.status(200).json({
+      hasUserVoted: votesData.hasUserVoted,
+      votesAmount: votesData.votesAmount,
+    });
+  } catch (e) {
+    res.status(400).json({
+      isSuccess: false,
+    });
+  }
+});
+
 export default failuresRouter;
