@@ -7,3 +7,7 @@ export const getUserReview = (data: any, userId: string): number => {
   const userReview = data.find((obj: any) => obj.givenBy.toString() === userId);
   return userReview ? userReview.starRating : null;
 };
+
+export const hasUserVoted = (data: any, userId: string) => {
+  return data.some((obj: any) => obj.givenBy.toString() === userId);
+};

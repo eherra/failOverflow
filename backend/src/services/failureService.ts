@@ -4,7 +4,7 @@ import Vote from "../models/Vote";
 import User from "../models/User";
 import StarRating from "../models/StarRating";
 import { ObjectId } from "mongodb";
-import { getReviewAverage, getUserReview } from "./utils/ratingUtils";
+import { getReviewAverage, getUserReview, hasUserVoted } from "./utils/ratingUtils";
 
 interface FailureValues {
   creatorId: string;
@@ -136,7 +136,36 @@ const getRatingData = async (failureId: string, userId: string) => {
 
   return {
     ratingAverage: getReviewAverage(reviewAsArray),
-    userRating: getUserReview(reviewAsArray, userId),
+    userRating: userId ? getUserReview(reviewAsArray, userId) : null,
+  };
+};
+
+const getVoteData = async (failureId: string, userId: string) => {
+  const votesData: any = await Failure.aggregate([
+    {
+      $match: {
+        _id: new ObjectId(failureId),
+      },
+    },
+    {
+      $lookup: {
+        from: "votes",
+        localField: "votes",
+        foreignField: "_id",
+        as: "votesData",
+      },
+    },
+    {
+      $project: {
+        votesData: 1,
+      },
+    },
+  ]);
+
+  const votesAsArray = votesData[0].votesData;
+  return {
+    votesAmount: votesAsArray.length,
+    hasUserVoted: userId ? hasUserVoted(votesAsArray, userId) : null,
   };
 };
 
@@ -148,4 +177,5 @@ export default {
   deleteVoteFromFailure,
   addStarRating,
   getRatingData,
+  getVoteData,
 };

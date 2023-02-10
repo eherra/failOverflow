@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Box, Text, Button } from 'grommet';
 import CreateFailureSideModal from '../../common/CreateFailureSideModal/CreateFailureSideModal';
 import { useUserContext } from '../../../context/UserContext';
+import { Login } from 'grommet-icons';
 
 const CreateYourOwnFailure = () => {
   const { user } = useUserContext();
@@ -15,7 +16,7 @@ const CreateYourOwnFailure = () => {
         <CreateFailureSideModal />
       ) : (
         <Link to='/login'>
-          <Button primary hoverIndicator label='Sign in' />
+          <Button primary hoverIndicator label='Sign in' icon={<Login />} />
         </Link>
       )}
     </Box>

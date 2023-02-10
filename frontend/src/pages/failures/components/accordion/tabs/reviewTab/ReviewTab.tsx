@@ -6,11 +6,10 @@ import StarReviewColumn from './StarReviewColumn';
 import VoteColumn from './VoteColumn';
 
 interface IReviewTab {
-  isAuth: boolean;
   failureId: string;
 }
 
-const ReviewTab = ({ isAuth, failureId }: IReviewTab) => {
+const ReviewTab = ({ failureId }: IReviewTab) => {
   const { user } = useUserContext();
   const [isLoadingData, setIsLoading] = useState<boolean>(false);
   const [isVoteFetchError, setIsVoteFetchError] = useState<boolean>(false);
@@ -37,8 +36,8 @@ const ReviewTab = ({ isAuth, failureId }: IReviewTab) => {
     try {
       const reviewResponse = await failureService.getRatingData(failureId, user?.id || '');
       setStarsData({
-        starAverage: reviewResponse.ratingData.ratingAverage,
-        userReview: reviewResponse.ratingData.userRating,
+        starAverage: reviewResponse?.ratingData?.ratingAverage,
+        userReview: reviewResponse?.ratingData?.userRating,
       });
     } catch (err) {
       setIsRatingFetchError(true);
@@ -48,9 +47,10 @@ const ReviewTab = ({ isAuth, failureId }: IReviewTab) => {
   const fetchVotesData = async () => {
     try {
       const voteResponse = await failureService.getVotingData(failureId, user?.id || '');
+      console.log(voteResponse);
       setVotesData({
-        votesAmount: voteResponse.votesAmount,
-        hasUserVoted: voteResponse.hasUserVoted,
+        votesAmount: voteResponse?.votesAmount,
+        hasUserVoted: voteResponse?.hasUserVoted,
       });
     } catch (err) {
       setIsVoteFetchError(true);
@@ -73,10 +73,9 @@ const ReviewTab = ({ isAuth, failureId }: IReviewTab) => {
                 <p>Error while fetching review data</p>
               ) : (
                 <StarReviewColumn
-                  isAuth={isAuth}
                   failureId={failureId}
-                  userReview={starsData.userReview}
-                  reviewAverage={starsData.starAverage}
+                  userReview={starsData?.userReview}
+                  reviewAverage={starsData?.starAverage}
                 />
               )}
               {isVoteFetchError ? (
@@ -84,7 +83,6 @@ const ReviewTab = ({ isAuth, failureId }: IReviewTab) => {
               ) : (
                 <VoteColumn
                   failureId={failureId}
-                  isAuth={isAuth}
                   votesAmount={votesData.votesAmount}
                   hasUserVoted={votesData.hasUserVoted}
                 />

@@ -5,7 +5,6 @@ import AccordionTitle from './AccordionTitle';
 import OverviewTab from './tabs/OverviewTab';
 import CommentTab from './tabs/CommentTab';
 import { Failure } from '../../../../types';
-import { useUserContext } from '../../../../context/UserContext';
 
 interface IAccordionUnitProps {
   failure: Failure;
@@ -13,7 +12,6 @@ interface IAccordionUnitProps {
 
 const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
   const [index, setIndex] = useState();
-  const { user } = useUserContext();
 
   const onActive = (nextIndex: any) => setIndex(nextIndex);
   const { title, creator, description, solution, technologies, tags, timeOfCreation } = failure;
@@ -40,10 +38,10 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
             />
           </>
           <>
-            <ReviewTab isAuth={!!user} failureId={failure.id} />
+            <ReviewTab failureId={failure.id} />
           </>
           <>
-            <CommentTab isAuth={!!user} comments={failure.comments} failureId={failure.id} />
+            <CommentTab comments={failure.comments} failureId={failure.id} />
           </>
         </Tabs>
       </Box>

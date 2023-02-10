@@ -26,5 +26,5 @@
 | 7.2.2023 | 6 | solved userContext problems and made it work for login authentication, made registering possible, enhancements to frontend, password changing added |
 | 8.2.2023 | 7 | working with mongoose configs and ts types, failures fetching for backend and frontend, refactoring, documenting endpoints, started working with failure storing to db and fetching them and mapping |
 | 9.2.2023 | 6 | added wavy page change, created services, commenting possible, voting and star rating made possible |
-| 10.2.2023 | 3 | Refactoring review tab, made fetching review possible from mongoDb|
-| total    | 110 | | 
+| 10.2.2023 | 5 | Refactoring review tab, made fetching review possible from mongoDb, enhancing the fetching of vote data and review data|
+| total    | 112 | | 

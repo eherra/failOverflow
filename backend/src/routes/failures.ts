@@ -163,15 +163,15 @@ failuresRouter.post("/rate/:failureId", async (req: Request, res: Response) => {
 /**
  * GET /api/failures/rate/:failureId/user/:userId
  * @summary Gets ratings average and user ratings
- * @return {} 200 - ratingAverage, userRating
+ * @param   req.params  failureId: required, userId: Not required -> if user not logged in
+ * @return {} 200 - ratingAverage, userRating -> if userId provided
  * @return {} 400 - Bad request response
  */
-failuresRouter.get("/rate/:failureId/user/:userId", async (req: Request, res: Response) => {
+failuresRouter.get("/rate/:failureId/user/:userId?", async (req: Request, res: Response) => {
   const { failureId, userId } = req.params;
   try {
     const ratingData = await failureService.getRatingData(failureId, userId);
     res.status(200).json({
-      isSuccess: true,
       ratingData: ratingData,
     });
   } catch (e) {
@@ -184,18 +184,17 @@ failuresRouter.get("/rate/:failureId/user/:userId", async (req: Request, res: Re
 /**
  * GET /api/failures/vote/:failureId/user/:userId
  * @summary Gets amount of votes and users vote info according to the failure given by param
- * @return {} 200 - Vote info of failure
+ * @param   req.params  failureId: required, userId: Not required -> if user not logged in
+ * @return {} 200 - votesAmount, hasUserVoted -> if userId provided
  * @return {} 400 - Bad request response
  */
-failuresRouter.get("/vote/:failureId/user/:userId", (req: Request, res: Response) => {
+failuresRouter.get("/vote/:failureId/user/:userId?", async (req: Request, res: Response) => {
   const { failureId, userId } = req.params;
-  // TODO
-  console.log(failureId);
   try {
+    const votesData = await failureService.getVoteData(failureId, userId);
     res.status(200).json({
-      isSuccess: true,
-      userId: userId,
-      failures: failureData.userFailure,
+      hasUserVoted: votesData.hasUserVoted,
+      votesAmount: votesData.votesAmount,
     });
   } catch (e) {
     res.status(400).json({

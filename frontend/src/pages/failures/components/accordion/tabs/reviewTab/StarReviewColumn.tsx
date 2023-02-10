@@ -2,22 +2,23 @@ import { Box, Tab, NameValuePair, Button, NameValueList, Text, Spinner } from 'g
 import { Link } from 'react-router-dom';
 import StarRatingForm from './StarRatingForm';
 import { Login } from 'grommet-icons';
+import { useUserContext } from '../../../../../../context/UserContext';
 
 interface IStarReviewColumn {
   failureId: string;
-  isAuth: boolean;
   reviewAverage: number;
   userReview: number;
 }
 
-const StarReviewColumn = ({ failureId, isAuth, reviewAverage, userReview }: IStarReviewColumn) => {
+const StarReviewColumn = ({ failureId, reviewAverage, userReview }: IStarReviewColumn) => {
+  const { user } = useUserContext();
   return (
     <>
       <Box direction='column' gap='medium'>
         <NameValuePair key='stars' name='Stars received'>
           {reviewAverage}
         </NameValuePair>
-        {isAuth ? (
+        {user ? (
           <StarRatingForm failureId={failureId} userReview={userReview} />
         ) : (
           <Box pad={{ top: 'small', bottom: 'small' }} gap='small'>

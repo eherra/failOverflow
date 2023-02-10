@@ -6,12 +6,11 @@ import { Like, Dislike } from 'grommet-icons';
 
 interface IVoteColumn {
   failureId: string;
-  isAuth: boolean;
   votesAmount: number;
   hasUserVoted: boolean;
 }
 
-const VoteColumn = ({ failureId, isAuth, votesAmount, hasUserVoted }: IVoteColumn) => {
+const VoteColumn = ({ failureId, votesAmount, hasUserVoted }: IVoteColumn) => {
   const { user } = useUserContext();
   const [votes, setVotes] = useState<number>(votesAmount);
   const [isSendingVote, setIsSendingVote] = useState<boolean>(false);
@@ -39,7 +38,7 @@ const VoteColumn = ({ failureId, isAuth, votesAmount, hasUserVoted }: IVoteColum
       <NameValuePair key='votes' name='Votes received'>
         {votes}
       </NameValuePair>
-      {isAuth && (
+      {user && (
         <>
           {hasVoted ? (
             <Button
