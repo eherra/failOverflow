@@ -1,6 +1,6 @@
 import PageProvider from '../common/PageProvider';
 import { PageContent, PageHeader } from 'grommet';
-import VoteOfTheWeekCard from './components/VoteOfTheWeekCard';
+import VoteOfTheWeekCard from './components/FailureOfTheWeekCard';
 import MostLikedFailureCard from './components/MostLikedFailureCard';
 import StartExploringCard from './components/StartExploringCard';
 import HomePageRow from './components/HomePageRow';

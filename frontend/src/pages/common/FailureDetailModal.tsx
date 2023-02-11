@@ -9,11 +9,22 @@ import {
   ResponsiveContext,
 } from 'grommet';
 import { Catalog } from 'grommet-icons';
-import { Failure } from '../../../../../types';
-import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
+import { Failure } from '../../types';
+import { createStyledDateInfo } from '../../utils/TimeUtils';
+import { Creator } from '../../types';
 
+interface IFailureOfTheWeek {
+  _id: string;
+  creator: Creator;
+  title: string;
+  description: string;
+  solution: string;
+  technologies: Array<string>;
+  totalVotes: number;
+  createdAt: string;
+}
 interface IShowFailureDetailsModal {
-  failure?: Failure;
+  failure?: Failure | IFailureOfTheWeek;
   setDetailsModalShow(boolean: any): void;
 }
 
@@ -51,8 +62,8 @@ const FailureDetailModal = ({ setDetailsModalShow, failure }: IShowFailureDetail
           <NameValuePair key='tech' name='Technologies'>
             {failure?.technologies.join(', ')}
           </NameValuePair>
-          <NameValuePair key={failure?.timeOfCreation} name='Created'>
-            {createStyledDateInfo(failure?.timeOfCreation || '')}
+          <NameValuePair key={failure?.createdAt} name='Created'>
+            {createStyledDateInfo(failure?.createdAt || '')}
           </NameValuePair>
         </NameValueList>
       </Box>

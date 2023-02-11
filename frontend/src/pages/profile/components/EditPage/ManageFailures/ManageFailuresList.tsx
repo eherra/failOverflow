@@ -3,7 +3,7 @@ import { Box, List, Menu, ResponsiveContext, Text, Spinner } from 'grommet';
 import { More } from 'grommet-icons';
 import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
 import { Failure } from '../../../../../types';
-import FailureDetailModal from './FailureDetailModal';
+import FailureDetailModal from '../../../../common/FailureDetailModal';
 import CommentsModal from './CommentsModal';
 import DeleteFailureModal from './DeleteFailureModal';
 import failureService from '../../../../../api/failures';
@@ -103,7 +103,7 @@ const ManageFailuresList = () => {
               <Text weight='bold' size='small'>
                 {failure.title}
               </Text>
-              <Text size='small'>{createStyledDateInfo(failure.timeOfCreation)}</Text>
+              <Text size='small'>{createStyledDateInfo(failure.createdAt)}</Text>
             </Box>
           )
         }

@@ -171,6 +171,89 @@ const toggleFailureCommentingAllowance = async (failureId: string, valueToToggle
   await Failure.findByIdAndUpdate(failureId, { enableComments: valueToToggle });
 };
 
+const getFailureOfTheWeek = async () => {
+  const lastWeeksNumber = getNumberOfWeek() - 1;
+
+  const weekFailure = await Failure.aggregate([
+    {
+      $lookup: {
+        from: "votes",
+        localField: "votes",
+        foreignField: "_id",
+        as: "votesData",
+      },
+    },
+    {
+      $addFields: {
+        weeksVotes: {
+          $filter: {
+            input: "$votesData",
+            as: "vote",
+            cond: {
+              $eq: [
+                {
+                  $week: "$$vote.createdAt",
+                },
+                lastWeeksNumber,
+              ],
+            },
+          },
+        },
+      },
+    },
+    {
+      $addFields: {
+        totalVotes: {
+          $size: "$weeksVotes",
+        },
+      },
+    },
+    {
+      $sort: {
+        totalVotes: -1,
+      },
+    },
+    {
+      $project: {
+        votesData: 0,
+        weeksVotes: 0,
+        starRatings: 0,
+        comments: 0,
+        votes: 0,
+        tags: 0,
+        __v: 0,
+        enableComments: 0,
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "creator",
+        foreignField: "_id",
+        as: "creator",
+      },
+    },
+    {
+      $project: {
+        "creator.passwordHash": 0,
+        "creator.__v": 0,
+      },
+    },
+    {
+      $limit: 1,
+    },
+  ]);
+
+  return weekFailure;
+};
+
+const getNumberOfWeek = () => {
+  const today: any = new Date();
+  const firstDayOfYear: any = new Date(today.getFullYear(), 0, 1);
+  const pastDaysOfYear = (today - firstDayOfYear) / 86400000;
+  return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+};
+
 export default {
   createFailure,
   getAllFailures,
@@ -181,4 +264,5 @@ export default {
   getRatingData,
   getVoteData,
   toggleFailureCommentingAllowance,
+  getFailureOfTheWeek,
 };

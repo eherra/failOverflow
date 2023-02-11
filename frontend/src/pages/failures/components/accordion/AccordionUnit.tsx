@@ -14,19 +14,12 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
   const [index, setIndex] = useState();
 
   const onActive = (nextIndex: any) => setIndex(nextIndex);
-  const { title, creator, description, solution, technologies, tags, timeOfCreation } = failure;
+  const { title, creator, description, solution, technologies, tags, createdAt } = failure;
 
   return (
     <AccordionPanel
       key={failure.id}
-      label={
-        <AccordionTitle
-          creator={creator}
-          title={title}
-          tags={tags}
-          timeOfCreation={timeOfCreation}
-        />
-      }>
+      label={<AccordionTitle creator={creator} title={title} tags={tags} createdAt={createdAt} />}>
       <Box gap='small' pad='small' background='light-5'>
         <Tabs activeIndex={index} onActive={onActive} justify='center'>
           <>
@@ -34,7 +27,7 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
               description={description}
               solution={solution}
               technologies={technologies}
-              timeOfCreation={timeOfCreation}
+              createdAt={createdAt}
             />
           </>
           <>

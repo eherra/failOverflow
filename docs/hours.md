@@ -27,5 +27,5 @@
 | 8.2.2023 | 7 | working with mongoose configs and ts types, failures fetching for backend and frontend, refactoring, documenting endpoints, started working with failure storing to db and fetching them and mapping |
 | 9.2.2023 | 6 | added wavy page change, created services, commenting possible, voting and star rating made possible |
 | 10.2.2023 | 5 | Refactoring review tab, made fetching review possible from mongoDb, enhancing the fetching of vote data and review data|
-| 11.2.2023 | 1 | made toggle commenting possible, refactoring profile page cards |
-| total    | 115 | | 
+| 11.2.2023 | 3 | made toggle commenting possible, refactoring profile page cards, implemented fetching failure of the week |
+| total    | 117 | | 

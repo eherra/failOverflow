@@ -229,4 +229,23 @@ failuresRouter.put(
   },
 );
 
+/**
+ * GET /api/failures/vote/failure-week"
+ * @summary Gets failure of the week
+ * @return {} 200 - failure info of the week
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/vote/failure-week", async (_req: Request, res: Response) => {
+  try {
+    const failureOfTheWeek = await failureService.getFailureOfTheWeek();
+    res.status(200).json({
+      failureOfTheWeek,
+    });
+  } catch (e) {
+    res.status(400).json({
+      isSuccess: false,
+    });
+  }
+});
+
 export default failuresRouter;

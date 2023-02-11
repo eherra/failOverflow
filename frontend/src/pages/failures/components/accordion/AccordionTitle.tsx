@@ -6,16 +6,16 @@ interface IAccordionTitle {
   creator: Creator;
   title: string;
   tags: Array<string>;
-  timeOfCreation: string;
+  createdAt: string;
 }
 
-const AccordionTitle = ({ creator, title, tags, timeOfCreation }: IAccordionTitle) => {
+const AccordionTitle = ({ creator, title, tags, createdAt }: IAccordionTitle) => {
   return (
     <Box direction='column'>
       <Box direction='row' gap='small' pad='xsmall'>
         <Avatar src='avatar.png' size='medium' />
         <p>{creator.username}</p>
-        <p style={{ opacity: '0.8' }}>{`created ${createTimePassedInfo(timeOfCreation)} ago`}</p>
+        <p style={{ opacity: '0.8' }}>{`created ${createTimePassedInfo(createdAt)} ago`}</p>
       </Box>
       <Box direction='row' gap='small'>
         <p style={{ fontSize: '25px' }}>{title}</p>

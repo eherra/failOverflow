@@ -14,7 +14,7 @@ export interface Failure {
   starRating: string;
   tags: Array<string>;
   votes: number;
-  timeOfCreation: string;
+  createdAt: string;
   comments: Array<string>;
 }
 

@@ -68,6 +68,11 @@ const getVotingData = async (failureId: string, userId: string) => {
   return response.data;
 };
 
+const getFailureOfTheWeek = async () => {
+  const response = await axios.get(`${url}/vote/failure-week`);
+  return response.data;
+};
+
 // Start ratings / review
 const sendRating = async ({ raterId, failureId, ratingValue }: IReviewValues) => {
   const response = await axios.post(`${url}/rate/${failureId}`, {
@@ -92,4 +97,5 @@ export default {
   getRatingData,
   getVotingData,
   toggleCommentAllowed,
+  getFailureOfTheWeek,
 };
