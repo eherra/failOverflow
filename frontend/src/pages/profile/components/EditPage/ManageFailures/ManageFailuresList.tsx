@@ -16,7 +16,7 @@ const ManageFailuresList = () => {
   const [detailsModalShow, setDetailsModalShow] = useState<boolean>(false);
   const [commentsModaleShow, setCommentsModalShow] = useState<boolean>(false);
   const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
-  const [toEdit, setToEdit] = useState<Failure | undefined>(undefined);
+  const [toEdit, setToEdit] = useState<Failure | undefined>();
 
   const [failures, setFailures] = useState<Array<Failure>>([]);
   const [isFetchingFailures, setIsFetchingFailures] = useState<boolean>(false);
@@ -114,7 +114,11 @@ const ManageFailuresList = () => {
       )}
 
       {commentsModaleShow && (
-        <CommentsModal comments={toEdit?.comments} setCommentsModalShow={setCommentsModalShow} />
+        <CommentsModal
+          failureId={toEdit?.id}
+          comments={toEdit?.comments}
+          setCommentsModalShow={setCommentsModalShow}
+        />
       )}
 
       {deleteModalShow && (

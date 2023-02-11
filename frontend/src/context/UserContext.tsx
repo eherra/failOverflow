@@ -16,7 +16,7 @@ interface IUserContext {
   setUser: (user: User) => void;
   isUserContextLoading: boolean;
   setIsUserContextLoading: (isLoading: boolean) => void;
-  checkLogin: () => void;
+  checkAuthorization: () => void;
   handleLogin: (data: ILoginValues) => void;
   handleRegister: (values: any) => void;
   handleLogout: () => void;
@@ -31,7 +31,7 @@ export const UserContext = createContext<IUserContext>({
   setUser: () => null,
   isUserContextLoading: false,
   setIsUserContextLoading: (val: boolean) => null,
-  checkLogin: () => {},
+  checkAuthorization: () => {},
   handleLogin: () => {},
   handleRegister: () => {},
   handleLogout: () => {},
@@ -44,10 +44,10 @@ export const UserProvider = ({ children }: IUserProvider) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    checkLogin();
+    checkAuthorization();
   }, []);
 
-  const checkLogin = () => {
+  const checkAuthorization = () => {
     setIsUserContextLoading(true);
     const loggedUserJSON = localStorage.getItem('loggedUser');
     if (loggedUserJSON) {
@@ -100,7 +100,7 @@ export const UserProvider = ({ children }: IUserProvider) => {
         setUser,
         isUserContextLoading,
         setIsUserContextLoading,
-        checkLogin,
+        checkAuthorization,
         handleLogin,
         handleRegister,
         handleLogout,

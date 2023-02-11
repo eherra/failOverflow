@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import {
   Box,
   Button,
@@ -7,34 +7,39 @@ import {
   ResponsiveContext,
   NameValuePair,
   NameValueList,
-  FormField,
   CheckBox,
-  Form,
 } from 'grommet';
 import { Chat } from 'grommet-icons';
 import ShowMoreCommentsButton from '../../../../common/ShowMoreCommentsButton';
+import failureService from '../../../../../api/failures';
 
 interface ICommentsModal {
   comments?: Array<string>;
+  failureId?: string;
   setCommentsModalShow(boolean: any): void;
 }
 
-const CommentsModal = ({ setCommentsModalShow, comments }: ICommentsModal) => {
-  const size = useContext(ResponsiveContext);
+const CommentsModal = ({ setCommentsModalShow, comments, failureId }: ICommentsModal) => {
+  const screenSize = useContext(ResponsiveContext);
   const [showAllComments, setShowAllComments] = useState<boolean>(false);
   const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>('Yes');
 
-  const handleFormSubmit = (value: any) => {
-    // call backend with values
-    console.log(value);
+  const toggleCommentAllowed = async (toggleValue: boolean) => {
+    try {
+      await failureService.toggleCommentAllowed(failureId || '', !toggleValue);
+      setCommentsAllowedLabel((prevValue) => (prevValue === 'Yes' ? 'No' : 'Yes'));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const toggleCommentAllowed = () => {
-    setCommentsAllowedLabel((prevValue) => (prevValue === 'Yes' ? 'No' : 'Yes'));
-  };
+  const isCommentsChecked = commentsAllowedLabel === 'Yes';
 
   return (
-    <Layer onClickOutside={() => setCommentsModalShow(false)} onEsc={() => setCommentsModalShow(false)} modal={false}>
+    <Layer
+      onClickOutside={() => setCommentsModalShow(false)}
+      onEsc={() => setCommentsModalShow(false)}
+      modal={false}>
       <Box pad='medium' direction='row' gap='medium'>
         <Box direction='row' align='start' gap='small'>
           <Chat />
@@ -52,9 +57,11 @@ const CommentsModal = ({ setCommentsModalShow, comments }: ICommentsModal) => {
           <NameValuePair name="People's comments">
             <>
               <ul>
-                {comments?.slice(0, showAllComments || comments.length < 3 ? comments.length : 3).map((comment) => (
-                  <li key={comment}>{comment}</li>
-                ))}
+                {comments
+                  ?.slice(0, showAllComments || comments.length < 3 ? comments.length : 3)
+                  .map((comment) => (
+                    <li key={comment}>{comment}</li>
+                  ))}
               </ul>
               {comments && comments.length >= 3 && (
                 <ShowMoreCommentsButton showAll={showAllComments} setShowAll={setShowAllComments} />
@@ -62,21 +69,20 @@ const CommentsModal = ({ setCommentsModalShow, comments }: ICommentsModal) => {
             </>
           </NameValuePair>
           <NameValuePair name='Change commenting allowance'>
-            <Form method='post' onSubmit={({ value }) => handleFormSubmit(value)}>
-              <FormField label='Commenting allowed?' htmlFor='comments' name='comments'>
-                <CheckBox
-                  name='comments'
-                  label={commentsAllowedLabel}
-                  checked={commentsAllowedLabel === 'Yes'}
-                  toggle
-                  onChange={toggleCommentAllowed}
-                />
-              </FormField>
-            </Form>
+            <CheckBox
+              name='comments'
+              label={commentsAllowedLabel}
+              checked={isCommentsChecked}
+              toggle
+              onClick={() => toggleCommentAllowed(isCommentsChecked)}
+            />
           </NameValuePair>
         </NameValueList>
       </Box>
-      <Box align={['xsmall', 'small'].includes(size) ? undefined : 'end'} pad='small' gap='xsmall'>
+      <Box
+        align={['xsmall', 'small'].includes(screenSize) ? undefined : 'end'}
+        pad='small'
+        gap='xsmall'>
         <Button
           label='Close details'
           onClick={() => {
