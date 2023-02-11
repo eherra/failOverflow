@@ -55,9 +55,7 @@ const getAllFailures = async () => {
   // fetch only username and avatar
   const creator = await User.findById("63e39de4c83814d637d54042");
 
-  console.log("perkeler");
   console.log(creator);
-  console.log(allFailures);
   // this needs to be mapped for a failure like on frontend
   return allFailures;
 };
@@ -169,6 +167,10 @@ const getVoteData = async (failureId: string, userId: string) => {
   };
 };
 
+const toggleFailureCommentingAllowance = async (failureId: string, valueToToggle: boolean) => {
+  await Failure.findByIdAndUpdate(failureId, { enableComments: valueToToggle });
+};
+
 export default {
   createFailure,
   getAllFailures,
@@ -178,4 +180,5 @@ export default {
   addStarRating,
   getRatingData,
   getVoteData,
+  toggleFailureCommentingAllowance,
 };

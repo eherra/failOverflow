@@ -21,6 +21,7 @@ interface IReviewValues {
   ratingValue: number;
 }
 
+// Failures
 const getAllFailures = async () => {
   const response = await axios.get(`${url}/all`);
   return response.data;
@@ -36,6 +37,7 @@ const createFailure = async (failure: any, id: string) => {
   return response.data;
 };
 
+// Comments
 const addCommentToFailure = async ({ comment, commentorId, failureId }: ICommentValues) => {
   const response = await axios.post(`${url}/comment/${failureId}`, {
     comment,
@@ -44,6 +46,15 @@ const addCommentToFailure = async ({ comment, commentorId, failureId }: IComment
   return response.data;
 };
 
+const toggleCommentAllowed = async (failureId: string, isCommentsAllowed: boolean) => {
+  // Send token here?
+  const response = await axios.put(`${url}/comment/${failureId}/toggle-comment-allowance`, {
+    isCommentsAllowed,
+  });
+  return response.data;
+};
+
+// Voting
 const handleVoting = async ({ voterId, failureId, isDeletingVote }: IVotingValues) => {
   const response = await axios.post(`${url}/vote/${failureId}`, {
     voterId,
@@ -52,6 +63,12 @@ const handleVoting = async ({ voterId, failureId, isDeletingVote }: IVotingValue
   return response.data;
 };
 
+const getVotingData = async (failureId: string, userId: string) => {
+  const response = await axios.get(`${url}/vote/${failureId}/user/${userId}`);
+  return response.data;
+};
+
+// Start ratings / review
 const sendRating = async ({ raterId, failureId, ratingValue }: IReviewValues) => {
   const response = await axios.post(`${url}/rate/${failureId}`, {
     raterId,
@@ -65,11 +82,6 @@ const getRatingData = async (failureId: string, userId: string) => {
   return response.data;
 };
 
-const getVotingData = async (failureId: string, userId: string) => {
-  const response = await axios.get(`${url}/vote/${failureId}/user/${userId}`);
-  return response.data;
-};
-
 export default {
   createFailure,
   getAllFailures,
@@ -79,4 +91,5 @@ export default {
   sendRating,
   getRatingData,
   getVotingData,
+  toggleCommentAllowed,
 };

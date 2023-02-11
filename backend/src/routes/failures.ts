@@ -203,4 +203,30 @@ failuresRouter.get("/vote/:failureId/user/:userId?", async (req: Request, res: R
   }
 });
 
+/**
+ * PUT /api/failures/comment/:failureId/toggle-comment-allowance
+ * @summary Toggles failure's commenting allowance
+ * @param   req.params.required  failureId: required
+ * @param   req.body.required    isCommentsAllowed
+ * @return {} 200 - success
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.put(
+  "/comment/:failureId/toggle-comment-allowance",
+  async (req: Request, res: Response) => {
+    const { failureId } = req.params;
+    const { isCommentsAllowed } = req.body;
+    try {
+      await failureService.toggleFailureCommentingAllowance(failureId, isCommentsAllowed);
+      res.status(200).json({
+        isSuccess: true,
+      });
+    } catch (e) {
+      res.status(400).json({
+        isSuccess: false,
+      });
+    }
+  },
+);
+
 export default failuresRouter;
