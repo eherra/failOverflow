@@ -8,21 +8,29 @@ interface ProfilePageCardProps {
   buttonLabel: string;
   link: string;
   icon: ReactNode;
+  buttonIcon: JSX.Element;
 }
 
-const ProfilePageCard = ({ title, subtitle, buttonLabel, link, icon }: ProfilePageCardProps) => {
+const ProfilePageCard = ({
+  title,
+  subtitle,
+  buttonLabel,
+  link,
+  icon,
+  buttonIcon,
+}: ProfilePageCardProps) => {
   return (
     <Card margin='medium' pad='medium'>
       <CardHeader pad='small' align='start' direction='column' gap='xsmall'>
         {icon}
-        <Heading level={2} size='small'>
+        <Heading level={1} size='small'>
           {title}
         </Heading>
-        <Text size='small'>{subtitle}</Text>
+        <Text size='medium'>{subtitle}</Text>
       </CardHeader>
-      <CardFooter>
+      <CardFooter margin={{ top: 'small' }}>
         <WavyLink to={link} color='#dae4dd' duration='800' direction='up'>
-          <Button focusIndicator label={buttonLabel} />
+          <Button icon={buttonIcon} focusIndicator label={buttonLabel} />
         </WavyLink>
       </CardFooter>
     </Card>

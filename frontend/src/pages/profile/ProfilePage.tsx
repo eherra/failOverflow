@@ -3,7 +3,7 @@ import ProfilePageCard from './components/ProfilePageCard';
 
 import { Grid, Page, PageContent, PageHeader } from 'grommet';
 
-import { UserSettings, Scorecard } from 'grommet-icons';
+import { UserSettings, Scorecard, Edit, BarChart } from 'grommet-icons';
 
 const ProfilePage = () => {
   return (
@@ -14,16 +14,18 @@ const ProfilePage = () => {
           <Grid columns={{ count: 'fit', size: 'medium' }} gap='medium'>
             <ProfilePageCard
               title='Account details'
-              subtitle='View and make changes to your account details'
+              subtitle='View and make changes to your account and failure details'
               buttonLabel='Edit profile'
               link='edit'
+              buttonIcon={<Edit />}
               icon={<UserSettings />}
             />
             <ProfilePageCard
               title='Overview'
-              subtitle='View overview of your posts, stars and votes'
-              buttonLabel='Check overview'
+              subtitle='View overview of your posts, reviews and votes'
+              buttonLabel='See overview'
               link='overview'
+              buttonIcon={<BarChart />}
               icon={<Scorecard />}
             />
           </Grid>
