@@ -16,7 +16,7 @@ export const failureData = {
       starRating: "4.7",
       tags: ["Java11", "WireMock", "Testing"],
       votes: 19,
-      timeOfCreation: "2023-01-23T09:00:00.594Z",
+      createdAt: "2023-01-23T09:00:00.594Z",
       comments: [
         "nice!",
         "Oh I spent hours with this!",
@@ -55,7 +55,7 @@ export const failureData = {
       starRating: "3.0",
       tags: ["typeScript", "Cobol", "mainframe"],
       votes: 12,
-      timeOfCreation: "2020-12-01T12:55:43.594Z",
+      createdAt: "2020-12-01T12:55:43.594Z",
       comments: ["good stuff", "Oh I spent so long with this as well!"],
     },
   ],
@@ -76,7 +76,7 @@ export const failureData = {
       starRating: "4.7",
       tags: ["Java11", "WireMock", "Testing"],
       votes: 19,
-      timeOfCreation: "2023-01-23T09:00:00.594Z",
+      createdAt: "2023-01-23T09:00:00.594Z",
       comments: [
         "nice!",
         "Oh I spent hours with this!",

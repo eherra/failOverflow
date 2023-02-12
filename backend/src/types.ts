@@ -29,7 +29,7 @@ export interface IFailure {
   technologies: Array<string>;
   createdAt: string;
   tags: Array<string>;
-  enableComments: boolean;
+  allowComments: boolean;
   comments: Array<IComment>;
   starRatings: Array<IStarReview>;
   votes: Array<IVote>;

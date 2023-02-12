@@ -3,7 +3,7 @@ import { Box, Tabs, AccordionPanel } from 'grommet';
 import ReviewTab from './tabs/reviewTab/ReviewTab';
 import AccordionTitle from './AccordionTitle';
 import OverviewTab from './tabs/OverviewTab';
-import CommentTab from './tabs/CommentTab';
+import CommentTab from './tabs/commentTab/CommentTab';
 import { Failure } from '../../../../types';
 
 interface IAccordionUnitProps {
@@ -11,37 +11,32 @@ interface IAccordionUnitProps {
 }
 
 const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
-  const [index, setIndex] = useState();
+  const [tabIndex, setTabIndex] = useState<number>();
 
-  const onActive = (nextIndex: any) => setIndex(nextIndex);
-  const { title, creator, description, solution, technologies, tags, timeOfCreation } = failure;
+  const onActive = (nextIndex: any) => setTabIndex(nextIndex);
+  const { title, creator, description, solution, technologies, tags, createdAt } = failure;
 
   return (
     <AccordionPanel
-      key={failure.id}
+      key={failure._id}
       label={
-        <AccordionTitle
-          creator={creator}
-          title={title}
-          tags={tags}
-          timeOfCreation={timeOfCreation}
-        />
+        <AccordionTitle creator={creator[0]} title={title} tags={tags} createdAt={createdAt} />
       }>
       <Box gap='small' pad='small' background='light-5'>
-        <Tabs activeIndex={index} onActive={onActive} justify='center'>
+        <Tabs activeIndex={tabIndex} onActive={onActive} justify='center'>
           <>
             <OverviewTab
               description={description}
               solution={solution}
               technologies={technologies}
-              timeOfCreation={timeOfCreation}
+              createdAt={createdAt}
             />
           </>
           <>
-            <ReviewTab failureId={failure.id} />
+            <ReviewTab failureId={failure._id} />
           </>
           <>
-            <CommentTab comments={failure.comments} failureId={failure.id} />
+            <CommentTab failureId={failure._id} />
           </>
         </Tabs>
       </Box>

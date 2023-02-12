@@ -1,33 +1,40 @@
-import { useState, SyntheticEvent } from 'react';
+import { useState, SyntheticEvent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Box,
-  NameValueList,
-  NameValuePair,
-  Tab,
-  Form,
-  FormField,
-  TextArea,
-  Button,
-  Text,
-  Spinner,
-} from 'grommet';
-import ShowMoreCommentsButton from '../../../../common/ShowMoreCommentsButton';
-import failureService from '../../../../../api/failures';
+import { Box, NameValueList, Tab, Form, FormField, TextArea, Button, Text, Spinner } from 'grommet';
+import failureService from '../../../../../../api/failures';
 import { Login } from 'grommet-icons';
-import { useUserContext } from '../../../../../context/UserContext';
+import { useUserContext } from '../../../../../../context/UserContext';
+import UserCommentsColumn from './UserCommentsColumn';
 
 interface ICommentTab {
   failureId: string;
-  comments: Array<string>;
 }
 
-const CommentTab = ({ failureId, comments }: ICommentTab) => {
+interface IComment {
+  comment: string;
+  createdAt: string;
+  _id: string;
+}
+
+const CommentTab = ({ failureId }: ICommentTab) => {
   const { user } = useUserContext();
   const [commentInput, setCommentInput] = useState<string>('');
-  const [showAllComments, setShowAllComments] = useState<boolean>(false);
   const [isSendingComment, setIsSendingComment] = useState<boolean>(false);
-  const [currComments, setCurrComments] = useState<Array<string>>(comments);
+  const [currComments, setCurrComments] = useState<Array<IComment>>([]);
+  const [isCommentsFetchError, setIsCommentsFetchError] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetchCommentsData();
+  }, []);
+
+  const fetchCommentsData = async () => {
+    try {
+      const { commentsData } = await failureService.getFailureComments(failureId);
+      setCurrComments(commentsData[0].comments);
+    } catch (err) {
+      setIsCommentsFetchError(true);
+    }
+  };
 
   const handleCommentSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -38,7 +45,7 @@ const CommentTab = ({ failureId, comments }: ICommentTab) => {
         commentorId: user?.id || '',
         failureId: failureId,
       });
-      setCurrComments([...currComments, newComment.comment.comment]);
+      setCurrComments((prevComments) => [...prevComments, newComment.comment]);
       setCommentInput('');
       setIsSendingComment(false);
     } catch (e) {
@@ -85,21 +92,11 @@ const CommentTab = ({ failureId, comments }: ICommentTab) => {
               </Link>
             </Box>
           )}
-
-          <NameValuePair name="User's comments">
-            <>
-              <ul>
-                {currComments
-                  .slice(0, showAllComments || currComments.length < 3 ? currComments.length : 3)
-                  .map((comment) => (
-                    <li key={comment}>{comment}</li>
-                  ))}
-              </ul>
-              {currComments.length >= 3 && (
-                <ShowMoreCommentsButton showAll={showAllComments} setShowAll={setShowAllComments} />
-              )}
-            </>
-          </NameValuePair>
+          {isCommentsFetchError ? (
+            <p>Something went wrong. Try again later</p>
+          ) : (
+            <UserCommentsColumn comments={currComments} />
+          )}
         </NameValueList>
       </Box>
     </Tab>

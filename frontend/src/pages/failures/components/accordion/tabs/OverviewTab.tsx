@@ -5,10 +5,10 @@ interface IOverview {
   description: string;
   solution: string;
   technologies: Array<string>;
-  timeOfCreation: string;
+  createdAt: string;
 }
 
-const OverviewTab = ({ description, solution, technologies, timeOfCreation }: IOverview) => {
+const OverviewTab = ({ description, solution, technologies, createdAt }: IOverview) => {
   return (
     <Tab title='Overview'>
       <Box gap='small' margin='medium'>
@@ -26,8 +26,8 @@ const OverviewTab = ({ description, solution, technologies, timeOfCreation }: IO
           <NameValuePair key='tech' name='Technologies'>
             {technologies.join(', ')}
           </NameValuePair>
-          <NameValuePair key={timeOfCreation} name='Created'>
-            {createStyledDateInfo(timeOfCreation)}
+          <NameValuePair key={createdAt} name='Created'>
+            {createStyledDateInfo(createdAt)}
           </NameValuePair>
         </NameValueList>
       </Box>

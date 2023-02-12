@@ -92,8 +92,10 @@ export const overviewFailuresCreatedData = {
 
 export const weekVoteData = {
   weekVote: {
+    id: '63e3e55438af4ff565dc35f0',
     creator: {
-      name: 'Hessu Jacobsen',
+      userId: 'dasd1',
+      username: 'keke123',
       avatar: 'avatar.png',
     },
     title: 'Called too early to fetch init data',
@@ -101,7 +103,17 @@ export const weekVoteData = {
       'When using robot framework with wiremock, I called too early to fetch data and \
     therefore I was testing against wrong data at first',
     solution: 'Turned off/on my computer',
+    technologies: ['Wiremock', 'Robot Framework', 'Java Spring'],
+    starRating: '3.5',
+    tags: ['Java11', 'WireMock', 'Testing'],
     votes: 19,
+    timeOfCreation: '2023-01-23T09:00:00.594Z',
+    comments: [
+      'nice!',
+      'Oh I spent hours with this!',
+      'Saved hours from me!',
+      'Stumbled with same!',
+    ],
   },
 };
 

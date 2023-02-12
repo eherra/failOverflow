@@ -16,7 +16,7 @@ const StarReviewColumn = ({ failureId, reviewAverage, userReview }: IStarReviewC
     <>
       <Box direction='column' gap='medium'>
         <NameValuePair key='stars' name='Stars received'>
-          {reviewAverage}
+          {reviewAverage ? reviewAverage : 'No reviews yet'}
         </NameValuePair>
         {user ? (
           <StarRatingForm failureId={failureId} userReview={userReview} />

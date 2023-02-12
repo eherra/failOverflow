@@ -38,6 +38,7 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
 
   const handleFormSubmit = async ({ value }: IValue) => {
     try {
+      console.log(value);
       const createdFailure = await failureService.createFailure(value, user?.id || '');
       console.log(createdFailure);
     } catch (err) {

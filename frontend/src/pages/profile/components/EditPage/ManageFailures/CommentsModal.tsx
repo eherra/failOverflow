@@ -10,19 +10,26 @@ import {
   CheckBox,
 } from 'grommet';
 import { Chat } from 'grommet-icons';
-import ShowMoreCommentsButton from '../../../../common/ShowMoreCommentsButton';
 import failureService from '../../../../../api/failures';
+import UserCommentsColumn from '../../../../failures/components/accordion/tabs/commentTab/UserCommentsColumn';
+import { IComment } from '../../../../../types';
 
 interface ICommentsModal {
-  comments?: Array<string>;
+  comments?: Array<IComment>;
   failureId?: string;
   setCommentsModalShow(boolean: any): void;
+  allowComments?: boolean;
 }
 
-const CommentsModal = ({ setCommentsModalShow, comments, failureId }: ICommentsModal) => {
+const CommentsModal = ({
+  setCommentsModalShow,
+  comments,
+  failureId,
+  allowComments,
+}: ICommentsModal) => {
   const screenSize = useContext(ResponsiveContext);
-  const [showAllComments, setShowAllComments] = useState<boolean>(false);
-  const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>('Yes');
+  const allowCommentsText = allowComments ? 'Yes' : 'No';
+  const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>(allowCommentsText);
 
   const toggleCommentAllowed = async (toggleValue: boolean) => {
     try {
@@ -55,18 +62,7 @@ const CommentsModal = ({ setCommentsModalShow, comments, failureId }: ICommentsM
           valueProps={{ width: 'large' }}
           justifyContent='center'>
           <NameValuePair name="People's comments">
-            <>
-              <ul>
-                {comments
-                  ?.slice(0, showAllComments || comments.length < 3 ? comments.length : 3)
-                  .map((comment) => (
-                    <li key={comment}>{comment}</li>
-                  ))}
-              </ul>
-              {comments && comments.length >= 3 && (
-                <ShowMoreCommentsButton showAll={showAllComments} setShowAll={setShowAllComments} />
-              )}
-            </>
+            <UserCommentsColumn comments={comments} />
           </NameValuePair>
           <NameValuePair name='Change commenting allowance'>
             <CheckBox

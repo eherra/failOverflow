@@ -3,7 +3,7 @@ import { Box, List, Menu, ResponsiveContext, Text, Spinner } from 'grommet';
 import { More } from 'grommet-icons';
 import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
 import { Failure } from '../../../../../types';
-import FailureDetailModal from './FailureDetailModal';
+import FailureDetailModal from '../../../../common/FailureDetailModal';
 import CommentsModal from './CommentsModal';
 import DeleteFailureModal from './DeleteFailureModal';
 import failureService from '../../../../../api/failures';
@@ -27,7 +27,7 @@ const ManageFailuresList = () => {
       try {
         setIsFetchingFailures(true);
         const userDbFailures = await failureService.getUsersFailuresById(user?.id || '');
-        setFailures(userDbFailures.failures);
+        setFailures(userDbFailures.userFailures);
         setIsFetchingFailures(false);
       } catch (err) {
         console.log(err);
@@ -103,7 +103,7 @@ const ManageFailuresList = () => {
               <Text weight='bold' size='small'>
                 {failure.title}
               </Text>
-              <Text size='small'>{createStyledDateInfo(failure.timeOfCreation)}</Text>
+              <Text size='small'>{createStyledDateInfo(failure.createdAt)}</Text>
             </Box>
           )
         }
@@ -115,8 +115,9 @@ const ManageFailuresList = () => {
 
       {commentsModaleShow && (
         <CommentsModal
-          failureId={toEdit?.id}
+          failureId={toEdit?._id}
           comments={toEdit?.comments}
+          allowComments={toEdit?.allowComments}
           setCommentsModalShow={setCommentsModalShow}
         />
       )}
