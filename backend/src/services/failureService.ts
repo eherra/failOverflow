@@ -1,10 +1,14 @@
 import Failure from "../models/Failure";
 import Comment from "../models/Comment";
 import Vote from "../models/Vote";
-import User from "../models/User";
 import StarRating from "../models/StarRating";
 import { ObjectId } from "mongodb";
-import { getReviewAverage, getUserReview, hasUserVoted } from "./utils/ratingUtils";
+import {
+  getReviewAverage,
+  getUserReview,
+  hasUserVoted,
+  getNumberOfWeek,
+} from "./utils/ratingUtils";
 
 interface FailureValues {
   creatorId: string;
@@ -51,13 +55,63 @@ const createFailure = async (failure: FailureValues, creatorId: string) => {
 };
 
 const getAllFailures = async () => {
-  const allFailures = await Failure.find({});
-  // fetch only username and avatar
-  const creator = await User.findById("63e39de4c83814d637d54042");
-
-  console.log(creator);
-  // this needs to be mapped for a failure like on frontend
+  const allFailures = await Failure.aggregate([
+    {
+      $project: {
+        comments: 0,
+        starRatings: 0,
+        votes: 0,
+        allowComments: 0,
+        __v: 0,
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "creator",
+        foreignField: "_id",
+        as: "creator",
+      },
+    },
+    {
+      $project: {
+        "creator.passwordHash": 0,
+        "creator.__v": 0,
+      },
+    },
+    {
+      $sort: {
+        createdAt: -1,
+      },
+    },
+  ]);
   return allFailures;
+};
+
+const findUsersFailures = async (userId: string) => {
+  const userFailures = await Failure.aggregate([
+    {
+      $match: {
+        creator: new ObjectId(userId),
+      },
+    },
+    {
+      $project: {
+        starRatings: 0,
+        votes: 0,
+        __v: 0,
+      },
+    },
+    {
+      $lookup: {
+        from: "comments",
+        localField: "comments",
+        foreignField: "_id",
+        as: "comments",
+      },
+    },
+  ]);
+  return userFailures;
 };
 
 const addCommentToFailure = async ({ comment, commentorId, failureId }: ICommentValues) => {
@@ -91,9 +145,37 @@ const deleteVoteFromFailure = async ({ voterId, failureId }: IVoteValues) => {
 };
 
 const addStarRating = async ({ ratingValue, failureId, raterId }: IStarReviewValues) => {
-  const userRating = await StarRating.findOne({ givenBy: raterId });
+  const foundReview: any = await Failure.aggregate([
+    {
+      $match: {
+        _id: new ObjectId(failureId),
+      },
+    },
+    {
+      $lookup: {
+        from: "starratings",
+        localField: "starRatings",
+        foreignField: "_id",
+        as: "reviews",
+      },
+    },
+    {
+      $project: {
+        review: {
+          $filter: {
+            input: "$reviews",
+            as: "review",
+            cond: {
+              $eq: ["$$review.givenBy", new ObjectId(raterId)],
+            },
+          },
+        },
+      },
+    },
+  ]);
+  const reviewDataAsArray = foundReview[0].review;
 
-  if (!userRating) {
+  if (!reviewDataAsArray.length) {
     const starRatingModel = new StarRating({
       starRating: ratingValue,
       givenBy: raterId,
@@ -103,7 +185,10 @@ const addStarRating = async ({ ratingValue, failureId, raterId }: IStarReviewVal
     await Failure.findByIdAndUpdate(failureId, { $push: { starRatings: savedStarRating.id } });
     return savedStarRating;
   } else {
-    await StarRating.findOneAndUpdate({ givenBy: raterId }, { starRating: ratingValue });
+    const reviewId = reviewDataAsArray[0]._id.toString();
+    await StarRating.findByIdAndUpdate(reviewId, {
+      starRating: ratingValue,
+    });
   }
 
   return "OK";
@@ -168,11 +253,11 @@ const getVoteData = async (failureId: string, userId: string) => {
 };
 
 const toggleFailureCommentingAllowance = async (failureId: string, valueToToggle: boolean) => {
-  await Failure.findByIdAndUpdate(failureId, { enableComments: valueToToggle });
+  await Failure.findByIdAndUpdate(failureId, { allowComments: valueToToggle });
 };
 
 const getFailureOfTheWeek = async () => {
-  const lastWeeksNumber = getNumberOfWeek() - 1;
+  const lastWeeksNumber = getNumberOfWeek(new Date()) - 1;
 
   const weekFailure = await Failure.aggregate([
     {
@@ -222,7 +307,7 @@ const getFailureOfTheWeek = async () => {
         votes: 0,
         tags: 0,
         __v: 0,
-        enableComments: 0,
+        allowComments: 0,
       },
     },
     {
@@ -247,16 +332,46 @@ const getFailureOfTheWeek = async () => {
   return weekFailure;
 };
 
-const getNumberOfWeek = () => {
-  const today: any = new Date();
-  const firstDayOfYear: any = new Date(today.getFullYear(), 0, 1);
-  const pastDaysOfYear = (today - firstDayOfYear) / 86400000;
-  return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+const getFailureComments = async (failureId: string) => {
+  const commentsData: any = await Failure.aggregate([
+    {
+      $match: {
+        _id: new ObjectId(failureId),
+      },
+    },
+    {
+      $project: {
+        comments: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: "comments",
+        localField: "comments",
+        foreignField: "_id",
+        as: "comments",
+      },
+    },
+    {
+      $project: {
+        comments: {
+          $sortArray: {
+            input: "$comments",
+            sortBy: {
+              createdAt: -1,
+            },
+          },
+        },
+      },
+    },
+  ]);
+  return commentsData;
 };
 
 export default {
   createFailure,
   getAllFailures,
+  findUsersFailures,
   addCommentToFailure,
   addVoteToFailure,
   deleteVoteFromFailure,
@@ -265,4 +380,5 @@ export default {
   getVoteData,
   toggleFailureCommentingAllowance,
   getFailureOfTheWeek,
+  getFailureComments,
 };

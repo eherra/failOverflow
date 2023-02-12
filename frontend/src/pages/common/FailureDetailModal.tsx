@@ -15,7 +15,7 @@ import { Creator } from '../../types';
 
 interface IFailureOfTheWeek {
   _id: string;
-  creator: Creator;
+  creator: Array<Creator>;
   title: string;
   description: string;
   solution: string;

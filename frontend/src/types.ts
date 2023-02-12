@@ -4,9 +4,15 @@ export interface Creator {
   avatar: string;
 }
 
+export interface IComment {
+  comment: string;
+  createdAt: string;
+  _id: string;
+}
+
 export interface Failure {
-  id: string;
-  creator: Creator;
+  _id: string;
+  creator: Array<Creator>;
   title: string;
   description: string;
   solution: string;
@@ -15,7 +21,8 @@ export interface Failure {
   tags: Array<string>;
   votes: number;
   createdAt: string;
-  comments: Array<string>;
+  allowComments: boolean;
+  comments: Array<IComment>;
 }
 
 export interface ILoginValues {

@@ -43,7 +43,7 @@ const MostLikedFailureCard = () => {
           <Box direction='row' gap='small' pad='xsmall'>
             by
             <Avatar src='avatar.png' size='medium' />
-            <p>{monthReview?.creator.username}</p>
+            <p>{monthReview?.creator[0].username}</p>
           </Box>
         </CardHeader>
         <CardBody>

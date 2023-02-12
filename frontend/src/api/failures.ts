@@ -46,6 +46,11 @@ const addCommentToFailure = async ({ comment, commentorId, failureId }: IComment
   return response.data;
 };
 
+const getFailureComments = async (failureId: string) => {
+  const response = await axios.get(`${url}/comment/${failureId}`);
+  return response.data;
+};
+
 const toggleCommentAllowed = async (failureId: string, isCommentsAllowed: boolean) => {
   // Send token here?
   const response = await axios.put(`${url}/comment/${failureId}/toggle-comment-allowance`, {
@@ -98,4 +103,5 @@ export default {
   getVotingData,
   toggleCommentAllowed,
   getFailureOfTheWeek,
+  getFailureComments,
 };

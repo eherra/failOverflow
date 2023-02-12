@@ -35,7 +35,7 @@ const failureSchema: Schema = new mongoose.Schema({
     required: false,
     default: [],
   },
-  enableComments: {
+  allowComments: {
     type: Boolean,
     required: true,
     default: true,

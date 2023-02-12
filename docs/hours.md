@@ -28,4 +28,5 @@
 | 9.2.2023 | 6 | added wavy page change, created services, commenting possible, voting and star rating made possible |
 | 10.2.2023 | 5 | Refactoring review tab, made fetching review possible from mongoDb, enhancing the fetching of vote data and review data|
 | 11.2.2023 | 3 | made toggle commenting possible, refactoring profile page cards, implemented fetching failure of the week |
-| total    | 117 | | 
+| 12.2.2023 | 3 | frontpage enhancements, made voting and review possible, failure data fetches implemented to fetch from db on failures page and users profile page |
+| total    | 120 | | 

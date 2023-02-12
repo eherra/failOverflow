@@ -27,7 +27,7 @@ const ManageFailuresList = () => {
       try {
         setIsFetchingFailures(true);
         const userDbFailures = await failureService.getUsersFailuresById(user?.id || '');
-        setFailures(userDbFailures.failures);
+        setFailures(userDbFailures.userFailures);
         setIsFetchingFailures(false);
       } catch (err) {
         console.log(err);
@@ -115,8 +115,9 @@ const ManageFailuresList = () => {
 
       {commentsModaleShow && (
         <CommentsModal
-          failureId={toEdit?.id}
+          failureId={toEdit?._id}
           comments={toEdit?.comments}
+          allowComments={toEdit?.allowComments}
           setCommentsModalShow={setCommentsModalShow}
         />
       )}

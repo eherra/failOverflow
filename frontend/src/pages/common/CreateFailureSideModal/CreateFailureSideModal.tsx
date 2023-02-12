@@ -6,7 +6,7 @@ import CreateFailureForm from './form/CreateFailureForm';
 
 const CreateFailureSideModal = () => {
   const [isCreateFailureModalOpen, setIsCreateFailureModalOpen] = useState<boolean>(false);
-  const size = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
 
   return (
     <>
@@ -22,12 +22,12 @@ const CreateFailureSideModal = () => {
       {isCreateFailureModalOpen && (
         <Layer
           position='right'
-          full={['xsmall', 'small'].includes(size) ? true : 'vertical'}
+          full={['xsmall', 'small'].includes(screenSize) ? true : 'vertical'}
           onEsc={() => setIsCreateFailureModalOpen(false)}>
           <Box
             fill='vertical'
             overflow='auto'
-            width={['xsmall', 'small'].includes(size) ? undefined : 'medium'}
+            width={['xsmall', 'small'].includes(screenSize) ? undefined : 'medium'}
             pad='medium'>
             <CreateFailureForm setOpen={(value) => setIsCreateFailureModalOpen(value)} />
           </Box>

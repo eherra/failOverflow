@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import { failureData } from "../mockData";
 import failureService from "../services/failureService";
 
 const failuresRouter = express.Router();
@@ -32,11 +31,10 @@ failuresRouter.post("/", async (req: Request, res: Response) => {
  */
 failuresRouter.get("/all", async (_req: Request, res: Response) => {
   try {
-    await failureService.getAllFailures();
-    // still returning mockData
+    const failures = await failureService.getAllFailures();
     res.status(200).json({
       isSuccess: true,
-      failures: failureData.failures,
+      failures: failures,
     });
   } catch (err) {
     console.log("Error while fetching all failures");
@@ -53,13 +51,12 @@ failuresRouter.get("/all", async (_req: Request, res: Response) => {
  * @return {} 200 - All user failures
  * @return {} 400 - Bad request response
  */
-failuresRouter.get("/all/:userId", (req: Request, res: Response) => {
+failuresRouter.get("/all/:userId", async (req: Request, res: Response) => {
   const userId = req.params.userId;
   try {
+    const userFailures = await failureService.findUsersFailures(userId);
     res.status(200).json({
-      isSuccess: true,
-      userId: userId,
-      failures: failureData.userFailure,
+      userFailures,
     });
   } catch (e) {
     res.status(400).json({
@@ -175,6 +172,7 @@ failuresRouter.get("/rate/:failureId/user/:userId?", async (req: Request, res: R
       ratingData: ratingData,
     });
   } catch (e) {
+    console.log(e);
     res.status(400).json({
       isSuccess: false,
     });
@@ -240,6 +238,27 @@ failuresRouter.get("/vote/failure-week", async (_req: Request, res: Response) =>
     const failureOfTheWeek = await failureService.getFailureOfTheWeek();
     res.status(200).json({
       failureOfTheWeek,
+    });
+  } catch (e) {
+    res.status(400).json({
+      isSuccess: false,
+    });
+  }
+});
+
+/**
+ * GET /api/failures/comment/:failureId"
+ * @summary Gets failures comments
+ * @param   req.params.required  failureId
+ * @return {} 200 - comments of failure
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/comment/:failureId", async (req: Request, res: Response) => {
+  const { failureId } = req.params;
+  try {
+    const commentsData = await failureService.getFailureComments(failureId);
+    res.status(200).json({
+      commentsData,
     });
   } catch (e) {
     res.status(400).json({

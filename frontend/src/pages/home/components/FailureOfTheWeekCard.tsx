@@ -14,13 +14,12 @@ import {
   ResponsiveContext,
 } from 'grommet';
 import { Calendar } from 'grommet-icons';
-import { Failure } from '../../../types';
 import failureService from '../../../api/failures';
 import { Creator } from '../../../types';
 
 interface IFailureOfTheWeek {
   _id: string;
-  creator: Creator;
+  creator: Array<Creator>;
   title: string;
   description: string;
   solution: string;
@@ -31,7 +30,7 @@ interface IFailureOfTheWeek {
 
 const VoteOfTheWeekCard = () => {
   const screenSize = useContext(ResponsiveContext);
-  const [weekVote, setWeekVote] = useState<IFailureOfTheWeek | undefined>(undefined);
+  const [weekFailure, setWeekFailure] = useState<IFailureOfTheWeek | undefined>(undefined);
   const [failureDetailsModalShow, setFailureDetailsModalShow] = useState<boolean>(false);
 
   useEffect(() => {
@@ -42,11 +41,13 @@ const VoteOfTheWeekCard = () => {
     try {
       const { failureOfTheWeek } = await failureService.getFailureOfTheWeek();
       console.log(failureOfTheWeek[0]);
-      setWeekVote(() => failureOfTheWeek[0]);
+      setWeekFailure(failureOfTheWeek[0]);
     } catch (err) {
       console.log(err);
     }
   };
+
+  const creator = weekFailure?.creator[0];
 
   return (
     <>
@@ -62,7 +63,7 @@ const VoteOfTheWeekCard = () => {
           <Box direction='row' gap='small' pad='xsmall'>
             by
             <Avatar src='avatar.png' size='medium' />
-            <p>{weekVote?.creator.username}</p>
+            <p>{creator?.username}</p>
           </Box>
         </CardHeader>
         <CardBody>
@@ -71,8 +72,8 @@ const VoteOfTheWeekCard = () => {
             layout='grid'
             valueProps={{ width: 'small' }}
             justifyContent='start'>
-            <NameValuePair name='Title'>{weekVote?.title}</NameValuePair>
-            <NameValuePair name='Votes acquired'>{weekVote?.totalVotes}</NameValuePair>
+            <NameValuePair name='Title'>{weekFailure?.title}</NameValuePair>
+            <NameValuePair name='Votes acquired'>{weekFailure?.totalVotes}</NameValuePair>
           </NameValueList>
         </CardBody>
         <CardFooter align={['xsmall', 'small'].includes(screenSize) ? 'end' : 'end'} gap='xsmall'>
@@ -85,7 +86,10 @@ const VoteOfTheWeekCard = () => {
         </CardFooter>
       </Card>
       {failureDetailsModalShow && (
-        <FailureDetailModal failure={weekVote} setDetailsModalShow={setFailureDetailsModalShow} />
+        <FailureDetailModal
+          failure={weekFailure}
+          setDetailsModalShow={setFailureDetailsModalShow}
+        />
       )}
     </>
   );

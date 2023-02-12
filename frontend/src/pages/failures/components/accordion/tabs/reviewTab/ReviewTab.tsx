@@ -34,10 +34,11 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
 
   const fetchReviewData = async () => {
     try {
-      const reviewResponse = await failureService.getRatingData(failureId, user?.id || '');
+      const { ratingData } = await failureService.getRatingData(failureId, user?.id || '');
+      console.log(ratingData);
       setStarsData({
-        starAverage: reviewResponse?.ratingData?.ratingAverage,
-        userReview: reviewResponse?.ratingData?.userRating,
+        starAverage: ratingData?.ratingAverage,
+        userReview: ratingData?.userRating,
       });
     } catch (err) {
       setIsRatingFetchError(true);
@@ -47,7 +48,6 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
   const fetchVotesData = async () => {
     try {
       const voteResponse = await failureService.getVotingData(failureId, user?.id || '');
-      console.log(voteResponse);
       setVotesData({
         votesAmount: voteResponse?.votesAmount,
         hasUserVoted: voteResponse?.hasUserVoted,
