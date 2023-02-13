@@ -137,16 +137,18 @@ const deleteFailure = async (failureId: string) => {
 
   const session: ClientSession = await mongoose.startSession();
 
+  // if any of the calls fails below, transactional rollback will occurr
   try {
     session.startTransaction();
-    // deleting failure
-    await Failure.findByIdAndDelete(failureId);
     // deleting comments
     await Comment.deleteMany({ _id: commentIds });
     // deleting votes
     await Vote.deleteMany({ _id: voteIds });
     // deleting reviews
     await StarRating.deleteMany({ _id: ratingsIds });
+
+    // deleting failure
+    await Failure.findByIdAndDelete(failureId);
 
     await session.commitTransaction();
   } catch (err) {
