@@ -37,6 +37,11 @@ const createFailure = async (failure: any, id: string) => {
   return response.data;
 };
 
+const deleteFailure = async (failureId: string) => {
+  const response = await axios.delete(`${url}/${failureId}`);
+  return response.data;
+};
+
 // Comments
 const addCommentToFailure = async ({ comment, commentorId, failureId }: ICommentValues) => {
   const response = await axios.post(`${url}/comment/${failureId}`, {
@@ -104,4 +109,5 @@ export default {
   toggleCommentAllowed,
   getFailureOfTheWeek,
   getFailureComments,
+  deleteFailure,
 };

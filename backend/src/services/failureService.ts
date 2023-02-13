@@ -3,6 +3,8 @@ import Comment from "../models/Comment";
 import Vote from "../models/Vote";
 import StarRating from "../models/StarRating";
 import { ObjectId } from "mongodb";
+import mongoose, { ClientSession } from "mongoose";
+
 import {
   getReviewAverage,
   getUserReview,
@@ -112,6 +114,47 @@ const findUsersFailures = async (userId: string) => {
     },
   ]);
   return userFailures;
+};
+
+const deleteFailure = async (failureId: string) => {
+  const referencesToDelete: any = await Failure.aggregate([
+    {
+      $match: {
+        _id: new ObjectId(failureId),
+      },
+    },
+    {
+      $project: {
+        comments: 1,
+        starRatings: 1,
+        votes: 1,
+      },
+    },
+  ]);
+  const commentIds = referencesToDelete[0].comments;
+  const voteIds = referencesToDelete[0].votes;
+  const ratingsIds = referencesToDelete[0].starRatings;
+
+  const session: ClientSession = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+    // deleting failure
+    await Failure.findByIdAndDelete(failureId);
+    // deleting comments
+    await Comment.deleteMany({ _id: commentIds });
+    // deleting votes
+    await Vote.deleteMany({ _id: voteIds });
+    // deleting reviews
+    await StarRating.deleteMany({ _id: ratingsIds });
+
+    await session.commitTransaction();
+  } catch (err) {
+    await session.abortTransaction();
+    throw err;
+  } finally {
+    await session.endSession();
+  }
 };
 
 const addCommentToFailure = async ({ comment, commentorId, failureId }: ICommentValues) => {
@@ -381,4 +424,5 @@ export default {
   toggleFailureCommentingAllowance,
   getFailureOfTheWeek,
   getFailureComments,
+  deleteFailure,
 };

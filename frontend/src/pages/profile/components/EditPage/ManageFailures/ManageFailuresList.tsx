@@ -123,7 +123,12 @@ const ManageFailuresList = () => {
       )}
 
       {deleteModalShow && (
-        <DeleteFailureModal confirmText={toEdit?.title} setDeleteModalShow={setDeleteModalShow} />
+        <DeleteFailureModal
+          failureId={toEdit?._id}
+          setFailures={setFailures}
+          confirmText={toEdit?.title}
+          setDeleteModalShow={setDeleteModalShow}
+        />
       )}
     </Box>
   );

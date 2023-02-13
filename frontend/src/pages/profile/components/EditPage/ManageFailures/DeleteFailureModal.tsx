@@ -1,30 +1,69 @@
-import React, { useState } from 'react';
-import { Box, Button, TextInput, Text, Layer, Heading, FormField, Form, Notification } from 'grommet';
+import { SyntheticEvent, useState } from 'react';
+import {
+  Box,
+  Button,
+  TextInput,
+  Text,
+  Layer,
+  Heading,
+  FormField,
+  Form,
+  Notification,
+  Spinner,
+} from 'grommet';
 import { Trash } from 'grommet-icons';
 import { confirmStringMatching } from '../../../../common/FormValidation';
+import failureService from '../../../../../api/failures';
+import { Failure } from '../../../../../types';
 
 interface IDeleteFailureModal {
   setDeleteModalShow(boolean: any): void;
+  setFailures(failures: Array<Failure>): void;
   confirmText?: string;
+  failureId?: string;
 }
 
-const DeleteFailureModal = ({ setDeleteModalShow, confirmText }: IDeleteFailureModal) => {
+const DeleteFailureModal = ({
+  setDeleteModalShow,
+  confirmText,
+  failureId,
+  setFailures,
+}: IDeleteFailureModal) => {
+  const [isDeletingFailure, setIsDeletingFailure] = useState<boolean>(false);
   const [value, setValue] = useState({
     deleteInput: '',
   });
 
-  const handleDeleteSubmit = (value: any) => {
-    // call backend with values
-    console.log(value);
+  const handleDeleteSubmit = async (event: SyntheticEvent) => {
+    event.preventDefault();
+    try {
+      setIsDeletingFailure(true);
+      console.log(failureId);
+      await failureService.deleteFailure(failureId || '');
+      /* @ts-expect-error TODO check this */
+      setFailures((failures: Array<Failure>) =>
+        failures.filter((failure: Failure) => failure._id !== failureId),
+      );
+      setIsDeletingFailure(false);
+      setDeleteModalShow(false);
+    } catch (err) {
+      setIsDeletingFailure(false);
+      setDeleteModalShow(false);
+      // TODO: creates toasts which gives error
+      console.log(err);
+    }
   };
 
   return (
-    <Layer onClickOutside={() => setDeleteModalShow(false)} onEsc={() => setDeleteModalShow(false)} modal={false}>
+    <Layer
+      onClickOutside={() => setDeleteModalShow(false)}
+      onEsc={() => setDeleteModalShow(false)}
+      modal={false}>
       <Form
         value={value}
         onChange={setValue}
         validate='blur'
-        onSubmit={({ value }) => handleDeleteSubmit(value)}
+        onSubmit={handleDeleteSubmit}
         method='post'>
         <Box gap='medium' pad='medium'>
           <Box direction='row' align='start' gap='small'>
@@ -62,7 +101,12 @@ const DeleteFailureModal = ({ setDeleteModalShow, confirmText }: IDeleteFailureM
                 setDeleteModalShow(false);
               }}
             />
-            <Button primary label='Delete' type='submit' />
+            <Button
+              label={isDeletingFailure ? 'Deleting failure...' : 'Confirm delete'}
+              icon={isDeletingFailure ? <Spinner /> : undefined}
+              primary
+              type='submit'
+            />
           </Box>
         </Box>
       </Form>
