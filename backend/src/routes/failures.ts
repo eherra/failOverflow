@@ -66,9 +66,32 @@ failuresRouter.get("/all/:userId", async (req: Request, res: Response) => {
 });
 
 /**
+ * DELETE /api/failures/:failureId
+ * @summary Removes failure according to failureId given as path variable
+ * @param {} req.params.required - failureId
+ * @return {} 200 - Success
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.delete("/:failureId", async (req: Request, res: Response) => {
+  // Token
+  const failureId = req.params.failureId;
+  try {
+    await failureService.deleteFailure(failureId);
+    res.status(200).json({
+      isSuccess: true,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({
+      isSuccess: false,
+    });
+  }
+});
+
+/**
  * POST /api/failures/comment/:failureId
  * @summary Created comment to Comment collections and attached it to failure given as path param
- * @param {} path - failureId
+ * @param {} req.params.required - failureId
  * @param {} request.body.required - comment, commentorId
  * @return {} 200 - All user failures
  * @return {} 400 - Bad request response
@@ -97,7 +120,7 @@ failuresRouter.post("/comment/:failureId", async (req: Request, res: Response) =
 /**
  * POST /api/failures/vote/:failureId
  * @summary Creates or deletes vote from failure
- * @param {} path - failureId
+ * @param {} req.params.required - failureId
  * @param {} request.body.required - voterId, isAddingVote
  * @return {} 200 - All user failures
  * @return {} 400 - Bad request response
@@ -131,7 +154,7 @@ failuresRouter.post("/vote/:failureId", async (req: Request, res: Response) => {
 /**
  * POST /api/failures/rate/:failureId
  * @summary Gives a rating to a failure according to param failureId
- * @param {} path - failureId
+ * @param {} req.params.required - failureId
  * @param {} request.body.required - raterId, ratingValue
  * @return {} 200 - All user failures
  * @return {} 400 - Bad request response

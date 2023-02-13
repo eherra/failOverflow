@@ -11,6 +11,7 @@ export interface IComment {
 }
 
 export interface Failure {
+  id: string | undefined;
   _id: string;
   creator: Array<Creator>;
   title: string;
