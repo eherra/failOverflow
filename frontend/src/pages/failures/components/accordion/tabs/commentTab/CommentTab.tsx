@@ -1,13 +1,16 @@
 import { useState, SyntheticEvent, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { Box, NameValueList, Tab, Form, FormField, TextArea, Button, Text, Spinner } from 'grommet';
 import failureService from '../../../../../../api/failures';
-import { Login } from 'grommet-icons';
+import { Login, Coffee } from 'grommet-icons';
 import { useUserContext } from '../../../../../../context/UserContext';
 import UserCommentsColumn from './UserCommentsColumn';
+import { useNotificationContext } from '../../../../../../context/NotificationContext';
+import { WavyLink } from 'react-wavy-transitions';
+import LabelWithInfoTip from '../../../../../common/LabelWithInfoTip';
 
 interface ICommentTab {
   failureId: string;
+  allowComments: boolean;
 }
 
 interface IComment {
@@ -16,8 +19,11 @@ interface IComment {
   _id: string;
 }
 
-const CommentTab = ({ failureId }: ICommentTab) => {
+const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
+  console.log(allowComments);
   const { user } = useUserContext();
+  const { createNotification } = useNotificationContext();
+
   const [commentInput, setCommentInput] = useState<string>('');
   const [isSendingComment, setIsSendingComment] = useState<boolean>(false);
   const [currComments, setCurrComments] = useState<Array<IComment>>([]);
@@ -48,10 +54,16 @@ const CommentTab = ({ failureId }: ICommentTab) => {
       setCurrComments((prevComments) => [...prevComments, newComment.comment]);
       setCommentInput('');
       setIsSendingComment(false);
+      createNotification({
+        message: 'Comment added succesfully!',
+        isError: false,
+        icon: <Coffee />,
+      });
     } catch (e) {
-      setIsSendingComment(false);
       console.log(e);
+      setIsSendingComment(false);
       setCommentInput('');
+      createNotification({ message: 'Something went wrong! Try again later.', isError: true });
     }
   };
 
@@ -63,35 +75,48 @@ const CommentTab = ({ failureId }: ICommentTab) => {
           layout='grid'
           valueProps={{ width: 'medium' }}
           justifyContent='center'>
-          {user ? (
-            <Form onSubmit={handleCommentSubmit}>
-              <FormField label='Leave a comment' htmlFor='text-area-example'>
-                <TextArea
-                  placeholder='e.g. did you find it helpful?'
-                  id='text-area-example'
-                  value={commentInput}
-                  onChange={(event) => setCommentInput(event.target.value)}
-                />
-              </FormField>
-              <Box direction='row' gap='medium'>
-                <Button
-                  icon={isSendingComment ? <Spinner /> : undefined}
-                  label={isSendingComment ? 'Sending' : 'Send'}
-                  primary
-                  type='submit'
-                />
-              </Box>
-            </Form>
-          ) : (
-            <Box pad={{ top: 'small', bottom: 'small' }} gap='small'>
+          {!user ? (
+            <Box align='start' pad={{ top: 'small', bottom: 'small' }} gap='small'>
               <Text weight='bold' size='medium'>
                 Sign in to leave a comment
               </Text>
-              <Link to='/login'>
+              <WavyLink to='/login' color='#A7BEAE' duration='1000' direction='down'>
                 <Button icon={<Login />} primary hoverIndicator label='Sign in here' />
-              </Link>
+              </WavyLink>
             </Box>
+          ) : (
+            <>
+              {allowComments ? (
+                <Form onSubmit={handleCommentSubmit}>
+                  <FormField label='Leave a comment' htmlFor='textArea'>
+                    <TextArea
+                      placeholder='e.g. did you find it helpful?'
+                      id='textArea'
+                      value={commentInput}
+                      onChange={(event) => setCommentInput(event.target.value)}
+                    />
+                  </FormField>
+                  <Box direction='row' gap='medium'>
+                    <Button
+                      icon={isSendingComment ? <Spinner /> : undefined}
+                      label={isSendingComment ? 'Sending' : 'Send'}
+                      primary
+                      type='submit'
+                    />
+                  </Box>
+                </Form>
+              ) : (
+                <Box direction='row' pad={{ top: 'small', bottom: 'small' }} gap='small'>
+                  <LabelWithInfoTip
+                    text='Commenting not allowed.'
+                    tipContent='User has denied commenting for the failure.'
+                    alignTipContent={{ align: { bottom: 'top' } }}
+                  />
+                </Box>
+              )}
+            </>
           )}
+
           {isCommentsFetchError ? (
             <p>Something went wrong. Try again later</p>
           ) : (

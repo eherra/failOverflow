@@ -4,7 +4,7 @@ import { NameValuePair, Spinner } from 'grommet';
 import failureService from '../../../../../../api/failures';
 import { Rating } from 'react-simple-star-rating';
 import { Star } from 'grommet-icons';
-import ToastNotification from '../../../../../common/ToastNotification';
+import { useNotificationContext } from '../../../../../../context/NotificationContext';
 
 interface IStarRatingForm {
   failureId: string;
@@ -26,37 +26,38 @@ const tooltipArray = [
 
 const StarRatingForm = ({ failureId, userReview }: IStarRatingForm) => {
   const { user } = useUserContext();
+  const { createNotification } = useNotificationContext();
 
-  const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
-  const [isSendingRating, setiIsSendingRating] = useState<boolean>(false);
+  const [isSendingRating, setIsSendingRating] = useState<boolean>(false);
   const [rating, setRating] = useState<number>(userReview);
 
   const handleStarValueChange = async (ratingValue: number) => {
     try {
-      setiIsSendingRating(true);
+      setIsSendingRating(true);
       await failureService.sendRating({
         failureId,
         raterId: user?.id || '',
         ratingValue,
       });
-      setiIsSendingRating(false);
+      setIsSendingRating(false);
       setRating(ratingValue);
-      setIsToastVisible(true);
+      createNotification({
+        message: 'Star review succesfully added!',
+        icon: <Star />,
+        isError: false,
+      });
     } catch (err) {
       console.log(err);
-      setiIsSendingRating(false);
+      setIsSendingRating(false);
+      createNotification({
+        message: 'Something went wrong! Try again later.',
+        isError: true,
+      });
     }
   };
 
   return (
     <>
-      {isToastVisible && (
-        <ToastNotification
-          setIsVisible={setIsToastVisible}
-          icon={<Star />}
-          toastMessage='Star review succesfully added!'
-        />
-      )}
       <NameValuePair name='How would you rate this failure?'>
         {isSendingRating ? (
           <Spinner />

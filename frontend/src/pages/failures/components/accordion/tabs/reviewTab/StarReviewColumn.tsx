@@ -1,8 +1,8 @@
-import { Box, Tab, NameValuePair, Button, NameValueList, Text, Spinner } from 'grommet';
-import { Link } from 'react-router-dom';
+import { Box, NameValuePair, Button, Text } from 'grommet';
 import StarRatingForm from './StarRatingForm';
 import { Login } from 'grommet-icons';
 import { useUserContext } from '../../../../../../context/UserContext';
+import { WavyLink } from 'react-wavy-transitions';
 
 interface IStarReviewColumn {
   failureId: string;
@@ -21,13 +21,13 @@ const StarReviewColumn = ({ failureId, reviewAverage, userReview }: IStarReviewC
         {user ? (
           <StarRatingForm failureId={failureId} userReview={userReview} />
         ) : (
-          <Box pad={{ top: 'small', bottom: 'small' }} gap='small'>
+          <Box align='start' pad={{ top: 'small', bottom: 'small' }} gap='small'>
             <Text weight='bold' size='medium'>
               Sign in to leave a review/vote
             </Text>
-            <Link to='/login'>
+            <WavyLink to='/login' color='#A7BEAE' duration='1000' direction='down'>
               <Button icon={<Login />} primary hoverIndicator label='Sign in here' />
-            </Link>
+            </WavyLink>
           </Box>
         )}
       </Box>

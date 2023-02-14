@@ -4,6 +4,8 @@ import { passwordRules, confirmStringMatching } from '../../../../common/FormVal
 import userService from '../../../../../api/user';
 import { IPasswordChangeFormValues } from '../../../../../types';
 import { useUserContext } from '../../../../../context/UserContext';
+import { useNotificationContext } from '../../../../../context/NotificationContext';
+import { Lock } from 'grommet-icons';
 
 interface IPasswordChangeForm {
   setChangePassword(boolean: unknown): void;
@@ -11,8 +13,10 @@ interface IPasswordChangeForm {
 
 const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
   const { user } = useUserContext();
-  const [isUpdatingPassword, setIsUpdatingPassword] = useState<boolean>(false);
+  const { createNotification } = useNotificationContext();
   const screenSize = useContext(ResponsiveContext);
+
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState<boolean>(false);
   const [passwordValues, setPasswordValues] = useState<IPasswordChangeFormValues>({
     currentPassword: '',
     newPassword: '',
@@ -22,12 +26,28 @@ const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
   const handlePasswordSubmit = async (value: IPasswordChangeFormValues) => {
     try {
       setIsUpdatingPassword(true);
-      const updated = await userService.changePassword({ passwordValues: value, id: user?.id });
-      console.log(updated);
+      await userService.changePassword({ passwordValues: value, id: user?.id });
       setIsUpdatingPassword(false);
+      createNotification({
+        message: 'Password changed successfully!',
+        isError: false,
+        icon: <Lock />,
+      });
+      setPasswordValues({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+      });
+      setChangePassword(false);
     } catch (err) {
-      setIsUpdatingPassword(false);
       console.log(err);
+      setIsUpdatingPassword(false);
+      createNotification({ message: 'Something went wrong! Try again later.', isError: true });
+      setPasswordValues({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+      });
     }
   };
 

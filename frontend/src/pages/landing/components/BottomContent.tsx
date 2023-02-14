@@ -1,5 +1,6 @@
 import { Box, Heading, Paragraph, Button, PageContent } from 'grommet';
 import { Login } from 'grommet-icons';
+import { Link } from 'react-router-dom';
 import { WavyLink } from 'react-wavy-transitions';
 
 const BottomContent = () => {
@@ -14,9 +15,9 @@ const BottomContent = () => {
           eros vel, euismod magna.
         </Paragraph>
         <Box direction='row' gap='small' pad='small'>
-          <WavyLink to='/failures' color='#A7BEAE' duration='1000' direction='down'>
+          <Link to='/failures'>
             <Button alignSelf='start' primary label='View failures' size='large' />
-          </WavyLink>
+          </Link>
           <WavyLink to='/login' color='#A7BEAE' duration='1000' direction='up'>
             <Button icon={<Login />} hoverIndicator label='Sign in here' size='large' />
           </WavyLink>

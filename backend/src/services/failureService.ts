@@ -63,7 +63,6 @@ const getAllFailures = async () => {
         comments: 0,
         starRatings: 0,
         votes: 0,
-        allowComments: 0,
         __v: 0,
       },
     },
@@ -112,7 +111,13 @@ const findUsersFailures = async (userId: string) => {
         as: "comments",
       },
     },
+    {
+      $sort: {
+        createdAt: -1,
+      },
+    },
   ]);
+
   return userFailures;
 };
 

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Box, Tab, NameValuePair, Button, NameValueList, Text, Spinner } from 'grommet';
+import { Box, NameValuePair, Button, Spinner } from 'grommet';
 import { useUserContext } from '../../../../../../context/UserContext';
 import failureService from '../../../../../../api/failures';
-import { Like, Dislike } from 'grommet-icons';
+import { Like, Dislike, Alert } from 'grommet-icons';
+import { useNotificationContext } from '../../../../../../context/NotificationContext';
 
 interface IVoteColumn {
   failureId: string;
@@ -12,6 +13,8 @@ interface IVoteColumn {
 
 const VoteColumn = ({ failureId, votesAmount, hasUserVoted }: IVoteColumn) => {
   const { user } = useUserContext();
+  const { createNotification } = useNotificationContext();
+
   const [votes, setVotes] = useState<number>(votesAmount);
   const [isSendingVote, setIsSendingVote] = useState<boolean>(false);
   const [hasVoted, setHasVote] = useState<boolean>(hasUserVoted);
@@ -27,8 +30,14 @@ const VoteColumn = ({ failureId, votesAmount, hasUserVoted }: IVoteColumn) => {
       setIsSendingVote(false);
       setHasVote((previousVote) => !previousVote);
       setVotes((previousAmount) => (hasVoted ? previousAmount - 1 : previousAmount + 1));
+      const toastMessage = `Vote ${hasVoted ? 'removed' : 'added'} succesfully!`;
+      createNotification({ message: toastMessage, icon: <Like />, isError: false });
     } catch (err) {
       console.log(err);
+      createNotification({
+        message: 'Something went wrong! Try again later.',
+        isError: true,
+      });
       setIsSendingVote(false);
     }
   };

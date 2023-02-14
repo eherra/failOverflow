@@ -30,4 +30,5 @@
 | 11.2.2023 | 3 | made toggle commenting possible, refactoring profile page cards, implemented fetching failure of the week |
 | 12.2.2023 | 3 | frontpage enhancements, made voting and review possible, failure data fetches implemented to fetch from db on failures page and users profile page |
 | 13.2.2023 | 3 | implementing deleting failure |
-| total    | 123 | | 
+| 14.2.2023 | 3 | implementing toast notification context for the application, refactoring |
+| total    | 126 | | 
