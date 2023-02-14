@@ -2,9 +2,10 @@ import { useState, SyntheticEvent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, NameValueList, Tab, Form, FormField, TextArea, Button, Text, Spinner } from 'grommet';
 import failureService from '../../../../../../api/failures';
-import { Login } from 'grommet-icons';
+import { Login, Coffee } from 'grommet-icons';
 import { useUserContext } from '../../../../../../context/UserContext';
 import UserCommentsColumn from './UserCommentsColumn';
+import { useNotificationContext } from '../../../../../../context/NotificationContext';
 
 interface ICommentTab {
   failureId: string;
@@ -18,6 +19,8 @@ interface IComment {
 
 const CommentTab = ({ failureId }: ICommentTab) => {
   const { user } = useUserContext();
+  const { createNotification } = useNotificationContext();
+
   const [commentInput, setCommentInput] = useState<string>('');
   const [isSendingComment, setIsSendingComment] = useState<boolean>(false);
   const [currComments, setCurrComments] = useState<Array<IComment>>([]);
@@ -48,10 +51,16 @@ const CommentTab = ({ failureId }: ICommentTab) => {
       setCurrComments((prevComments) => [...prevComments, newComment.comment]);
       setCommentInput('');
       setIsSendingComment(false);
+      createNotification({
+        message: 'Comment added succesfully!',
+        isError: false,
+        icon: <Coffee />,
+      });
     } catch (e) {
-      setIsSendingComment(false);
       console.log(e);
+      setIsSendingComment(false);
       setCommentInput('');
+      createNotification({ message: 'Something went wrong! Try again later.', isError: true });
     }
   };
 

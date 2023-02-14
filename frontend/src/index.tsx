@@ -6,6 +6,7 @@ import { Grommet } from 'grommet';
 import { Spinner } from 'grommet';
 import { UserProvider } from './context/UserContext';
 import { WavyContainer } from 'react-wavy-transitions';
+import { NotificationProvider } from './context/NotificationContext';
 
 const customTheme = {
   global: {
@@ -28,7 +29,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <BrowserRouter>
         <WavyContainer />
         <UserProvider>
-          <App />
+          <NotificationProvider>
+            <App />
+          </NotificationProvider>
         </UserProvider>
       </BrowserRouter>
     </Suspense>

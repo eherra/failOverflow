@@ -10,10 +10,13 @@ import {
   Select,
   TextArea,
   TextInput,
+  Spinner,
 } from 'grommet';
 import SelectTechnologiesField from './SelectTechnologiesField';
 import failureService from '../../../../api/failures';
 import { useUserContext } from '../../../../context/UserContext';
+import { useNotificationContext } from '../../../../context/NotificationContext';
+import { Script } from 'grommet-icons';
 
 interface ICreateFailureModal {
   setOpen(value: boolean): any;
@@ -34,17 +37,31 @@ interface IValue {
 
 const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
   const { user } = useUserContext();
+  const { createNotification } = useNotificationContext();
+
   const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>('Yes');
+  const [isCreatingFailure, setIsCreatingFailure] = useState<boolean>(false);
 
   const handleFormSubmit = async ({ value }: IValue) => {
     try {
-      console.log(value);
+      setIsCreatingFailure(true);
       const createdFailure = await failureService.createFailure(value, user?.id || '');
       console.log(createdFailure);
+      setIsCreatingFailure(false);
+      setOpen(false);
+      createNotification({
+        message: 'New failure created successfully!',
+        isError: false,
+        icon: <Script />,
+      });
     } catch (err) {
       console.log(err);
+      setIsCreatingFailure(false);
+      createNotification({
+        message: 'Ups, we stumbled with a problem while creating your failure! Try again later.',
+        isError: true,
+      });
     }
-    setOpen(false);
   };
 
   const toggleCommentAllowed = () => {
@@ -101,7 +118,12 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
           />
         </FormField>
         <Box direction='row' gap='small' margin={{ top: 'medium', bottom: 'small' }}>
-          <Button label='Submit failure' primary type='submit' />
+          <Button
+            icon={isCreatingFailure ? <Spinner /> : undefined}
+            label={isCreatingFailure ? 'Submitting failure...' : 'Submit failure'}
+            primary
+            type='submit'
+          />
           <Button label='Cancel' onClick={() => setOpen(false)} />
         </Box>
       </Form>
