@@ -13,16 +13,25 @@ import {
 import AnchorWithText from '../../../components/AnchorWithText';
 import { ILoginValues } from '../../../../../types';
 import { useUserContext } from '../../../../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
+import { useNotificationContext } from '../../../../../context/NotificationContext';
+import { UserAdmin } from 'grommet-icons';
 
 const LoginForm = () => {
   const { isUserContextLoading, handleLogin } = useUserContext();
   const [formValues, setFormValues] = useState<ILoginValues>();
   const screenSize = useContext(ResponsiveContext);
+  const navigate = useNavigate();
+  const { createNotification } = useNotificationContext();
 
-  const handleLoginSubmit = (value: ILoginValues) => {
+  const handleLoginSubmit = async (value: ILoginValues) => {
     try {
-      handleLogin(value);
+      await handleLogin(value);
+      createNotification({ message: 'Login succeeded!', isError: false, icon: <UserAdmin /> });
+      navigate('/');
     } catch (e) {
+      createNotification({ message: 'Wrong username or password!', isError: true });
+
       console.log(e);
     }
   };

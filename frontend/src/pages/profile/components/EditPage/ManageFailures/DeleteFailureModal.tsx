@@ -15,6 +15,7 @@ import { Trash } from 'grommet-icons';
 import { confirmStringMatching } from '../../../../common/FormValidation';
 import failureService from '../../../../../api/failures';
 import { Failure } from '../../../../../types';
+import { useNotificationContext } from '../../../../../context/NotificationContext';
 
 interface IDeleteFailureModal {
   setDeleteModalShow(boolean: any): void;
@@ -29,6 +30,7 @@ const DeleteFailureModal = ({
   failureId,
   setFailures,
 }: IDeleteFailureModal) => {
+  const { createNotification } = useNotificationContext();
   const [isDeletingFailure, setIsDeletingFailure] = useState<boolean>(false);
   const [value, setValue] = useState({
     deleteInput: '',
@@ -38,7 +40,6 @@ const DeleteFailureModal = ({
     event.preventDefault();
     try {
       setIsDeletingFailure(true);
-      console.log(failureId);
       await failureService.deleteFailure(failureId || '');
       /* @ts-expect-error TODO check this */
       setFailures((failures: Array<Failure>) =>
@@ -46,11 +47,19 @@ const DeleteFailureModal = ({
       );
       setIsDeletingFailure(false);
       setDeleteModalShow(false);
+      createNotification({
+        message: 'Failure deleted successfully!',
+        isError: false,
+        icon: <Trash />,
+      });
     } catch (err) {
+      console.log(err);
       setIsDeletingFailure(false);
       setDeleteModalShow(false);
-      // TODO: creates toasts which gives error
-      console.log(err);
+      createNotification({
+        message: 'Something went wrong while deleting failure! Try again later.',
+        isError: true,
+      });
     }
   };
 

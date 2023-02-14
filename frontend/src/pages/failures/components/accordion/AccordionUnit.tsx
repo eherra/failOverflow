@@ -14,7 +14,8 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
   const [tabIndex, setTabIndex] = useState<number>();
 
   const onActive = (nextIndex: any) => setTabIndex(nextIndex);
-  const { title, creator, description, solution, technologies, tags, createdAt } = failure;
+  const { title, creator, description, solution, technologies, tags, createdAt, allowComments } =
+    failure;
 
   return (
     <AccordionPanel
@@ -36,7 +37,7 @@ const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
             <ReviewTab failureId={failure._id} />
           </>
           <>
-            <CommentTab failureId={failure._id} />
+            <CommentTab allowComments={allowComments} failureId={failure._id} />
           </>
         </Tabs>
       </Box>

@@ -6,19 +6,35 @@ import UsernameTakenError from './UsernameTakenError';
 import AnchorWithText from '../../../components/AnchorWithText';
 import { IRegisterValues } from '../../../../../types';
 import { useUserContext } from '../../../../../context/UserContext';
+import { useNotificationContext } from '../../../../../context/NotificationContext';
+import { UserExpert } from 'grommet-icons';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
   const { isUserContextLoading, handleRegister } = useUserContext();
+  const { createNotification } = useNotificationContext();
+  const navigate = useNavigate();
+
   const size = useContext(ResponsiveContext);
   const [formValues, setFormValues] = useState<IRegisterValues>();
   const [isUsernameTakenError, setIsUsernameTakenError] = useState<boolean>(false);
 
   const handleRegisterSubmit = async (value: IRegisterValues) => {
     try {
-      handleRegister(value);
+      await handleRegister(value);
+      createNotification({
+        message: 'Account creating succeeded, welcome!',
+        isError: false,
+        icon: <UserExpert />,
+      });
+      navigate('/');
     } catch (e) {
       // error should be caught here and update e.g. setIsUsernameTakenError
       console.log(e);
+      createNotification({
+        message: 'Something went wrong while creating user! Try again later.',
+        isError: true,
+      });
     }
   };
 

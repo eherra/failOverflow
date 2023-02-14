@@ -29,7 +29,7 @@ const ProfilePageCard = ({
         <Text size='medium'>{subtitle}</Text>
       </CardHeader>
       <CardFooter margin={{ top: 'small' }}>
-        <WavyLink to={link} color='#dae4dd' duration='800' direction='up'>
+        <WavyLink to={link} color='#A7BEAE' duration='800' direction='up'>
           <Button icon={buttonIcon} focusIndicator label={buttonLabel} />
         </WavyLink>
       </CardFooter>

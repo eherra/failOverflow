@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { FormField, FileInput } from 'grommet';
 
-import LabelWithInfoTip from './LabelWithInfoTip';
+import LabelWithInfoTip from '../../../../common/LabelWithInfoTip';
 
 interface IAvatarForm {
   tipContent: string;
@@ -16,7 +16,13 @@ const AvatarForm = ({ tipContent }: IAvatarForm) => {
     <FormField
       htmlFor='fileinput'
       name='fileinput'
-      label={<LabelWithInfoTip text='Upload avatar' tipContent={tipContent} />}>
+      label={
+        <LabelWithInfoTip
+          text='Upload avatar'
+          tipContent={tipContent}
+          alignTipContent={{ align: { left: 'right' } }}
+        />
+      }>
       <FileInput
         accept='image/*'
         messages={{

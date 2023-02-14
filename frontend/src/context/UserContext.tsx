@@ -1,7 +1,6 @@
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
 import { ILoginValues } from '../types';
 import loginService from '../api/login';
-import { useNavigate } from 'react-router-dom';
 import userService from '../api/user';
 import { IRegisterValues } from '../types';
 
@@ -41,8 +40,6 @@ export const UserProvider = ({ children }: IUserProvider) => {
   const [user, setUser] = useState<User | null>(null);
   const [isUserContextLoading, setIsUserContextLoading] = useState<boolean>(true);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     checkAuthorization();
   }, []);
@@ -67,10 +64,10 @@ export const UserProvider = ({ children }: IUserProvider) => {
       setUser({ id: loggedUserFromDB.id, username: loggedUserFromDB.username });
       localStorage.setItem('loggedUser', JSON.stringify(loggedUserFromDB));
       setIsUserContextLoading(false);
-      navigate('/');
     } catch (err) {
       console.log(err);
       setIsUserContextLoading(false);
+      throw err;
     }
   };
 
@@ -81,10 +78,9 @@ export const UserProvider = ({ children }: IUserProvider) => {
       setUser({ id: createdUser.id, username: createdUser.username });
       localStorage.setItem('loggedUser', JSON.stringify(createdUser));
       setIsUserContextLoading(false);
-      navigate('/');
     } catch (err) {
       setIsUserContextLoading(false);
-      navigate('/register');
+      throw err;
     }
   };
 
