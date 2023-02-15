@@ -290,4 +290,23 @@ failuresRouter.get("/comment/:failureId", async (req: Request, res: Response) =>
   }
 });
 
+/**
+ * GET /api/failures/rate/failure-month"
+ * @summary Gets failure of the month
+ * @return {} 200 - failure info of the month
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/rate/failure-month", async (_req: Request, res: Response) => {
+  try {
+    const failureOfTheMonth = await failureService.getFailureOfTheMonth();
+    res.status(200).json({
+      failureOfTheMonth,
+    });
+  } catch (e) {
+    res.status(400).json({
+      isSuccess: false,
+    });
+  }
+});
+
 export default failuresRouter;

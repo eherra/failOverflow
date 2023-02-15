@@ -1,4 +1,4 @@
-import { Notification } from 'grommet';
+import { Notification, Text, Box } from 'grommet';
 import { Alert } from 'grommet-icons';
 
 interface IToastNotification {
@@ -12,13 +12,21 @@ const ToastNotification = ({ icon, setIsVisible, toastMessage, isError }: IToast
   return (
     <Notification
       time={5000}
-      icon={isError ? <Alert /> : icon}
+      icon={isError ? <Alert color='#E34234' /> : icon}
       toast={{ position: 'top' }}
-      message={toastMessage}
+      message={<ToastMessage message={toastMessage} />}
       onClose={() => {
         setIsVisible(false);
       }}
     />
+  );
+};
+
+const ToastMessage = ({ message }: { message: string }) => {
+  return (
+    <Box pad='xsmall'>
+      <Text style={{ fontWeight: '400', font: 'Roboto' }}>{message}</Text>
+    </Box>
   );
 };
 

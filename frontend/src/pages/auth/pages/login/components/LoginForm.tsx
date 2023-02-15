@@ -27,7 +27,11 @@ const LoginForm = () => {
   const handleLoginSubmit = async (value: ILoginValues) => {
     try {
       await handleLogin(value);
-      createNotification({ message: 'Login succeeded!', isError: false, icon: <UserAdmin /> });
+      createNotification({
+        message: 'Login succeeded!',
+        isError: false,
+        icon: <UserAdmin color='#96ab9c' />,
+      });
       navigate('/');
     } catch (e) {
       createNotification({ message: 'Wrong username or password!', isError: true });

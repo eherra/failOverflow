@@ -11,6 +11,7 @@ import {
   CardHeader,
   Avatar,
 } from 'grommet';
+import { ContactInfo } from 'grommet-icons';
 import PasswordChangeForm from './PasswordChangeForm';
 import AvatarChangeForm from './AvatarChangeForm';
 import { useUserContext } from '../../../../../context/UserContext';
@@ -24,10 +25,13 @@ const ProfileDetailCard = () => {
   return (
     <Box gap='medium'>
       <Card margin='medium' pad='medium'>
-        <CardHeader align='start' direction='column' gap='xsmall'>
-          <Heading level={2} size='small'>
-            Profile details
-          </Heading>
+        <CardHeader align='start' gap='xsmall'>
+          <Box direction='row' gap='small'>
+            <Heading level={2} size='small'>
+              <ContactInfo />
+              &nbsp; Profile details
+            </Heading>
+          </Box>
         </CardHeader>
 
         {!changePassword && !changeAvatar ? (
@@ -39,16 +43,16 @@ const ProfileDetailCard = () => {
 
               <NameValuePair name='Password'>
                 <Box direction='row' gap='small'>
-                  <Text>*******</Text>
-                  <Button label='Show' />
                   <Button label='Change password' onClick={() => setChangePassword(true)} />
                 </Box>
               </NameValuePair>
 
               <NameValuePair name='Avatar'>
                 <Box direction='row' gap='small'>
-                  <Avatar src='/avatar.png' size='medium' />
-                  <Button label='Change avatar' onClick={() => setChangeAvatar(true)} />
+                  <Avatar src='/avatar.png' size='large' />
+                  <Box justify='center'>
+                    <Button label='Change avatar' onClick={() => setChangeAvatar(true)} />
+                  </Box>
                 </Box>
               </NameValuePair>
             </NameValueList>

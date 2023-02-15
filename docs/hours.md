@@ -31,4 +31,5 @@
 | 12.2.2023 | 3 | frontpage enhancements, made voting and review possible, failure data fetches implemented to fetch from db on failures page and users profile page |
 | 13.2.2023 | 3 | implementing deleting failure |
 | 14.2.2023 | 3 | implementing toast notification context for the application, refactoring |
-| total    | 126 | | 
+| 15.2.2023 | 3 | refactoring and fixing broken implementations  |
+| total    | 129 | | 

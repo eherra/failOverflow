@@ -307,7 +307,7 @@ const toggleFailureCommentingAllowance = async (failureId: string, valueToToggle
 };
 
 const getFailureOfTheWeek = async () => {
-  const lastWeeksNumber = getNumberOfWeek(new Date()) - 1;
+  const currentWeeksNumber = getNumberOfWeek(new Date());
 
   const weekFailure = await Failure.aggregate([
     {
@@ -329,7 +329,7 @@ const getFailureOfTheWeek = async () => {
                 {
                   $week: "$$vote.createdAt",
                 },
-                lastWeeksNumber,
+                currentWeeksNumber, // current week here
               ],
             },
           },
@@ -418,6 +418,84 @@ const getFailureComments = async (failureId: string) => {
   return commentsData;
 };
 
+const getFailureOfTheMonth = async () => {
+  const currentMonth = new Date().getMonth() + 1;
+  const failureOfTheMonth = await Failure.aggregate([
+    {
+      $lookup: {
+        from: "starratings",
+        localField: "starRatings",
+        foreignField: "_id",
+        as: "reviewData",
+      },
+    },
+    {
+      $project: {
+        __v: 0,
+        votes: 0,
+        allowComments: 0,
+        comments: 0,
+      },
+    },
+    {
+      $addFields: {
+        monthsReview: {
+          $filter: {
+            input: "$reviewData",
+            as: "review",
+            cond: {
+              $eq: [
+                {
+                  $month: "$$review.createdAt",
+                },
+                currentMonth, // current month here
+              ],
+            },
+          },
+        },
+      },
+    },
+    {
+      $addFields: {
+        reviewAverage: {
+          $avg: {
+            $map: {
+              input: "$monthsReview",
+              in: "$$this.starRating",
+            },
+          },
+        },
+      },
+    },
+    {
+      $sort: {
+        reviewAverage: -1,
+      },
+    },
+    {
+      $project: {
+        reviewData: 0,
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "creator",
+        foreignField: "_id",
+        as: "creator",
+      },
+    },
+    {
+      $project: {
+        "creator.passwordHash": 0,
+        "creator.__v": 0,
+      },
+    },
+  ]);
+
+  return failureOfTheMonth;
+};
+
 export default {
   createFailure,
   getAllFailures,
@@ -432,4 +510,5 @@ export default {
   getFailureOfTheWeek,
   getFailureComments,
   deleteFailure,
+  getFailureOfTheMonth,
 };

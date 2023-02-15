@@ -52,7 +52,7 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
       createNotification({
         message: 'New failure created successfully!',
         isError: false,
-        icon: <Script />,
+        icon: <Script color='#96ab9c' />,
       });
     } catch (err) {
       console.log(err);

@@ -31,7 +31,7 @@ const VoteColumn = ({ failureId, votesAmount, hasUserVoted }: IVoteColumn) => {
       setHasVote((previousVote) => !previousVote);
       setVotes((previousAmount) => (hasVoted ? previousAmount - 1 : previousAmount + 1));
       const toastMessage = `Vote ${hasVoted ? 'removed' : 'added'} succesfully!`;
-      createNotification({ message: toastMessage, icon: <Like />, isError: false });
+      createNotification({ message: toastMessage, icon: <Like color='#96ab9c' />, isError: false });
     } catch (err) {
       console.log(err);
       createNotification({

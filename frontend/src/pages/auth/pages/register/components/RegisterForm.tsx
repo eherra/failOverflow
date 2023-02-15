@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import { Box, Button, Form, ResponsiveContext, Grid, Image, Spinner } from 'grommet';
 import AvatarForm from './AvatarForm';
 import UsernamePasswordForm from './UsernamePasswordForm';
-import UsernameTakenError from './UsernameTakenError';
 import AnchorWithText from '../../../components/AnchorWithText';
 import { IRegisterValues } from '../../../../../types';
 import { useUserContext } from '../../../../../context/UserContext';
@@ -17,7 +16,6 @@ const RegisterForm = () => {
 
   const size = useContext(ResponsiveContext);
   const [formValues, setFormValues] = useState<IRegisterValues>();
-  const [isUsernameTakenError, setIsUsernameTakenError] = useState<boolean>(false);
 
   const handleRegisterSubmit = async (value: IRegisterValues) => {
     try {
@@ -25,16 +23,22 @@ const RegisterForm = () => {
       createNotification({
         message: 'Account creating succeeded, welcome!',
         isError: false,
-        icon: <UserExpert />,
+        icon: <UserExpert color='#96ab9c' />,
       });
       navigate('/');
-    } catch (e) {
-      // error should be caught here and update e.g. setIsUsernameTakenError
-      console.log(e);
-      createNotification({
-        message: 'Something went wrong while creating user! Try again later.',
-        isError: true,
-      });
+    } catch (error: any) {
+      const { data } = error.response;
+      if (data.reason === 'ValidationError') {
+        createNotification({
+          message: `Username "${formValues?.username}" is taken. Choose another one!`,
+          isError: true,
+        });
+      } else {
+        createNotification({
+          message: 'Something went wrong while creating user! Try again later.',
+          isError: true,
+        });
+      }
     }
   };
 
@@ -51,7 +55,6 @@ const RegisterForm = () => {
           method='post'>
           <UsernamePasswordForm />
           <AvatarForm tipContent='Can be added/edited later on. (Max 2.5MB)' />
-          <UsernameTakenError isUsernameTaken={isUsernameTakenError} />
           <Box
             align={['xsmall', 'small'].includes(size) ? undefined : 'start'}
             pad={{ top: 'xxsmall' }}

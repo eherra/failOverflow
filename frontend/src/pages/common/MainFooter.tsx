@@ -11,10 +11,10 @@ const MainFooter = () => {
         <Text size='medium'>&copy; {new Date().getFullYear()} Fail Overflow</Text>
       </Box>
       <Box direction='row' gap='xsmall' wrap>
-        <WavyLink to='/faq' color='#dae4dd' duration='800' direction='down'>
+        <WavyLink to='/faq' color='#A7BEAE' duration='1000' direction='down'>
           <Button hoverIndicator label='FAQ' />
         </WavyLink>
-        <Button label='Give feedback' />
+        <Button label='Careers' />
       </Box>
     </Footer>
   );
