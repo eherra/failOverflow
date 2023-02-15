@@ -1,12 +1,36 @@
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { Box, Button } from 'grommet';
-import { Logout } from 'grommet-icons';
-import styled from 'styled-components';
+import { Logout, StatusGood } from 'grommet-icons';
 import { useUserContext } from '../../../context/UserContext';
+import { useNotificationContext } from '../../../context/NotificationContext';
+import styled from 'styled-components';
 
 const StyledNavButton = styled(Button)<{ isActive: boolean }>`
   text-decoration: ${(props) => (props.isActive ? 'underline #454545 3px' : undefined)};
   text-underline-offset: ${(props) => (props.isActive ? '5px' : undefined)};
+`;
+
+const StyledLogoutButton = styled(Button)`
+  display: inline-block;
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 3px;
+    bottom: 0;
+    left: 0;
+    background-color: #454545;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+
+  &:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
 `;
 
 interface IBigScreenNavBar {
@@ -15,7 +39,18 @@ interface IBigScreenNavBar {
 
 const BigScreenNavBar = ({ isLoggedIn }: IBigScreenNavBar) => {
   const { handleLogout } = useUserContext();
+  const { createNotification } = useNotificationContext();
   const navigate = useNavigate();
+
+  const logout = () => {
+    handleLogout();
+    createNotification({
+      message: 'Successfully signed out. See you soon!',
+      isError: false,
+      icon: <StatusGood color='#96ab9c' />,
+    });
+    navigate('/landing');
+  };
 
   return (
     <>
@@ -40,16 +75,12 @@ const BigScreenNavBar = ({ isLoggedIn }: IBigScreenNavBar) => {
             </NavLink>
           </Box>
 
-          <Button
+          <StyledLogoutButton
+            plain
             style={{ marginLeft: 'auto' }}
-            type='button'
             icon={<Logout />}
             label='Logout'
-            onClick={() => {
-              handleLogout();
-              navigate('/landing');
-            }}
-            color='fffff'
+            onClick={() => logout()}
           />
         </>
       ) : (

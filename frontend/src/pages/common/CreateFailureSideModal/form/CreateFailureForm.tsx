@@ -72,7 +72,7 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
     <Box gap='medium'>
       <Header align='start' pad={{ horizontal: 'xxsmall' }}>
         <Box gap='xxsmall'>
-          <Heading level={2} margin='none' id='layer-title'>
+          <Heading level={2} margin='none'>
             Report a failure
           </Heading>
         </Box>
@@ -81,11 +81,11 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
         messages={{
           required: 'Characters here please.',
         }}
-        validate='blur'
+        validate='submit'
         method='post'
         onSubmit={({ value }: IValue) => handleFormSubmit({ value })}>
         <FormField required label='Title' htmlFor='title' name='title'>
-          <TextInput name='title' placeholder='Short title of your failure' />
+          <TextInput minLength={5} name='title' placeholder='Short title of your failure' />
         </FormField>
         <FormField
           required
@@ -93,10 +93,16 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
           htmlFor='description'
           name='description'
           tabIndex={-1}>
-          <TextArea name='description' resize='vertical' placeholder='Explain what happend' />
+          <TextArea
+            minLength={5}
+            name='description'
+            resize='vertical'
+            placeholder='Explain what happend'
+          />
         </FormField>
         <FormField required label='Solution' htmlFor='solution' name='solution' tabIndex={-1}>
           <TextArea
+            minLength={5}
             name='solution'
             resize='vertical'
             placeholder='How did you overcome this failure?'
