@@ -13,9 +13,11 @@ userRouter.post("/", async (req: Request, res: Response) => {
   try {
     const createdUser = await userService.createUser(username, password);
     res.status(201).send(createdUser);
-  } catch (err) {
+  } catch (err: any) {
+    const { name } = err;
     res.status(400).json({
       error: "Something went wrong",
+      reason: name,
     });
   }
 });

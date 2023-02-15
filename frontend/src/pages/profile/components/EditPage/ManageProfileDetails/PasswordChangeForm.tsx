@@ -31,7 +31,7 @@ const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
       createNotification({
         message: 'Password changed successfully!',
         isError: false,
-        icon: <Lock />,
+        icon: <Lock color='#96ab9c' />,
       });
       setPasswordValues({
         currentPassword: '',

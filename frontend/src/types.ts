@@ -42,3 +42,25 @@ export interface IPasswordChangeFormValues {
   newPassword: string;
   confirmPassword: string;
 }
+
+export interface IFailureOfTheMonth {
+  _id: string;
+  creator: Array<Creator>;
+  title: string;
+  description: string;
+  solution: string;
+  technologies: Array<string>;
+  createdAt: string;
+  reviewAverage?: number;
+}
+
+export interface IFailureOfTheWeek {
+  _id: string;
+  creator: Array<Creator>;
+  title: string;
+  description: string;
+  solution: string;
+  technologies: Array<string>;
+  totalVotes: number;
+  createdAt: string;
+}

@@ -43,7 +43,7 @@ const StarRatingForm = ({ failureId, userReview }: IStarRatingForm) => {
       setRating(ratingValue);
       createNotification({
         message: 'Star review succesfully added!',
-        icon: <Star />,
+        icon: <Star color='#96ab9c' />,
         isError: false,
       });
     } catch (err) {

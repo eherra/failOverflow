@@ -97,6 +97,11 @@ const getRatingData = async (failureId: string, userId: string) => {
   return response.data;
 };
 
+const getReviewOfTheMonth = async () => {
+  const response = await axios.get(`${url}/rate/failure-month`);
+  return response.data;
+};
+
 export default {
   createFailure,
   getAllFailures,
@@ -110,4 +115,5 @@ export default {
   getFailureOfTheWeek,
   getFailureComments,
   deleteFailure,
+  getReviewOfTheMonth,
 };

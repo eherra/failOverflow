@@ -50,7 +50,7 @@ const DeleteFailureModal = ({
       createNotification({
         message: 'Failure deleted successfully!',
         isError: false,
-        icon: <Trash />,
+        icon: <Trash color='#96ab9c' />,
       });
     } catch (err) {
       console.log(err);

@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { Box, List, Menu, ResponsiveContext, Text, Spinner } from 'grommet';
-import { More } from 'grommet-icons';
+import { More, Script } from 'grommet-icons';
 import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
 import { Failure } from '../../../../../types';
 import FailureDetailModal from '../../../../common/FailureDetailModal';
@@ -8,6 +8,7 @@ import CommentsModal from './CommentsModal';
 import DeleteFailureModal from './DeleteFailureModal';
 import failureService from '../../../../../api/failures';
 import { useUserContext } from '../../../../../context/UserContext';
+import CreateFailureSideModal from '../../../../common/CreateFailureSideModal/CreateFailureSideModal';
 
 const ManageFailuresList = () => {
   const { user } = useUserContext();
@@ -50,85 +51,95 @@ const ManageFailuresList = () => {
 
   return (
     <Box overflow='auto' pad='xsmall'>
-      <List
-        data={failures}
-        action={(failure, index) => (
-          <Menu
-            key={index}
-            icon={<More />}
-            hoverIndicator
-            items={[
-              [
-                {
-                  label: 'View details',
-                  onClick: () => {
-                    setToEdit(failure);
-                    setDetailsModalShow(true);
-                  },
-                },
-                {
-                  label: 'Comments',
-                  onClick: () => {
-                    setToEdit(failure);
-                    setCommentsModalShow(true);
-                  },
-                },
-              ],
-              [
-                {
-                  label: 'Delete',
-                  onClick: () => {
-                    setToEdit(failure);
-                    setDeleteModalShow(true);
-                  },
-                },
-              ],
-            ]}
-          />
-        )}
-        step={2}
-        show={{ page: 1 }}
-        paginate={{
-          /* @ts-expect-error doesn't recognize the paginate props as an Object */
-          border: 'top',
-          direction: 'row',
-          fill: 'horizontal',
-          justify: !['xsmall', 'small'].includes(screenSize) ? 'end' : 'center',
-          pad: { top: 'xsmall' },
-        }}>
-        {
-          /* @ts-expect-error giving error */
-          (failure: Failure, index: number) => (
-            <Box key={index}>
-              <Text weight='bold' size='small'>
-                {failure.title}
-              </Text>
-              <Text size='small'>{createStyledDateInfo(failure.createdAt)}</Text>
-            </Box>
-          )
-        }
-      </List>
+      {failures.length ? (
+        <>
+          <List
+            data={failures}
+            action={(failure, index) => (
+              <Menu
+                key={index}
+                icon={<More />}
+                hoverIndicator
+                items={[
+                  [
+                    {
+                      label: 'View details',
+                      onClick: () => {
+                        setToEdit(failure);
+                        setDetailsModalShow(true);
+                      },
+                    },
+                    {
+                      label: 'Comments',
+                      onClick: () => {
+                        setToEdit(failure);
+                        setCommentsModalShow(true);
+                      },
+                    },
+                  ],
+                  [
+                    {
+                      label: 'Delete',
+                      onClick: () => {
+                        setToEdit(failure);
+                        setDeleteModalShow(true);
+                      },
+                    },
+                  ],
+                ]}
+              />
+            )}
+            step={2}
+            show={{ page: 1 }}
+            paginate={{
+              /* @ts-expect-error doesn't recognize the paginate props as an Object */
+              border: 'top',
+              direction: 'row',
+              fill: 'horizontal',
+              justify: !['xsmall', 'small'].includes(screenSize) ? 'end' : 'center',
+              pad: { top: 'xsmall' },
+            }}>
+            {
+              /* @ts-expect-error giving error */
+              (failure: Failure, index: number) => (
+                <Box key={index}>
+                  <Text weight='bold' size='small'>
+                    {failure.title}
+                  </Text>
+                  <Text size='small'>{createStyledDateInfo(failure.createdAt)}</Text>
+                </Box>
+              )
+            }
+          </List>
+          {detailsModalShow && (
+            <FailureDetailModal failure={toEdit} setDetailsModalShow={setDetailsModalShow} />
+          )}
 
-      {detailsModalShow && (
-        <FailureDetailModal failure={toEdit} setDetailsModalShow={setDetailsModalShow} />
-      )}
+          {commentsModaleShow && (
+            <CommentsModal
+              failureId={toEdit?._id}
+              comments={toEdit?.comments}
+              allowComments={toEdit?.allowComments}
+              setCommentsModalShow={setCommentsModalShow}
+            />
+          )}
 
-      {commentsModaleShow && (
-        <CommentsModal
-          failureId={toEdit?._id}
-          comments={toEdit?.comments}
-          allowComments={toEdit?.allowComments}
-          setCommentsModalShow={setCommentsModalShow}
-        />
-      )}
-
-      {deleteModalShow && (
-        <DeleteFailureModal
-          failureId={toEdit?._id}
-          setFailures={setFailures}
-          confirmText={toEdit?.title}
-          setDeleteModalShow={setDeleteModalShow}
-        />
+          {deleteModalShow && (
+            <DeleteFailureModal
+              failureId={toEdit?._id}
+              setFailures={setFailures}
+              confirmText={toEdit?.title}
+              setDeleteModalShow={setDeleteModalShow}
+            />
+          )}
+        </>
+      ) : (
+        <Box direction='column'>
+          <p>No failures created by you.</p>
+          <Box align={['xsmall', 'small'].includes(screenSize) ? undefined : 'start'}>
+            <CreateFailureSideModal />
+          </Box>
+        </Box>
       )}
     </Box>
   );

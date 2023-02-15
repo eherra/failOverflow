@@ -11,20 +11,11 @@ import {
 import { Catalog } from 'grommet-icons';
 import { Failure } from '../../types';
 import { createStyledDateInfo } from '../../utils/TimeUtils';
-import { Creator } from '../../types';
+import { IFailureOfTheMonth } from '../../types';
+import { IFailureOfTheWeek } from '../../types';
 
-interface IFailureOfTheWeek {
-  _id: string;
-  creator: Array<Creator>;
-  title: string;
-  description: string;
-  solution: string;
-  technologies: Array<string>;
-  totalVotes: number;
-  createdAt: string;
-}
 interface IShowFailureDetailsModal {
-  failure?: Failure | IFailureOfTheWeek;
+  failure?: Failure | IFailureOfTheWeek | IFailureOfTheMonth;
   setDetailsModalShow(boolean: any): void;
 }
 
