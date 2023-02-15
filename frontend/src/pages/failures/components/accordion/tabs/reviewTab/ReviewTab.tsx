@@ -4,6 +4,7 @@ import failureService from '../../../../../../api/failures';
 import { useUserContext } from '../../../../../../context/UserContext';
 import StarReviewColumn from './StarReviewColumn';
 import VoteColumn from './VoteColumn';
+import { Like } from 'grommet-icons';
 
 interface IReviewTab {
   failureId: string;
@@ -58,7 +59,7 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
   };
 
   return (
-    <Tab title='Review'>
+    <Tab title='Review' icon={<Like />}>
       <Box gap='large' margin='large'>
         <NameValueList
           pairProps={{ direction: 'column' }}

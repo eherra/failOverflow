@@ -1,5 +1,6 @@
 import { Box, NameValueList, NameValuePair, Tab } from 'grommet';
 import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
+import { Overview } from 'grommet-icons';
 
 interface IOverview {
   description: string;
@@ -10,7 +11,7 @@ interface IOverview {
 
 const OverviewTab = ({ description, solution, technologies, createdAt }: IOverview) => {
   return (
-    <Tab title='Overview'>
+    <Tab title='Overview' icon={<Overview />}>
       <Box gap='small' margin='medium'>
         <NameValueList
           pairProps={{ direction: 'column' }}

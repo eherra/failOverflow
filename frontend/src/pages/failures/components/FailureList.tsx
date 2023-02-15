@@ -1,4 +1,4 @@
-import { Accordion, Spinner } from 'grommet';
+import { Accordion, Spinner, Box, Text } from 'grommet';
 import { useState, useEffect } from 'react';
 import AccordionUnit from './accordion/AccordionUnit';
 import { Failure } from '../../../types';
@@ -36,11 +36,19 @@ const FailureList = () => {
       {isFetchingFailures ? (
         <Spinner size='large' />
       ) : (
-        <Accordion multiple width='85%'>
-          {failures?.map((failure, index) => (
-            <AccordionUnit key={index} failure={failure} />
-          ))}
-        </Accordion>
+        <>
+          {!failures.length ? (
+            <Box direction='row' gap='small'>
+              <Text>There are no failures to show.</Text>
+            </Box>
+          ) : (
+            <Accordion multiple width='85%'>
+              {failures?.map((failure, index) => (
+                <AccordionUnit key={index} failure={failure} />
+              ))}
+            </Accordion>
+          )}
+        </>
       )}
     </>
   );

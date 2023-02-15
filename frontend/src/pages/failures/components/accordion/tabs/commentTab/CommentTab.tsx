@@ -1,7 +1,7 @@
 import { useState, SyntheticEvent, useEffect } from 'react';
 import { Box, NameValueList, Tab, Form, FormField, TextArea, Button, Text, Spinner } from 'grommet';
 import failureService from '../../../../../../api/failures';
-import { Login, Coffee } from 'grommet-icons';
+import { Login, ChatOption, Chat } from 'grommet-icons';
 import { useUserContext } from '../../../../../../context/UserContext';
 import UserCommentsColumn from './UserCommentsColumn';
 import { useNotificationContext } from '../../../../../../context/NotificationContext';
@@ -57,7 +57,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
       createNotification({
         message: 'Comment added succesfully!',
         isError: false,
-        icon: <Coffee />,
+        icon: <ChatOption color='#96ab9c' />,
       });
     } catch (e) {
       console.log(e);
@@ -68,7 +68,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
   };
 
   return (
-    <Tab title='Comments'>
+    <Tab title='Comments' icon={<Chat />}>
       <Box gap='large' margin='large'>
         <NameValueList
           pairProps={{ direction: 'column' }}

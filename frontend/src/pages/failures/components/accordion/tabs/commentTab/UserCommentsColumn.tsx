@@ -32,7 +32,7 @@ const UserCommentsColumn = ({ comments }: IUserComments) => {
             )}
           </>
         ) : (
-          <p>No comments to show</p>
+          <p>No comments to show.</p>
         )}
       </>
     </NameValuePair>
