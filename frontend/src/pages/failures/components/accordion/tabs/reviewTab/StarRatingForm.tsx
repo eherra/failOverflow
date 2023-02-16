@@ -9,6 +9,7 @@ import { useNotificationContext } from '../../../../../../context/NotificationCo
 interface IStarRatingForm {
   failureId: string;
   userReview: number;
+  setStarsData: ({ starAverage, userReview }: { starAverage: number; userReview: number }) => void;
 }
 
 const tooltipArray = [
@@ -24,7 +25,7 @@ const tooltipArray = [
   'Much wow',
 ];
 
-const StarRatingForm = ({ failureId, userReview }: IStarRatingForm) => {
+const StarRatingForm = ({ failureId, userReview, setStarsData }: IStarRatingForm) => {
   const { user } = useUserContext();
   const { createNotification } = useNotificationContext();
 
@@ -34,13 +35,17 @@ const StarRatingForm = ({ failureId, userReview }: IStarRatingForm) => {
   const handleStarValueChange = async (ratingValue: number) => {
     try {
       setIsSendingRating(true);
-      await failureService.sendRating({
+      const { updatedRatingData }: any = await failureService.sendRating({
         failureId,
         raterId: user?.id || '',
         ratingValue,
       });
       setIsSendingRating(false);
       setRating(ratingValue);
+      setStarsData({
+        starAverage: updatedRatingData.ratingAverage,
+        userReview: updatedRatingData.userRating,
+      });
       createNotification({
         message: 'Star review succesfully added!',
         icon: <Star color='#96ab9c' />,

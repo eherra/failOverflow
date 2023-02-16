@@ -20,7 +20,6 @@ interface IComment {
 }
 
 const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
-  console.log(allowComments);
   const { user } = useUserContext();
   const { createNotification } = useNotificationContext();
 
@@ -46,12 +45,12 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
     event.preventDefault();
     try {
       setIsSendingComment(true);
-      const newComment = await failureService.addCommentToFailure({
+      const { createdComment } = await failureService.addCommentToFailure({
         comment: commentInput,
         commentorId: user?.id || '',
         failureId: failureId,
       });
-      setCurrComments((prevComments) => [...prevComments, newComment.comment]);
+      setCurrComments((prevComments) => [...prevComments, createdComment]);
       setCommentInput('');
       setIsSendingComment(false);
       createNotification({

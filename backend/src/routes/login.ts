@@ -1,3 +1,4 @@
+import "express-async-errors";
 import express, { Request, Response } from "express";
 import { IUserDTO } from "../types";
 import loginService from "../services/loginService";
@@ -12,17 +13,8 @@ const loginRouter = express.Router();
  */
 loginRouter.post("/", async (req: Request, res: Response) => {
   const { username, password } = req.body;
-
-  try {
-    const loggedUser: IUserDTO | null = await loginService.loginUser(username, password);
-    res.status(200).send(loggedUser);
-  } catch (err: any) {
-    console.log("Error while login user");
-    console.log(err);
-    res.status(401).json({
-      error: err.message,
-    });
-  }
+  const loggedUser: IUserDTO | null = await loginService.loginUser(username, password);
+  res.status(200).send(loggedUser);
 });
 
 export default loginRouter;

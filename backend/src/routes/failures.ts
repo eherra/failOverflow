@@ -1,27 +1,8 @@
+import "express-async-errors";
 import express, { Request, Response } from "express";
 import failureService from "../services/failureService";
 
 const failuresRouter = express.Router();
-
-/**
- * POST /api/failures
- * @summary Creates new failure to DB
- * @return {} 201 - Created failure
- * @return {} 400 - Bad request response
- */
-failuresRouter.post("/", async (req: Request, res: Response) => {
-  const { failure, creatorId } = req.body;
-  try {
-    const createdFailure = await failureService.createFailure(failure, creatorId);
-    res.status(201).send({ createdFailure });
-  } catch (err) {
-    console.log("Error while creating failure");
-    console.log(err);
-    res.status(400).json({
-      error: "Something went wrong",
-    });
-  }
-});
 
 /**
  * GET /api/failures
@@ -30,19 +11,10 @@ failuresRouter.post("/", async (req: Request, res: Response) => {
  * @return {} 400 - Bad request response
  */
 failuresRouter.get("/all", async (_req: Request, res: Response) => {
-  try {
-    const failures = await failureService.getAllFailures();
-    res.status(200).json({
-      isSuccess: true,
-      failures: failures,
-    });
-  } catch (err) {
-    console.log("Error while fetching all failures");
-    console.log(err);
-    res.status(400).json({
-      isSuccess: false,
-    });
-  }
+  const failures = await failureService.getAllFailures();
+  res.status(200).json({
+    failures,
+  });
 });
 
 /**
@@ -53,39 +25,94 @@ failuresRouter.get("/all", async (_req: Request, res: Response) => {
  */
 failuresRouter.get("/all/:userId", async (req: Request, res: Response) => {
   const userId = req.params.userId;
-  try {
-    const userFailures = await failureService.findUsersFailures(userId);
-    res.status(200).json({
-      userFailures,
-    });
-  } catch (e) {
-    res.status(400).json({
-      isSuccess: false,
-    });
-  }
+  const userFailures = await failureService.findUsersFailures(userId);
+  res.status(200).json({
+    userFailures,
+  });
 });
 
 /**
- * DELETE /api/failures/:failureId
- * @summary Removes failure according to failureId given as path variable
- * @param {} req.params.required - failureId
- * @return {} 200 - Success
+ * GET /api/failures/rate/:failureId/user/:userId
+ * @summary Gets ratings average and user ratings
+ * @param   req.params  failureId: required, userId: Not required -> if user not logged in
+ * @return {} 200 - ratingAverage, userRating -> if userId provided
  * @return {} 400 - Bad request response
  */
-failuresRouter.delete("/:failureId", async (req: Request, res: Response) => {
-  // Token
-  const failureId = req.params.failureId;
-  try {
-    await failureService.deleteFailure(failureId);
-    res.status(200).json({
-      isSuccess: true,
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(400).json({
-      isSuccess: false,
-    });
-  }
+failuresRouter.get("/rate/:failureId/user/:userId?", async (req: Request, res: Response) => {
+  const { failureId, userId } = req.params;
+  const ratingData = await failureService.getRatingData(failureId, userId);
+  res.status(200).json({
+    ratingData,
+  });
+});
+
+/**
+ * GET /api/failures/vote/:failureId/user/:userId
+ * @summary Gets amount of votes and users vote info according to the failure given by param
+ * @param   req.params  failureId: required, userId: Not required -> if user not logged in
+ * @return {} 200 - votesAmount, hasUserVoted -> if userId provided
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/vote/:failureId/user/:userId?", async (req: Request, res: Response) => {
+  const { failureId, userId } = req.params;
+  const votesData = await failureService.getVoteData(failureId, userId);
+  res.status(200).json({
+    hasUserVoted: votesData.hasUserVoted,
+    votesAmount: votesData.votesAmount,
+  });
+});
+
+/**
+ * GET /api/failures/vote/failure-week"
+ * @summary Gets failure of the week
+ * @return {} 200 - failure info of the week
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/vote/failure-week", async (_req: Request, res: Response) => {
+  const failureOfTheWeek = await failureService.getFailureOfTheWeek();
+  res.status(200).json({
+    failureOfTheWeek,
+  });
+});
+
+/**
+ * GET /api/failures/comment/:failureId"
+ * @summary Gets failures comments
+ * @param   req.params.required  failureId
+ * @return {} 200 - comments of failure
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/comment/:failureId", async (req: Request, res: Response) => {
+  const { failureId } = req.params;
+  const commentsData = await failureService.getFailureComments(failureId);
+  res.status(200).json({
+    commentsData,
+  });
+});
+
+/**
+ * GET /api/failures/rate/failure-month"
+ * @summary Gets failure of the month
+ * @return {} 200 - failure info of the month
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/rate/failure-month", async (_req: Request, res: Response) => {
+  const failureOfTheMonth = await failureService.getFailureOfTheMonth();
+  res.status(200).json({
+    failureOfTheMonth,
+  });
+});
+
+/**
+ * POST /api/failures
+ * @summary Creates new failure to DB
+ * @return {} 201 - Created failure
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.post("/", async (req: Request, res: Response) => {
+  const { failure, creatorId } = req.body;
+  const createdFailure = await failureService.createFailure(failure, creatorId);
+  res.status(201).json({ createdFailure });
 });
 
 /**
@@ -99,22 +126,15 @@ failuresRouter.delete("/:failureId", async (req: Request, res: Response) => {
 failuresRouter.post("/comment/:failureId", async (req: Request, res: Response) => {
   const failureId = req.params.failureId;
   const { comment, commentorId } = req.body;
-  try {
-    const createdComment = await failureService.addCommentToFailure({
-      comment,
-      commentorId,
-      failureId,
-    });
+  const createdComment = await failureService.addCommentToFailure({
+    comment,
+    commentorId,
+    failureId,
+  });
 
-    res.status(201).json({
-      comment: createdComment,
-      isSuccess: true,
-    });
-  } catch (e) {
-    res.status(400).json({
-      isSuccess: false,
-    });
-  }
+  res.status(201).json({
+    createdComment,
+  });
 });
 
 /**
@@ -122,33 +142,25 @@ failuresRouter.post("/comment/:failureId", async (req: Request, res: Response) =
  * @summary Creates or deletes vote from failure
  * @param {} req.params.required - failureId
  * @param {} request.body.required - voterId, isAddingVote
- * @return {} 200 - All user failures
+ * @return {} 200 - Succeed
  * @return {} 400 - Bad request response
  */
 failuresRouter.post("/vote/:failureId", async (req: Request, res: Response) => {
   // add token
   const failureId = req.params.failureId;
   const { voterId, isDeletingVote } = req.body;
-  try {
-    if (isDeletingVote) {
-      await failureService.deleteVoteFromFailure({
-        voterId,
-        failureId,
-      });
-    } else {
-      await failureService.addVoteToFailure({
-        voterId,
-        failureId,
-      });
-    }
-    res.status(201).json({
-      isSuccess: true,
+  if (isDeletingVote) {
+    await failureService.deleteVoteFromFailure({
+      voterId,
+      failureId,
     });
-  } catch (e) {
-    res.status(400).json({
-      isSuccess: false,
+  } else {
+    await failureService.addVoteToFailure({
+      voterId,
+      failureId,
     });
   }
+  res.sendStatus(200);
 });
 
 /**
@@ -156,72 +168,21 @@ failuresRouter.post("/vote/:failureId", async (req: Request, res: Response) => {
  * @summary Gives a rating to a failure according to param failureId
  * @param {} req.params.required - failureId
  * @param {} request.body.required - raterId, ratingValue
- * @return {} 200 - All user failures
+ * @return {} 200 - Updated rating data with fields: ratingAverage, userReview
  * @return {} 400 - Bad request response
  */
 failuresRouter.post("/rate/:failureId", async (req: Request, res: Response) => {
   // add token
   const failureId = req.params.failureId;
   const { raterId, ratingValue } = req.body;
-  try {
-    const rating = await failureService.addStarRating({
-      raterId,
-      ratingValue,
-      failureId,
-    });
-    res.status(200).json({
-      rating: rating,
-      isSuccess: true,
-    });
-  } catch (e) {
-    res.status(400).json({
-      isSuccess: false,
-    });
-  }
-});
-
-/**
- * GET /api/failures/rate/:failureId/user/:userId
- * @summary Gets ratings average and user ratings
- * @param   req.params  failureId: required, userId: Not required -> if user not logged in
- * @return {} 200 - ratingAverage, userRating -> if userId provided
- * @return {} 400 - Bad request response
- */
-failuresRouter.get("/rate/:failureId/user/:userId?", async (req: Request, res: Response) => {
-  const { failureId, userId } = req.params;
-  try {
-    const ratingData = await failureService.getRatingData(failureId, userId);
-    res.status(200).json({
-      ratingData: ratingData,
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(400).json({
-      isSuccess: false,
-    });
-  }
-});
-
-/**
- * GET /api/failures/vote/:failureId/user/:userId
- * @summary Gets amount of votes and users vote info according to the failure given by param
- * @param   req.params  failureId: required, userId: Not required -> if user not logged in
- * @return {} 200 - votesAmount, hasUserVoted -> if userId provided
- * @return {} 400 - Bad request response
- */
-failuresRouter.get("/vote/:failureId/user/:userId?", async (req: Request, res: Response) => {
-  const { failureId, userId } = req.params;
-  try {
-    const votesData = await failureService.getVoteData(failureId, userId);
-    res.status(200).json({
-      hasUserVoted: votesData.hasUserVoted,
-      votesAmount: votesData.votesAmount,
-    });
-  } catch (e) {
-    res.status(400).json({
-      isSuccess: false,
-    });
-  }
+  const updatedRatingData = await failureService.addStarRating({
+    raterId,
+    ratingValue,
+    failureId,
+  });
+  res.status(200).json({
+    updatedRatingData,
+  });
 });
 
 /**
@@ -237,76 +198,23 @@ failuresRouter.put(
   async (req: Request, res: Response) => {
     const { failureId } = req.params;
     const { isCommentsAllowed } = req.body;
-    try {
-      await failureService.toggleFailureCommentingAllowance(failureId, isCommentsAllowed);
-      res.status(200).json({
-        isSuccess: true,
-      });
-    } catch (e) {
-      res.status(400).json({
-        isSuccess: false,
-      });
-    }
+    await failureService.toggleFailureCommentingAllowance(failureId, isCommentsAllowed);
+    res.sendStatus(200);
   },
 );
 
 /**
- * GET /api/failures/vote/failure-week"
- * @summary Gets failure of the week
- * @return {} 200 - failure info of the week
+ * DELETE /api/failures/:failureId
+ * @summary Removes failure according to failureId given as path variable
+ * @param {} req.params.required - failureId
+ * @return {} 200 - Success
  * @return {} 400 - Bad request response
  */
-failuresRouter.get("/vote/failure-week", async (_req: Request, res: Response) => {
-  try {
-    const failureOfTheWeek = await failureService.getFailureOfTheWeek();
-    res.status(200).json({
-      failureOfTheWeek,
-    });
-  } catch (e) {
-    res.status(400).json({
-      isSuccess: false,
-    });
-  }
-});
-
-/**
- * GET /api/failures/comment/:failureId"
- * @summary Gets failures comments
- * @param   req.params.required  failureId
- * @return {} 200 - comments of failure
- * @return {} 400 - Bad request response
- */
-failuresRouter.get("/comment/:failureId", async (req: Request, res: Response) => {
-  const { failureId } = req.params;
-  try {
-    const commentsData = await failureService.getFailureComments(failureId);
-    res.status(200).json({
-      commentsData,
-    });
-  } catch (e) {
-    res.status(400).json({
-      isSuccess: false,
-    });
-  }
-});
-
-/**
- * GET /api/failures/rate/failure-month"
- * @summary Gets failure of the month
- * @return {} 200 - failure info of the month
- * @return {} 400 - Bad request response
- */
-failuresRouter.get("/rate/failure-month", async (_req: Request, res: Response) => {
-  try {
-    const failureOfTheMonth = await failureService.getFailureOfTheMonth();
-    res.status(200).json({
-      failureOfTheMonth,
-    });
-  } catch (e) {
-    res.status(400).json({
-      isSuccess: false,
-    });
-  }
+failuresRouter.delete("/:failureId", async (req: Request, res: Response) => {
+  // Token
+  const failureId = req.params.failureId;
+  await failureService.deleteFailure(failureId);
+  res.sendStatus(200);
 });
 
 export default failuresRouter;

@@ -5,8 +5,8 @@ import { Add } from 'grommet-icons';
 import CreateFailureForm from './form/CreateFailureForm';
 
 const CreateFailureSideModal = () => {
-  const [isCreateFailureModalOpen, setIsCreateFailureModalOpen] = useState<boolean>(false);
   const screenSize = useContext(ResponsiveContext);
+  const [isCreateFailureModalOpen, setIsCreateFailureModalOpen] = useState<boolean>(false);
 
   return (
     <>

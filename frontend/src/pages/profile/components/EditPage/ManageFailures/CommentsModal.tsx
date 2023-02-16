@@ -12,31 +12,42 @@ import {
 import { Chat } from 'grommet-icons';
 import failureService from '../../../../../api/failures';
 import UserCommentsColumn from '../../../../failures/components/accordion/tabs/commentTab/UserCommentsColumn';
-import { IComment } from '../../../../../types';
+import { Failure } from '../../../../../types';
+import { useNotificationContext } from '../../../../../context/NotificationContext';
 
 interface ICommentsModal {
-  comments?: Array<IComment>;
-  failureId?: string;
+  failure?: Failure;
   setCommentsModalShow(boolean: any): void;
-  allowComments?: boolean;
+  setFailures(failures: Array<Failure>): void;
 }
 
-const CommentsModal = ({
-  setCommentsModalShow,
-  comments,
-  failureId,
-  allowComments,
-}: ICommentsModal) => {
+const CommentsModal = ({ failure, setCommentsModalShow, setFailures }: ICommentsModal) => {
   const screenSize = useContext(ResponsiveContext);
-  const allowCommentsText = allowComments ? 'Yes' : 'No';
+  const { createNotification } = useNotificationContext();
+  const allowCommentsText = failure?.allowComments ? 'Yes' : 'No';
   const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>(allowCommentsText);
 
   const toggleCommentAllowed = async (toggleValue: boolean) => {
     try {
-      await failureService.toggleCommentAllowed(failureId || '', !toggleValue);
+      await failureService.toggleCommentAllowed(failure?._id || '', !toggleValue);
       setCommentsAllowedLabel((prevValue) => (prevValue === 'Yes' ? 'No' : 'Yes'));
+
+      /* @ts-expect-error TODO check this */
+      setFailures((prevFailures: Array<Failure>) => {
+        const newState = prevFailures.map((mFailure: Failure) => {
+          if (mFailure._id === failure?._id) {
+            return { ...mFailure, allowComments: !mFailure.allowComments };
+          }
+          return mFailure;
+        });
+        return newState;
+      });
     } catch (err) {
       console.log(err);
+      createNotification({
+        message: 'Something went wrong! Try again later.',
+        isError: true,
+      });
     }
   };
 
@@ -61,9 +72,7 @@ const CommentsModal = ({
           layout='grid'
           valueProps={{ width: 'large' }}
           justifyContent='center'>
-          <NameValuePair name="People's comments">
-            <UserCommentsColumn comments={comments} />
-          </NameValuePair>
+          <UserCommentsColumn comments={failure?.comments} />
           <NameValuePair name='Change commenting allowance'>
             <CheckBox
               name='comments'

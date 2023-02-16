@@ -33,10 +33,9 @@ const LoginForm = () => {
         icon: <UserAdmin color='#96ab9c' />,
       });
       navigate('/');
-    } catch (e) {
+    } catch (err) {
+      console.log(err);
       createNotification({ message: 'Wrong username or password!', isError: true });
-
-      console.log(e);
     }
   };
 
