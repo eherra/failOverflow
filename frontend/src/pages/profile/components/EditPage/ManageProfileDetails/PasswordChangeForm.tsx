@@ -3,7 +3,6 @@ import { Box, Button, Form, FormField, ResponsiveContext, TextInput, Spinner } f
 import { passwordRules, confirmStringMatching } from '../../../../common/FormValidation';
 import userService from '../../../../../api/user';
 import { IPasswordChangeFormValues } from '../../../../../types';
-import { useUserContext } from '../../../../../context/UserContext';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
 import { Lock } from 'grommet-icons';
 
@@ -12,7 +11,6 @@ interface IPasswordChangeForm {
 }
 
 const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
-  const { user } = useUserContext();
   const { createNotification } = useNotificationContext();
   const screenSize = useContext(ResponsiveContext);
 
@@ -26,7 +24,7 @@ const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
   const handlePasswordSubmit = async (value: IPasswordChangeFormValues) => {
     try {
       setIsUpdatingPassword(true);
-      await userService.changePassword({ passwordValues: value, id: user?.id });
+      await userService.changePassword({ passwordValues: value });
       setIsUpdatingPassword(false);
       createNotification({
         message: 'Password changed successfully!',

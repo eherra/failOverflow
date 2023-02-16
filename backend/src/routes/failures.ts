@@ -1,6 +1,7 @@
 import "express-async-errors";
 import express, { Request, Response } from "express";
 import failureService from "../services/failureService";
+import { userExtractor } from "../utils/middleware";
 
 const failuresRouter = express.Router();
 
@@ -10,7 +11,7 @@ const failuresRouter = express.Router();
  * @return {} 200 - All failures
  * @return {} 400 - Bad request response
  */
-failuresRouter.get("/all", async (_req: Request, res: Response) => {
+failuresRouter.get("/", async (_req: Request, res: Response) => {
   const failures = await failureService.getAllFailures();
   res.status(200).json({
     failures,
@@ -23,9 +24,10 @@ failuresRouter.get("/all", async (_req: Request, res: Response) => {
  * @return {} 200 - All user failures
  * @return {} 400 - Bad request response
  */
-failuresRouter.get("/all/:userId", async (req: Request, res: Response) => {
-  const userId = req.params.userId;
-  const userFailures = await failureService.findUsersFailures(userId);
+failuresRouter.get("/user", userExtractor, async (req: any, res: Response) => {
+  const user: any = req.user;
+  const userFailures = await failureService.findUsersFailures(user.id);
+
   res.status(200).json({
     userFailures,
   });
@@ -68,7 +70,7 @@ failuresRouter.get("/vote/:failureId/user/:userId?", async (req: Request, res: R
  * @return {} 200 - failure info of the week
  * @return {} 400 - Bad request response
  */
-failuresRouter.get("/vote/failure-week", async (_req: Request, res: Response) => {
+failuresRouter.get("/vote/failure-week", userExtractor, async (_req: Request, res: Response) => {
   const failureOfTheWeek = await failureService.getFailureOfTheWeek();
   res.status(200).json({
     failureOfTheWeek,
@@ -96,7 +98,7 @@ failuresRouter.get("/comment/:failureId", async (req: Request, res: Response) =>
  * @return {} 200 - failure info of the month
  * @return {} 400 - Bad request response
  */
-failuresRouter.get("/rate/failure-month", async (_req: Request, res: Response) => {
+failuresRouter.get("/rate/failure-month", userExtractor, async (_req: Request, res: Response) => {
   const failureOfTheMonth = await failureService.getFailureOfTheMonth();
   res.status(200).json({
     failureOfTheMonth,
@@ -105,13 +107,15 @@ failuresRouter.get("/rate/failure-month", async (_req: Request, res: Response) =
 
 /**
  * POST /api/failures
- * @summary Creates new failure to DB
+ * @summary Creates new failure
+ * @param {Failure} request.body.required
  * @return {} 201 - Created failure
  * @return {} 400 - Bad request response
  */
-failuresRouter.post("/", async (req: Request, res: Response) => {
-  const { failure, creatorId } = req.body;
-  const createdFailure = await failureService.createFailure(failure, creatorId);
+failuresRouter.post("/", userExtractor, async (req: any, res: Response) => {
+  const user = req.user;
+  const { failure } = req.body;
+  const createdFailure = await failureService.createFailure(failure, user.id);
   res.status(201).json({ createdFailure });
 });
 
@@ -123,7 +127,7 @@ failuresRouter.post("/", async (req: Request, res: Response) => {
  * @return {} 200 - All user failures
  * @return {} 400 - Bad request response
  */
-failuresRouter.post("/comment/:failureId", async (req: Request, res: Response) => {
+failuresRouter.post("/comment/:failureId", userExtractor, async (req: Request, res: Response) => {
   const failureId = req.params.failureId;
   const { comment, commentorId } = req.body;
   const createdComment = await failureService.addCommentToFailure({
@@ -145,7 +149,7 @@ failuresRouter.post("/comment/:failureId", async (req: Request, res: Response) =
  * @return {} 200 - Succeed
  * @return {} 400 - Bad request response
  */
-failuresRouter.post("/vote/:failureId", async (req: Request, res: Response) => {
+failuresRouter.post("/vote/:failureId", userExtractor, async (req: Request, res: Response) => {
   // add token
   const failureId = req.params.failureId;
   const { voterId, isDeletingVote } = req.body;
@@ -171,8 +175,7 @@ failuresRouter.post("/vote/:failureId", async (req: Request, res: Response) => {
  * @return {} 200 - Updated rating data with fields: ratingAverage, userReview
  * @return {} 400 - Bad request response
  */
-failuresRouter.post("/rate/:failureId", async (req: Request, res: Response) => {
-  // add token
+failuresRouter.post("/rate/:failureId", userExtractor, async (req: Request, res: Response) => {
   const failureId = req.params.failureId;
   const { raterId, ratingValue } = req.body;
   const updatedRatingData = await failureService.addStarRating({
@@ -195,6 +198,7 @@ failuresRouter.post("/rate/:failureId", async (req: Request, res: Response) => {
  */
 failuresRouter.put(
   "/comment/:failureId/toggle-comment-allowance",
+  userExtractor,
   async (req: Request, res: Response) => {
     const { failureId } = req.params;
     const { isCommentsAllowed } = req.body;
@@ -210,10 +214,10 @@ failuresRouter.put(
  * @return {} 200 - Success
  * @return {} 400 - Bad request response
  */
-failuresRouter.delete("/:failureId", async (req: Request, res: Response) => {
-  // Token
+failuresRouter.delete("/:failureId", userExtractor, async (req: any, res: Response) => {
+  const user = req.user;
   const failureId = req.params.failureId;
-  await failureService.deleteFailure(failureId);
+  await failureService.deleteFailure(failureId, user.id);
   res.sendStatus(200);
 });
 

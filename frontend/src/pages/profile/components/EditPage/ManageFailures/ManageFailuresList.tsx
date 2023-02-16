@@ -1,17 +1,15 @@
 import { useState, useContext, useEffect } from 'react';
 import { Box, List, Menu, ResponsiveContext, Text, Spinner } from 'grommet';
-import { More, Script } from 'grommet-icons';
+import { More } from 'grommet-icons';
 import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
 import { Failure } from '../../../../../types';
 import FailureDetailModal from '../../../../common/FailureDetailModal';
 import CommentsModal from './CommentsModal';
 import DeleteFailureModal from './DeleteFailureModal';
 import failureService from '../../../../../api/failures';
-import { useUserContext } from '../../../../../context/UserContext';
 import CreateFailureSideModal from '../../../../common/CreateFailureSideModal/CreateFailureSideModal';
 
 const ManageFailuresList = () => {
-  const { user } = useUserContext();
   const screenSize = useContext(ResponsiveContext);
 
   const [detailsModalShow, setDetailsModalShow] = useState<boolean>(false);
@@ -27,9 +25,7 @@ const ManageFailuresList = () => {
     const fetchUsersFailures = async () => {
       try {
         setIsFetchingFailures(true);
-        console.log(user?.id);
-
-        const userDbFailures = await failureService.getUsersFailuresById(user?.id || '');
+        const userDbFailures = await failureService.getUsersFailures();
         setFailures(userDbFailures.userFailures);
         setIsFetchingFailures(false);
       } catch (err) {

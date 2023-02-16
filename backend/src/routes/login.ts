@@ -1,6 +1,5 @@
 import "express-async-errors";
 import express, { Request, Response } from "express";
-import { IUserDTO } from "../types";
 import loginService from "../services/loginService";
 
 const loginRouter = express.Router();
@@ -13,8 +12,8 @@ const loginRouter = express.Router();
  */
 loginRouter.post("/", async (req: Request, res: Response) => {
   const { username, password } = req.body;
-  const loggedUser: IUserDTO | null = await loginService.loginUser(username, password);
-  res.status(200).send(loggedUser);
+  const { user, token } = await loginService.loginUser(username, password);
+  res.status(200).json({ username: user?.username, id: user?._id, token: token });
 });
 
 export default loginRouter;

@@ -14,7 +14,6 @@ import {
 } from 'grommet';
 import SelectTechnologiesField from './SelectTechnologiesField';
 import failureService from '../../../../api/failures';
-import { useUserContext } from '../../../../context/UserContext';
 import { useNotificationContext } from '../../../../context/NotificationContext';
 import { Script } from 'grommet-icons';
 
@@ -36,7 +35,6 @@ interface IValue {
 }
 
 const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
-  const { user } = useUserContext();
   const { createNotification } = useNotificationContext();
 
   const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>('Yes');
@@ -45,7 +43,7 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
   const handleFormSubmit = async ({ value }: IValue) => {
     try {
       setIsCreatingFailure(true);
-      const createdFailure = await failureService.createFailure(value, user?.id || '');
+      const createdFailure = await failureService.createFailure(value);
       console.log(createdFailure);
       setIsCreatingFailure(false);
       setOpen(false);

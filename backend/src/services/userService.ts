@@ -35,7 +35,7 @@ const changePassword = async ({
   confirmPassword,
   userId,
 }: IChangePasswordValues) => {
-  // check that currentPassowrd is correct
+  // check that currentPassword is correct
   const user: IUserDTO | null = await User.findOne({ _id: userId });
   const passwordMatch = await isPasswordMatching(user, currentPassword);
 
