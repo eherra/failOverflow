@@ -169,7 +169,6 @@ const addCommentToFailure = async ({ comment, commentorId, failureId }: IComment
     givenBy: commentorId,
     comment: comment,
   });
-
   const savedComment = await commentModel.save();
   await Failure.findByIdAndUpdate(failureId, { $push: { comments: savedComment.id } });
 
@@ -223,9 +222,10 @@ const addStarRating = async ({ ratingValue, failureId, raterId }: IStarReviewVal
       },
     },
   ]);
-  const reviewDataAsArray = foundReview[0].review;
+  const reviewObj = foundReview[0].review[0];
 
-  if (!reviewDataAsArray.length) {
+  // if user hasn't yet given any review for the failure, then object is empty
+  if (!reviewObj) {
     const starRatingModel = new StarRating({
       starRating: ratingValue,
       givenBy: raterId,
@@ -233,18 +233,20 @@ const addStarRating = async ({ ratingValue, failureId, raterId }: IStarReviewVal
 
     const savedStarRating = await starRatingModel.save();
     await Failure.findByIdAndUpdate(failureId, { $push: { starRatings: savedStarRating.id } });
-    return savedStarRating;
   } else {
-    const reviewId = reviewDataAsArray[0]._id.toString();
+    const reviewId = reviewObj._id.toString();
     await StarRating.findByIdAndUpdate(reviewId, {
       starRating: ratingValue,
     });
   }
 
-  return "OK";
+  // after rating updates done, fetch updated data
+  const ratingData = await getRatingData(failureId, raterId);
+  return ratingData;
 };
 
 const getRatingData = async (failureId: string, userId: string) => {
+  // refactor that the average is counted on mongoDB side
   const ratingsData: any = await Failure.aggregate([
     {
       $match: {

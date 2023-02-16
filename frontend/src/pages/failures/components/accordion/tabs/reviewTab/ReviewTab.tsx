@@ -36,7 +36,6 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
   const fetchReviewData = async () => {
     try {
       const { ratingData } = await failureService.getRatingData(failureId, user?.id || '');
-      console.log(ratingData);
       setStarsData({
         starAverage: ratingData?.ratingAverage,
         userReview: ratingData?.userRating,
@@ -74,6 +73,7 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
                 <p>Error while fetching review data</p>
               ) : (
                 <StarReviewColumn
+                  setStarsData={setStarsData}
                   failureId={failureId}
                   userReview={starsData?.userReview}
                   reviewAverage={starsData?.starAverage}
@@ -83,6 +83,7 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
                 <p>Error while fetching vote data</p>
               ) : (
                 <VoteColumn
+                  setVotesData={setVotesData}
                   failureId={failureId}
                   votesAmount={votesData.votesAmount}
                   hasUserVoted={votesData.hasUserVoted}

@@ -2,22 +2,27 @@ import { useState } from 'react';
 import { Box, NameValuePair, Button, Spinner } from 'grommet';
 import { useUserContext } from '../../../../../../context/UserContext';
 import failureService from '../../../../../../api/failures';
-import { Like, Dislike, Alert } from 'grommet-icons';
+import { Like, Dislike } from 'grommet-icons';
 import { useNotificationContext } from '../../../../../../context/NotificationContext';
 
 interface IVoteColumn {
   failureId: string;
   votesAmount: number;
   hasUserVoted: boolean;
+  setVotesData: ({
+    votesAmount,
+    hasUserVoted,
+  }: {
+    votesAmount: number;
+    hasUserVoted: boolean;
+  }) => void;
 }
 
-const VoteColumn = ({ failureId, votesAmount, hasUserVoted }: IVoteColumn) => {
+const VoteColumn = ({ failureId, votesAmount, hasUserVoted, setVotesData }: IVoteColumn) => {
   const { user } = useUserContext();
   const { createNotification } = useNotificationContext();
 
-  const [votes, setVotes] = useState<number>(votesAmount);
   const [isSendingVote, setIsSendingVote] = useState<boolean>(false);
-  const [hasVoted, setHasVote] = useState<boolean>(hasUserVoted);
 
   const handleVote = async (isDeletingVote: boolean) => {
     try {
@@ -28,9 +33,11 @@ const VoteColumn = ({ failureId, votesAmount, hasUserVoted }: IVoteColumn) => {
         voterId: user?.id || '',
       });
       setIsSendingVote(false);
-      setHasVote((previousVote) => !previousVote);
-      setVotes((previousAmount) => (hasVoted ? previousAmount - 1 : previousAmount + 1));
-      const toastMessage = `Vote ${hasVoted ? 'removed' : 'added'} succesfully!`;
+      setVotesData({
+        votesAmount: hasUserVoted ? votesAmount - 1 : votesAmount + 1,
+        hasUserVoted: !hasUserVoted,
+      });
+      const toastMessage = `Vote ${hasUserVoted ? 'removed' : 'added'} succesfully!`;
       createNotification({ message: toastMessage, icon: <Like color='#96ab9c' />, isError: false });
     } catch (err) {
       console.log(err);
@@ -45,11 +52,11 @@ const VoteColumn = ({ failureId, votesAmount, hasUserVoted }: IVoteColumn) => {
   return (
     <Box direction='column' gap='medium'>
       <NameValuePair key='votes' name='Votes received'>
-        {votes}
+        {votesAmount}
       </NameValuePair>
       {user && (
         <>
-          {hasVoted ? (
+          {hasUserVoted ? (
             <Button
               icon={isSendingVote ? <Spinner /> : <Dislike />}
               label={isSendingVote ? 'Removing vote' : 'Take your vote back'}

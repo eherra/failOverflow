@@ -40,18 +40,11 @@ const changePassword = async ({
   const passwordMatch = await isPasswordMatching(user, currentPassword);
 
   if (!user || !passwordMatch) {
-    // TODO: custom error could be created
-    throw {
-      message: "Unauthorized call",
-      statusCode: 401,
-    };
+    throw Error("Unauthorized");
   }
 
   if (newPassword !== confirmPassword) {
-    throw {
-      message: "Passwords doesn't match",
-      statusCode: 400,
-    };
+    throw Error("PasswordMismatch");
   }
 
   const newPasswordHash = await generatePasswordHash(newPassword, 15);

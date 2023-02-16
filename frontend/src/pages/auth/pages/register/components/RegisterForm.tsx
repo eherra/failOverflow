@@ -28,7 +28,7 @@ const RegisterForm = () => {
       navigate('/');
     } catch (error: any) {
       const { data } = error.response;
-      if (data.reason === 'ValidationError') {
+      if (data.error?.includes('User validation failed')) {
         createNotification({
           message: `Username "${formValues?.username}" is taken. Choose another one!`,
           isError: true,

@@ -15,6 +15,7 @@ const unknownEndpoint = (_request: Request, response: Response) => {
 
 const errorHandler = (error: any, _request: Request, response: Response, next: NextFunction) => {
   logger.error(error.message);
+  console.log("ERROR handler");
 
   switch (error.name) {
     case "CastError":
@@ -23,11 +24,15 @@ const errorHandler = (error: any, _request: Request, response: Response, next: N
       return response.status(400).json({ error: error.message });
     case "JsonWebTokenError":
       return response.status(401).json({
-        error: "token not valid",
+        error: "Token not valid",
       });
     case "TokenExpiredError":
       return response.status(401).json({
         error: "token has been expired",
+      });
+    case "PasswordMismatch" || "Unauthorized":
+      return response.status(401).json({
+        error: "Unauthorized call",
       });
   }
 

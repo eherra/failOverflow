@@ -14,6 +14,7 @@ const FailureList = () => {
       try {
         setIsFetchingFailures(true);
         const dbFailures = await failureService.getAllFailures();
+        console.log(dbFailures);
         setFailures(dbFailures.failures);
         setIsFetchingFailures(false);
       } catch (err) {
