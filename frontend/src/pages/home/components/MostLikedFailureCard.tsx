@@ -23,7 +23,7 @@ const MostLikedFailureCard = () => {
     }
   };
 
-  const reviewAverageAsFloat = monthReview?.reviewAverage;
+  const reviewAverageAsFloat = monthReview?.reviewAverage || 0;
   const creator = monthReview?.creator[0];
 
   const MonthData = (

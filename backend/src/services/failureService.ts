@@ -121,11 +121,17 @@ const findUsersFailures = async (userId: string) => {
   return userFailures;
 };
 
-const deleteFailure = async (failureId: string) => {
+const deleteFailure = async (failureId: string, userId: string) => {
+  const failureToDelete = await Failure.findOne({ _id: failureId }, { creator: userId });
+  // if not found, then user didnt create the failure
+  if (!failureToDelete) {
+    throw Error("Unauthorized");
+  }
   const referencesToDelete: any = await Failure.aggregate([
     {
       $match: {
         _id: new ObjectId(failureId),
+        creator: new ObjectId(userId),
       },
     },
     {
@@ -145,15 +151,14 @@ const deleteFailure = async (failureId: string) => {
   // if any of the calls fails below, transactional rollback will occurr
   try {
     session.startTransaction();
+    // deleting failure
+    await failureToDelete.delete();
     // deleting comments
     await Comment.deleteMany({ _id: commentIds });
     // deleting votes
     await Vote.deleteMany({ _id: voteIds });
     // deleting reviews
     await StarRating.deleteMany({ _id: ratingsIds });
-
-    // deleting failure
-    await Failure.findByIdAndDelete(failureId);
 
     await session.commitTransaction();
   } catch (err) {

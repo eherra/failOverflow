@@ -26,7 +26,7 @@ mongoose
   .catch((error: any) => {
     logger.error("error connecting to MongoDB:", error.message);
   });
-
+app.use(middleware.tokenExtractor);
 app.use(middleware.requestLogger);
 
 app.use("/api/login", loginRouter);

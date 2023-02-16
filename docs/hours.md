@@ -32,5 +32,5 @@
 | 13.2.2023 | 3 | implementing deleting failure |
 | 14.2.2023 | 3 | implementing toast notification context for the application, refactoring |
 | 15.2.2023 | 4 | refactoring and fixing broken implementations, styling |
-| 16.2.2023 | 3 | refactored backend to use async errors library, frontend bug fixed regadring updating tab values after giving review/vote |
-| total    | 133 | | 
+| 16.2.2023 | 6 | refactored backend to use async errors library, frontend bug fixed regadring updating tab values after giving review/vote, added jwt token and exactors to backend, refactoring more|
+| total    | 136 | | 

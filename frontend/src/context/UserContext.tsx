@@ -61,7 +61,11 @@ export const UserProvider = ({ children }: IUserProvider) => {
         username: data.username,
         password: data.password,
       });
-      setUser({ id: loggedUserFromDB.id, username: loggedUserFromDB.username });
+      setUser({
+        id: loggedUserFromDB.id,
+        username: loggedUserFromDB.username,
+        token: loggedUserFromDB.token,
+      });
       localStorage.setItem('loggedUser', JSON.stringify(loggedUserFromDB));
       setIsUserContextLoading(false);
     } catch (err) {

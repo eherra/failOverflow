@@ -1,5 +1,7 @@
 import logger from "./logger";
+import { SECRET } from "./config";
 import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
 const requestLogger = (request: Request, _response: Response, next: NextFunction) => {
   logger.info("Method:", request.method);
@@ -39,4 +41,24 @@ const errorHandler = (error: any, _request: Request, response: Response, next: N
   next(error);
 };
 
-export default { requestLogger, unknownEndpoint, errorHandler };
+const tokenExtractor = (req: any, _res: Response, next: NextFunction) => {
+  const authorization = req.get("authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    req.token = authorization.replace("Bearer ", "");
+  } else {
+    req.token = null;
+  }
+  next();
+};
+
+export const userExtractor = (req: any, res: Response, next: NextFunction) => {
+  const decodedToken: any = jwt.verify(req.token, SECRET);
+  if (!decodedToken.id) {
+    return res.status(401).json({ error: "token missing or invalid" });
+  }
+
+  req.user = { id: decodedToken.id };
+  next();
+};
+
+export default { requestLogger, unknownEndpoint, errorHandler, tokenExtractor, userExtractor };
