@@ -36,11 +36,11 @@ const changePassword = async ({
   userId,
 }: IChangePasswordValues) => {
   // check that currentPassword is correct
-  const user: IUserDTO | null = await User.findOne({ _id: userId });
+  const user: IUserDTO | null = await User.findById(userId);
   const passwordMatch = await isPasswordMatching(user, currentPassword);
 
   if (!user || !passwordMatch) {
-    throw Error("Unauthorized");
+    throw Error("UnauthorizedPasswordChange");
   }
 
   if (newPassword !== confirmPassword) {

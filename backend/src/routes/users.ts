@@ -1,7 +1,7 @@
 import "express-async-errors";
 import express, { Request, Response } from "express";
 import userService from "../services/userService";
-import { userExtractor } from "../utils/middleware";
+import { userAuthenticator } from "../utils/middleware";
 
 const userRouter = express.Router();
 
@@ -26,7 +26,7 @@ userRouter.post("/", async (req: Request, res: Response) => {
  * @return {} 401 - Unauthorized response if no user found with userId or is user db password
  *                  doesn't match to currentPassword value
  */
-userRouter.put("/", userExtractor, async (req: any, res: Response) => {
+userRouter.put("/", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
   const { currentPassword, newPassword, confirmPassword } = req.body;
   await userService.changePassword({

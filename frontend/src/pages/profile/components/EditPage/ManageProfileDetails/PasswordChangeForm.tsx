@@ -1,10 +1,10 @@
 import { useState, useContext } from 'react';
 import { Box, Button, Form, FormField, ResponsiveContext, TextInput, Spinner } from 'grommet';
 import { passwordRules, confirmStringMatching } from '../../../../common/FormValidation';
-import userService from '../../../../../api/user';
 import { IPasswordChangeFormValues } from '../../../../../types';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
 import { Lock } from 'grommet-icons';
+import userService from '../../../../../api/user';
 
 interface IPasswordChangeForm {
   setChangePassword(boolean: unknown): void;
@@ -37,10 +37,20 @@ const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
         confirmPassword: '',
       });
       setChangePassword(false);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      const { data } = err.response;
+      if (data?.error === 'Unauthorized password change') {
+        createNotification({
+          message: 'Password change failed! Provided current password was not correct.',
+          isError: true,
+        });
+      } else {
+        createNotification({
+          message: 'Something went wrong while creating user! Try again later.',
+          isError: true,
+        });
+      }
       setIsUpdatingPassword(false);
-      createNotification({ message: 'Something went wrong! Try again later.', isError: true });
       setPasswordValues({
         currentPassword: '',
         newPassword: '',

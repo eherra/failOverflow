@@ -8,7 +8,7 @@ interface IAvatarChangeForm {
 }
 
 const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
-  const size = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
   const [avatarValue, setAvatarValue] = useState();
 
   const handleAvatarChangeSubmit = (value: any, touched: any) => {
@@ -24,7 +24,7 @@ const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
         method='post'>
         <AvatarForm tipContent='Max 2.5MB' />
         <Box
-          align={['xsmall', 'small'].includes(size) ? undefined : 'start'}
+          align={['xsmall', 'small'].includes(screenSize) ? undefined : 'start'}
           pad={{ top: 'xxsmall' }}
           gap='small'
           direction='row'>

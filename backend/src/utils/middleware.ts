@@ -2,6 +2,7 @@ import logger from "./logger";
 import { SECRET } from "./config";
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import User from "../models/User";
 
 const requestLogger = (request: Request, _response: Response, next: NextFunction) => {
   logger.info("Method:", request.method);
@@ -16,7 +17,7 @@ const unknownEndpoint = (_request: Request, response: Response) => {
 };
 
 const errorHandler = (error: any, _request: Request, response: Response, next: NextFunction) => {
-  logger.error(error.message);
+  logger.error(error.name);
   console.log("ERROR handler");
 
   switch (error.name) {
@@ -32,12 +33,13 @@ const errorHandler = (error: any, _request: Request, response: Response, next: N
       return response.status(401).json({
         error: "token has been expired",
       });
-    case "PasswordMismatch" || "Unauthorized":
-      return response.status(401).json({
-        error: "Unauthorized call",
-      });
+    case "Error":
+      if (error.message === "UnauthorizedPasswordChange") {
+        return response.status(401).json({
+          error: "Unauthorized password change",
+        });
+      }
   }
-
   next(error);
 };
 
@@ -51,14 +53,18 @@ const tokenExtractor = (req: any, _res: Response, next: NextFunction) => {
   next();
 };
 
-export const userExtractor = (req: any, res: Response, next: NextFunction) => {
+export const userAuthenticator = async (req: any, res: Response, next: NextFunction) => {
   const decodedToken: any = jwt.verify(req.token, SECRET);
   if (!decodedToken.id) {
     return res.status(401).json({ error: "token missing or invalid" });
   }
+  const user = await User.findById(decodedToken.id).select({ _id: 1, username: 1 });
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized call" });
+  }
 
-  req.user = { id: decodedToken.id };
+  req.user = user;
   next();
 };
 
-export default { requestLogger, unknownEndpoint, errorHandler, tokenExtractor, userExtractor };
+export default { requestLogger, unknownEndpoint, errorHandler, tokenExtractor, userAuthenticator };
