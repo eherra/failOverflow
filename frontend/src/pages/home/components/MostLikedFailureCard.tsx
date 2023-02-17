@@ -6,9 +6,11 @@ import failureService from '../../../api/failures';
 import { IFailureOfTheMonth } from '../../../types';
 import FailureCard from './FailureCard';
 import FailureCardHeading from './FailureCardHeading';
+import { useNotificationContext } from '../../../context/NotificationContext';
 
 const MostLikedFailureCard = () => {
   const [monthReview, setMonthReview] = useState<IFailureOfTheMonth | undefined>(undefined);
+  const { handleError } = useNotificationContext();
 
   useEffect(() => {
     fetchFailureOfTheMonth();
@@ -20,6 +22,7 @@ const MostLikedFailureCard = () => {
       setMonthReview(failureOfTheMonth[0]);
     } catch (err) {
       console.log(err);
+      handleError(err);
     }
   };
 

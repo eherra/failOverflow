@@ -1,9 +1,7 @@
+import { Grid, Page, PageContent, PageHeader } from 'grommet';
+import { UserSettings, Scorecard, Edit, BarChart } from 'grommet-icons';
 import PageProvider from '../common/PageProvider';
 import ProfilePageCard from './components/ProfilePageCard';
-
-import { Grid, Page, PageContent, PageHeader } from 'grommet';
-
-import { UserSettings, Scorecard, Edit, BarChart } from 'grommet-icons';
 
 const ProfilePage = () => {
   return (

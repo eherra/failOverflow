@@ -20,7 +20,7 @@ interface IVoteColumn {
 
 const VoteColumn = ({ failureId, votesAmount, hasUserVoted, setVotesData }: IVoteColumn) => {
   const { user } = useUserContext();
-  const { createNotification } = useNotificationContext();
+  const { handleError, createNotification } = useNotificationContext();
 
   const [isSendingVote, setIsSendingVote] = useState<boolean>(false);
 
@@ -30,7 +30,6 @@ const VoteColumn = ({ failureId, votesAmount, hasUserVoted, setVotesData }: IVot
       await failureService.handleVoting({
         isDeletingVote,
         failureId,
-        voterId: user?.id || '',
       });
       setIsSendingVote(false);
       setVotesData({
@@ -41,10 +40,7 @@ const VoteColumn = ({ failureId, votesAmount, hasUserVoted, setVotesData }: IVot
       createNotification({ message: toastMessage, icon: <Like color='#96ab9c' />, isError: false });
     } catch (err) {
       console.log(err);
-      createNotification({
-        message: 'Something went wrong! Try again later.',
-        isError: true,
-      });
+      handleError(err);
       setIsSendingVote(false);
     }
   };

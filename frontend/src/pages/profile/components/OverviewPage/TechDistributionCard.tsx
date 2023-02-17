@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Distribution, Card, Heading, CardHeader, Text, CardBody } from 'grommet';
-import { overviewTechUsedData } from '../../../../mockData';
+import { useState, useEffect } from 'react';
+import { Box, Distribution, Card, Heading, CardHeader, Text, CardBody, Spinner } from 'grommet';
+import failureService from '../../../../api/failures';
+import { useNotificationContext } from '../../../../context/NotificationContext';
 
 interface TechUsedData {
   value: number;
@@ -8,12 +9,42 @@ interface TechUsedData {
   name: string;
 }
 
+const listOfColors = ['graph-0', 'brand', 'light-5', 'graph-0'];
+
 const TechDistributionCard = () => {
+  const { handleError } = useNotificationContext();
   const [techData, setTechData] = useState<Array<TechUsedData>>([]);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
-    setTechData(() => overviewTechUsedData.data);
+    fetchTechDistribution();
   }, []);
+
+  const setColors = (data: Array<any>): Array<TechUsedData> => {
+    // TODO: set that not same colour should appear
+    const coloredMap: any = data.map((tech) => ({
+      color: listOfColors[Math.floor(Math.random() * listOfColors.length)],
+      ...tech,
+    }));
+    return coloredMap;
+  };
+
+  const fetchTechDistribution = async () => {
+    try {
+      setIsFetching(true);
+      const { techDistribution } = await failureService.getTechDistribution();
+      const coloredTechData = setColors(techDistribution);
+      setTechData(coloredTechData);
+      setIsFetching(false);
+    } catch (err) {
+      handleError(err);
+      setIsFetching(false);
+      setIsError(true);
+    }
+  };
+
+  // TODO: Check that bar chars values are whole numbers
 
   return (
     <Card margin='medium' pad='medium'>
@@ -23,13 +54,23 @@ const TechDistributionCard = () => {
         </Heading>
       </CardHeader>
       <CardBody>
-        <Distribution values={techData}>
-          {(value) => (
-            <Box pad='small' background={value.color} fill>
-              <Text size='large'>{value.name}</Text>
-            </Box>
-          )}
-        </Distribution>
+        {isError ? (
+          <p>Couldnt fetch technologies distribution data</p>
+        ) : (
+          <>
+            {isFetching ? (
+              <Spinner size='large' />
+            ) : (
+              <Distribution values={techData}>
+                {(value) => (
+                  <Box pad='small' background={value.color} fill>
+                    <Text size='large'>{value.name}</Text>
+                  </Box>
+                )}
+              </Distribution>
+            )}
+          </>
+        )}
       </CardBody>
     </Card>
   );

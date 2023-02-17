@@ -35,7 +35,7 @@ interface IValue {
 }
 
 const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
-  const { createNotification } = useNotificationContext();
+  const { createNotification, handleError } = useNotificationContext();
 
   const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>('Yes');
   const [isCreatingFailure, setIsCreatingFailure] = useState<boolean>(false);
@@ -54,11 +54,8 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
       });
     } catch (err) {
       console.log(err);
+      handleError(err);
       setIsCreatingFailure(false);
-      createNotification({
-        message: 'Ups, we stumbled with a problem while creating your failure! Try again later.',
-        isError: true,
-      });
     }
   };
 

@@ -8,9 +8,11 @@ import CommentsModal from './CommentsModal';
 import DeleteFailureModal from './DeleteFailureModal';
 import failureService from '../../../../../api/failures';
 import CreateFailureSideModal from '../../../../common/CreateFailureSideModal/CreateFailureSideModal';
+import { useNotificationContext } from '../../../../../context/NotificationContext';
 
 const ManageFailuresList = () => {
   const screenSize = useContext(ResponsiveContext);
+  const { handleError } = useNotificationContext();
 
   const [detailsModalShow, setDetailsModalShow] = useState<boolean>(false);
   const [commentsModaleShow, setCommentsModalShow] = useState<boolean>(false);
@@ -22,21 +24,21 @@ const ManageFailuresList = () => {
   const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchUsersFailures = async () => {
-      try {
-        setIsFetchingFailures(true);
-        const userDbFailures = await failureService.getUsersFailures();
-        setFailures(userDbFailures.userFailures);
-        setIsFetchingFailures(false);
-      } catch (err) {
-        console.log(err);
-        setIsFetchingFailures(false);
-        setIsError(true);
-      }
-    };
-
     fetchUsersFailures();
   }, []);
+
+  const fetchUsersFailures = async () => {
+    try {
+      setIsFetchingFailures(true);
+      const { userFailures } = await failureService.getUsersFailures();
+      setFailures(userFailures);
+      setIsFetchingFailures(false);
+    } catch (err: any) {
+      handleError(err);
+      setIsFetchingFailures(false);
+      setIsError(true);
+    }
+  };
 
   // TODO: better error message
   if (isError) {

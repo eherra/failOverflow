@@ -22,21 +22,30 @@ const errorHandler = (error: any, _request: Request, response: Response, next: N
 
   switch (error.name) {
     case "CastError":
-      return response.status(400).send({ error: "malformatted id" });
+      return response.status(400).send({ name: "CastError", error: "malformatted id" });
     case "ValidationError":
-      return response.status(400).json({ error: error.message });
+      return response.status(400).json({ name: "ValidationError", error: error.message });
     case "JsonWebTokenError":
       return response.status(401).json({
+        name: "JsonWebTokenError",
         error: "Token not valid",
       });
     case "TokenExpiredError":
       return response.status(401).json({
-        error: "token has been expired",
+        name: "TokenExpiredError",
+        error: "Token has been expired",
       });
     case "Error":
       if (error.message === "UnauthorizedPasswordChange") {
         return response.status(401).json({
+          name: "UnauthorizedPasswordChange",
           error: "Unauthorized password change",
+        });
+      }
+      if (error.message === "UnauthorizedLoginAttempt") {
+        return response.status(401).json({
+          name: "UnauthorizedLoginAttempt",
+          error: "Wrong username or password",
         });
       }
   }

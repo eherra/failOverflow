@@ -21,7 +21,7 @@ interface IComment {
 
 const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
   const { user } = useUserContext();
-  const { createNotification } = useNotificationContext();
+  const { createNotification, handleError } = useNotificationContext();
 
   const [commentInput, setCommentInput] = useState<string>('');
   const [isSendingComment, setIsSendingComment] = useState<boolean>(false);
@@ -47,7 +47,6 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
       setIsSendingComment(true);
       const { createdComment } = await failureService.addCommentToFailure({
         comment: commentInput,
-        commentorId: user?.id || '',
         failureId: failureId,
       });
       setCurrComments((prevComments) => [...prevComments, createdComment]);
@@ -58,11 +57,10 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
         isError: false,
         icon: <ChatOption color='#96ab9c' />,
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      handleError(err);
       setIsSendingComment(false);
       setCommentInput('');
-      createNotification({ message: 'Something went wrong! Try again later.', isError: true });
     }
   };
 
@@ -89,6 +87,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
                 <Form onSubmit={handleCommentSubmit}>
                   <FormField label='Leave a comment' htmlFor='textArea'>
                     <TextArea
+                      required
                       placeholder='e.g. did you find it helpful?'
                       id='textArea'
                       value={commentInput}

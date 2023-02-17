@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
   const { isUserContextLoading, handleRegister } = useUserContext();
-  const { createNotification } = useNotificationContext();
+  const { createNotification, handleError } = useNotificationContext();
   const navigate = useNavigate();
 
   const size = useContext(ResponsiveContext);
@@ -27,18 +27,7 @@ const RegisterForm = () => {
       });
       navigate('/');
     } catch (error: any) {
-      const { data } = error.response;
-      if (data.error?.includes('User validation failed')) {
-        createNotification({
-          message: `Username "${formValues?.username}" is taken. Choose another one!`,
-          isError: true,
-        });
-      } else {
-        createNotification({
-          message: 'Something went wrong while creating user! Try again later.',
-          isError: true,
-        });
-      }
+      handleError(error);
     }
   };
 

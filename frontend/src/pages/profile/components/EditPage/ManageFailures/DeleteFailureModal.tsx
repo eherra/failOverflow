@@ -30,7 +30,7 @@ const DeleteFailureModal = ({
   failureId,
   setFailures,
 }: IDeleteFailureModal) => {
-  const { createNotification } = useNotificationContext();
+  const { createNotification, handleError } = useNotificationContext();
   const [isDeletingFailure, setIsDeletingFailure] = useState<boolean>(false);
   const [value, setValue] = useState({
     deleteInput: '',
@@ -53,13 +53,9 @@ const DeleteFailureModal = ({
         icon: <Trash color='#96ab9c' />,
       });
     } catch (err) {
-      console.log(err);
+      handleError(err);
       setIsDeletingFailure(false);
       setDeleteModalShow(false);
-      createNotification({
-        message: 'Something went wrong while deleting failure! Try again later.',
-        isError: true,
-      });
     }
   };
 

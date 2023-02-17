@@ -27,8 +27,20 @@ const VotesReceivedCard = () => {
           data={votesData}
           series={['date', { property: 'amount' }]}
           chart={[
-            { property: 'amount', color: '#A7BEAE', type: 'line', opacity: 'medium', thickness: 'xsmall' },
-            { property: 'amount', color: '#748579', type: 'point', point: 'triangleDown', thickness: 'medium' },
+            {
+              property: 'amount',
+              color: '#A7BEAE',
+              type: 'line',
+              opacity: 'medium',
+              thickness: 'xsmall',
+            },
+            {
+              property: 'amount',
+              color: '#748579',
+              type: 'point',
+              point: 'triangleDown',
+              thickness: 'medium',
+            },
           ]}
           guide={{ x: { granularity: 'fine' } }}
         />

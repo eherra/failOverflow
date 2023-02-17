@@ -5,18 +5,15 @@ const url = baseUrl + restUrl;
 
 interface ICommentValues {
   comment: string;
-  commentorId: string;
   failureId: string;
 }
 
 interface IVotingValues {
-  voterId: string;
   failureId: string;
   isDeletingVote: boolean;
 }
 
 interface IReviewValues {
-  raterId: string;
   failureId: string;
   ratingValue: number;
 }
@@ -58,12 +55,11 @@ const deleteFailure = async (failureId: string) => {
 };
 
 // Comments
-const addCommentToFailure = async ({ comment, commentorId, failureId }: ICommentValues) => {
+const addCommentToFailure = async ({ comment, failureId }: ICommentValues) => {
   const response = await axios.post(
     `${url}/comment/${failureId}`,
     {
       comment,
-      commentorId,
     },
     config(),
   );
@@ -76,7 +72,6 @@ const getFailureComments = async (failureId: string) => {
 };
 
 const toggleCommentAllowed = async (failureId: string, isCommentsAllowed: boolean) => {
-  // Send token here?
   const response = await axios.put(
     `${url}/comment/${failureId}/toggle-comment-allowance`,
     {
@@ -88,11 +83,10 @@ const toggleCommentAllowed = async (failureId: string, isCommentsAllowed: boolea
 };
 
 // Voting
-const handleVoting = async ({ voterId, failureId, isDeletingVote }: IVotingValues) => {
+const handleVoting = async ({ failureId, isDeletingVote }: IVotingValues) => {
   const response = await axios.post(
     `${url}/vote/${failureId}`,
     {
-      voterId,
       isDeletingVote,
     },
     config(),
@@ -111,11 +105,10 @@ const getFailureOfTheWeek = async () => {
 };
 
 // Start ratings / review
-const sendRating = async ({ raterId, failureId, ratingValue }: IReviewValues) => {
+const sendRating = async ({ failureId, ratingValue }: IReviewValues) => {
   const response = await axios.post(
     `${url}/rate/${failureId}`,
     {
-      raterId,
       ratingValue,
     },
     config(),
@@ -133,6 +126,16 @@ const getReviewOfTheMonth = async () => {
   return response.data;
 };
 
+const getTechDistribution = async () => {
+  const response = await axios.get(`${url}/tech-distribution`, config());
+  return response.data;
+};
+
+const getFailuresCreatedDistribution = async () => {
+  const response = await axios.get(`${url}/failures-distribution`, config());
+  return response.data;
+};
+
 export default {
   createFailure,
   getAllFailures,
@@ -147,4 +150,6 @@ export default {
   getFailureComments,
   deleteFailure,
   getReviewOfTheMonth,
+  getTechDistribution,
+  getFailuresCreatedDistribution,
 };

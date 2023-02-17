@@ -10,22 +10,21 @@ const FailureList = () => {
   const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchAllFailures = async () => {
-      try {
-        setIsFetchingFailures(true);
-        const dbFailures = await failureService.getAllFailures();
-        console.log(dbFailures);
-        setFailures(dbFailures.failures);
-        setIsFetchingFailures(false);
-      } catch (err) {
-        console.log(err);
-        setIsFetchingFailures(false);
-        setIsError(true);
-      }
-    };
-
     fetchAllFailures();
   }, []);
+
+  const fetchAllFailures = async () => {
+    try {
+      setIsFetchingFailures(true);
+      const { failures } = await failureService.getAllFailures();
+      setFailures(failures);
+      setIsFetchingFailures(false);
+    } catch (err) {
+      console.log(err);
+      setIsFetchingFailures(false);
+      setIsError(true);
+    }
+  };
 
   // TODO: better error message
   if (isError) {

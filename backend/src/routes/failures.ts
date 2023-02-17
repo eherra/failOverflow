@@ -114,6 +114,34 @@ failuresRouter.get(
 );
 
 /**
+ * GET /api/failures/tech-distribution"
+ * @summary Gets technologies distribution data
+ * @return {} 200 - Distribution data in array where value (how often occurring in failures) and name (tech) present
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/tech-distribution", userAuthenticator, async (req: any, res: Response) => {
+  const user = req.user;
+  const { techDistribution } = await failureService.getTechDistribution(user.id);
+  res.status(200).json({
+    techDistribution,
+  });
+});
+
+/**
+ * GET /api/failures/failures-distribution"
+ * @summary Gets failures distribution data
+ * @return {} 200 - Failures distribution data in array where date and amount created on that date present
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/failures-distribution", userAuthenticator, async (req: any, res: Response) => {
+  const user = req.user;
+  const failureDistribution = await failureService.getFailureCreatedDistribution(user.id);
+  res.status(200).json({
+    failureDistribution,
+  });
+});
+
+/**
  * POST /api/failures
  * @summary Creates new failure
  * @param {Failure} request.body.required
@@ -131,48 +159,45 @@ failuresRouter.post("/", userAuthenticator, async (req: any, res: Response) => {
  * POST /api/failures/comment/:failureId
  * @summary Created comment to Comment collections and attached it to failure given as path param
  * @param {} req.params.required - failureId
- * @param {} request.body.required - comment, commentorId
+ * @param {} request.body.required - comment
  * @return {} 200 - All user failures
  * @return {} 400 - Bad request response
  */
-failuresRouter.post(
-  "/comment/:failureId",
-  userAuthenticator,
-  async (req: Request, res: Response) => {
-    const failureId = req.params.failureId;
-    const { comment, commentorId } = req.body;
-    const createdComment = await failureService.addCommentToFailure({
-      comment,
-      commentorId,
-      failureId,
-    });
+failuresRouter.post("/comment/:failureId", userAuthenticator, async (req: any, res: Response) => {
+  const user = req.user;
+  const failureId = req.params.failureId;
+  const { comment } = req.body;
+  const createdComment = await failureService.addCommentToFailure({
+    comment,
+    commentorId: user.id,
+    failureId,
+  });
 
-    res.status(201).json({
-      createdComment,
-    });
-  },
-);
+  res.status(201).json({
+    createdComment,
+  });
+});
 
 /**
  * POST /api/failures/vote/:failureId
  * @summary Creates or deletes vote from failure
  * @param {} req.params.required - failureId
- * @param {} request.body.required - voterId, isAddingVote
+ * @param {} request.body.required - isDeletingVote
  * @return {} 200 - Succeed
  * @return {} 400 - Bad request response
  */
-failuresRouter.post("/vote/:failureId", userAuthenticator, async (req: Request, res: Response) => {
-  // add token
+failuresRouter.post("/vote/:failureId", userAuthenticator, async (req: any, res: Response) => {
+  const user = req.user;
   const failureId = req.params.failureId;
-  const { voterId, isDeletingVote } = req.body;
+  const { isDeletingVote } = req.body;
   if (isDeletingVote) {
     await failureService.deleteVoteFromFailure({
-      voterId,
+      voterId: user.id,
       failureId,
     });
   } else {
     await failureService.addVoteToFailure({
-      voterId,
+      voterId: user.id,
       failureId,
     });
   }
@@ -183,15 +208,16 @@ failuresRouter.post("/vote/:failureId", userAuthenticator, async (req: Request, 
  * POST /api/failures/rate/:failureId
  * @summary Gives a rating to a failure according to param failureId
  * @param {} req.params.required - failureId
- * @param {} request.body.required - raterId, ratingValue
+ * @param {} request.body.required - ratingValue
  * @return {} 200 - Updated rating data with fields: ratingAverage, userReview
  * @return {} 400 - Bad request response
  */
-failuresRouter.post("/rate/:failureId", userAuthenticator, async (req: Request, res: Response) => {
+failuresRouter.post("/rate/:failureId", userAuthenticator, async (req: any, res: Response) => {
+  const user = req.user;
   const failureId = req.params.failureId;
-  const { raterId, ratingValue } = req.body;
+  const { ratingValue } = req.body;
   const updatedRatingData = await failureService.addStarRating({
-    raterId,
+    raterId: user.id,
     ratingValue,
     failureId,
   });

@@ -5,11 +5,11 @@ import { Creator } from '../../../../types';
 interface IAccordionTitle {
   creator: Creator;
   title: string;
-  tags: Array<string>;
+  technologies: Array<string>;
   createdAt: string;
 }
 
-const AccordionTitle = ({ creator, title, tags, createdAt }: IAccordionTitle) => {
+const AccordionTitle = ({ creator, title, technologies, createdAt }: IAccordionTitle) => {
   return (
     <Box direction='column'>
       <Box direction='row' gap='small' pad='xsmall'>
@@ -19,8 +19,8 @@ const AccordionTitle = ({ creator, title, tags, createdAt }: IAccordionTitle) =>
       </Box>
       <Box direction='row' gap='small'>
         <p style={{ fontSize: '25px' }}>{title}</p>
-        {tags?.map((mapTag, index) => (
-          <Tag key={index} alignSelf='center' size='small' value={mapTag} />
+        {technologies?.map((mapTech, index) => (
+          <Tag key={index} alignSelf='center' size='small' value={mapTech} />
         ))}
       </Box>
     </Box>

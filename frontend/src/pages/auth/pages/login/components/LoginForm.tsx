@@ -19,10 +19,11 @@ import { UserAdmin } from 'grommet-icons';
 
 const LoginForm = () => {
   const { isUserContextLoading, handleLogin } = useUserContext();
-  const [formValues, setFormValues] = useState<ILoginValues>();
+  const { createNotification, handleError } = useNotificationContext();
   const screenSize = useContext(ResponsiveContext);
   const navigate = useNavigate();
-  const { createNotification } = useNotificationContext();
+
+  const [formValues, setFormValues] = useState<ILoginValues>();
 
   const handleLoginSubmit = async (value: ILoginValues) => {
     try {
@@ -34,8 +35,7 @@ const LoginForm = () => {
       });
       navigate('/');
     } catch (err) {
-      console.log(err);
-      createNotification({ message: 'Wrong username or password!', isError: true });
+      handleError(err);
     }
   };
 
