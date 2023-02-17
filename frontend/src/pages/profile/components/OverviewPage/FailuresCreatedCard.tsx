@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Card, Heading, CardHeader, Text, CardBody, DataChart } from 'grommet';
-import { overviewFailuresCreatedData } from '../../../../mockData';
+import { Card, Heading, CardHeader, Text, CardBody, DataChart, Spinner } from 'grommet';
+import failureService from '../../../../api/failures';
 
 interface FailuredCreatedData {
   date: string;
@@ -9,10 +9,26 @@ interface FailuredCreatedData {
 
 const FailuresCreatedCard = () => {
   const [failureData, setFailureData] = useState<Array<FailuredCreatedData>>([]);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
-    setFailureData(() => overviewFailuresCreatedData.data);
+    fetchFailuresCreatedDistribution();
   }, []);
+
+  const fetchFailuresCreatedDistribution = async () => {
+    try {
+      setIsFetching(true);
+      const { failureDistribution } = await failureService.getFailuresCreatedDistribution();
+      setFailureData(failureDistribution);
+      console.log(failureDistribution);
+      setIsFetching(false);
+    } catch (err) {
+      console.log(err);
+      setIsFetching(false);
+      setIsError(true);
+    }
+  };
 
   return (
     <Card margin='medium' pad='medium'>
@@ -23,11 +39,21 @@ const FailuresCreatedCard = () => {
         <Text size='small'>Failure amount</Text>
       </CardHeader>
       <CardBody>
-        <DataChart
-          data={failureData}
-          series={['date', 'amount', { property: 'amount' }]}
-          chart={[{ property: 'amount', color: '#A7BEAE' }]}
-        />
+        {isError ? (
+          <p>Couldnt failure creation distribution data</p>
+        ) : (
+          <>
+            {isFetching ? (
+              <Spinner size='large' />
+            ) : (
+              <DataChart
+                data={failureData}
+                series={['date', 'amount', { property: 'amount' }]}
+                chart={[{ property: 'amount', color: '#A7BEAE' }]}
+              />
+            )}
+          </>
+        )}
       </CardBody>
     </Card>
   );

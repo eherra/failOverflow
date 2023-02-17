@@ -114,6 +114,34 @@ failuresRouter.get(
 );
 
 /**
+ * GET /api/failures/tech-distribution"
+ * @summary Gets technologies distribution data
+ * @return {} 200 - Distribution data in array where value (how often occurring in failures) and name (tech) present
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/tech-distribution", userAuthenticator, async (req: any, res: Response) => {
+  const user = req.user;
+  const { techDistribution } = await failureService.getTechDistribution(user.id);
+  res.status(200).json({
+    techDistribution,
+  });
+});
+
+/**
+ * GET /api/failures/failures-distribution"
+ * @summary Gets failures distribution data
+ * @return {} 200 - Failures distribution data in array where date and amount created on that date present
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/failures-distribution", userAuthenticator, async (req: any, res: Response) => {
+  const user = req.user;
+  const failureDistribution = await failureService.getFailureCreatedDistribution(user.id);
+  res.status(200).json({
+    failureDistribution,
+  });
+});
+
+/**
  * POST /api/failures
  * @summary Creates new failure
  * @param {Failure} request.body.required

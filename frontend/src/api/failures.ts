@@ -133,6 +133,16 @@ const getReviewOfTheMonth = async () => {
   return response.data;
 };
 
+const getTechDistribution = async () => {
+  const response = await axios.get(`${url}/tech-distribution`, config());
+  return response.data;
+};
+
+const getFailuresCreatedDistribution = async () => {
+  const response = await axios.get(`${url}/failures-distribution`, config());
+  return response.data;
+};
+
 export default {
   createFailure,
   getAllFailures,
@@ -147,4 +157,6 @@ export default {
   getFailureComments,
   deleteFailure,
   getReviewOfTheMonth,
+  getTechDistribution,
+  getFailuresCreatedDistribution,
 };

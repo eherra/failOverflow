@@ -503,6 +503,124 @@ const getFailureOfTheMonth = async () => {
   return failureOfTheMonth;
 };
 
+const getTechDistribution = async (userId: string) => {
+  const techData: any = await Failure.aggregate([
+    {
+      $match: {
+        creator: new ObjectId(userId),
+      },
+    },
+    {
+      $project: {
+        technologies: 1,
+      },
+    },
+    {
+      $unwind: "$technologies",
+    },
+    {
+      $group: {
+        _id: "$technologies",
+        count: {
+          $sum: 1,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        techDistribution: {
+          $push: {
+            k: "$_id",
+            v: "$count",
+          },
+        },
+      },
+    },
+    {
+      $set: {
+        techDistribution: {
+          $map: {
+            input: "$techDistribution",
+            in: {
+              value: "$$this.v",
+              name: "$$this.k",
+            },
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        techDistribution: {
+          $sortArray: {
+            input: "$techDistribution",
+            sortBy: {
+              value: -1,
+            },
+          },
+        },
+      },
+    },
+  ]);
+  return techData[0];
+};
+
+const getFailureCreatedDistribution = async (userId: string) => {
+  const failureDistribution = await Failure.aggregate([
+    {
+      $match: {
+        creator: new ObjectId(userId),
+      },
+    },
+    {
+      $project: {
+        createdAt: 1,
+      },
+    },
+    {
+      $group: {
+        _id: {
+          createdAt: {
+            $dateFromParts: {
+              year: {
+                $year: "$_id",
+              },
+              month: {
+                $month: "$_id",
+              },
+              day: {
+                $dayOfMonth: "$_id",
+              },
+            },
+          },
+        },
+        amount: {
+          $sum: 1,
+        },
+      },
+    },
+    {
+      $sort: {
+        "_id.createdAt": 1,
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        amount: 1,
+        date: {
+          $dateToString: {
+            date: "$_id.createdAt",
+            format: "%d-%m-%Y",
+          },
+        },
+      },
+    },
+  ]);
+  return failureDistribution;
+};
+
 export default {
   createFailure,
   getAllFailures,
@@ -518,4 +636,6 @@ export default {
   getFailureComments,
   deleteFailure,
   getFailureOfTheMonth,
+  getTechDistribution,
+  getFailureCreatedDistribution,
 };
