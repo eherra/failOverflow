@@ -11,7 +11,7 @@ interface IPasswordChangeForm {
 }
 
 const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
-  const { createNotification } = useNotificationContext();
+  const { createNotification, handleError } = useNotificationContext();
   const screenSize = useContext(ResponsiveContext);
 
   const [isUpdatingPassword, setIsUpdatingPassword] = useState<boolean>(false);
@@ -38,18 +38,7 @@ const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
       });
       setChangePassword(false);
     } catch (err: any) {
-      const { data } = err.response;
-      if (data?.error === 'Unauthorized password change') {
-        createNotification({
-          message: 'Password change failed! Provided current password was not correct.',
-          isError: true,
-        });
-      } else {
-        createNotification({
-          message: 'Something went wrong while creating user! Try again later.',
-          isError: true,
-        });
-      }
+      handleError(err);
       setIsUpdatingPassword(false);
       setPasswordValues({
         currentPassword: '',

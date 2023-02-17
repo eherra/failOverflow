@@ -38,11 +38,21 @@ export const NotificationProvider = ({ children }: INotificationProvider) => {
     setIsVisible(true);
   };
 
+  // TODO: refacotr
   const handleError = (error: any) => {
     const { data } = error.response;
-    if (data?.error.includes('Token')) {
+    if (data?.name === 'TokenExpiredError') {
       createNotification({ message: 'Your session has been expired!', isError: true });
       handleLogout();
+    } else if (data?.name === 'UnauthorizedPasswordChange') {
+      createNotification({
+        message: 'Password change failed! Provided current password was not correct.',
+        isError: true,
+      });
+    } else if (data?.name === 'UnauthorizedLoginAttempt') {
+      createNotification({ message: 'Wrong username or password!', isError: true });
+    } else if (data.error?.includes('User validation failed')) {
+      createNotification({ message: 'Username already taken!', isError: true });
     } else {
       createNotification({ message: 'Something went wrong! Try again later.', isError: true });
     }

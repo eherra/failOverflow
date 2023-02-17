@@ -8,7 +8,7 @@ const loginUser = async (username: string, password: string) => {
   const passwordMatch = await isPasswordMatching(user, password);
 
   if (!user || !passwordMatch) {
-    throw new Error("incorrect username or password");
+    throw new Error("UnauthorizedLoginAttempt");
   }
   const token = generateJwtToken(user);
 

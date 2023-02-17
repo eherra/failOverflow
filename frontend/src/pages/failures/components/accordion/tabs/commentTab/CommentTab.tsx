@@ -87,6 +87,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
                 <Form onSubmit={handleCommentSubmit}>
                   <FormField label='Leave a comment' htmlFor='textArea'>
                     <TextArea
+                      required
                       placeholder='e.g. did you find it helpful?'
                       id='textArea'
                       value={commentInput}
