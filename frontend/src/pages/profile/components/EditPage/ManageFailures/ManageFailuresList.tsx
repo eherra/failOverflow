@@ -8,9 +8,11 @@ import CommentsModal from './CommentsModal';
 import DeleteFailureModal from './DeleteFailureModal';
 import failureService from '../../../../../api/failures';
 import CreateFailureSideModal from '../../../../common/CreateFailureSideModal/CreateFailureSideModal';
+import { useNotificationContext } from '../../../../../context/NotificationContext';
 
 const ManageFailuresList = () => {
   const screenSize = useContext(ResponsiveContext);
+  const { handleError } = useNotificationContext();
 
   const [detailsModalShow, setDetailsModalShow] = useState<boolean>(false);
   const [commentsModaleShow, setCommentsModalShow] = useState<boolean>(false);
@@ -31,8 +33,8 @@ const ManageFailuresList = () => {
       const { userFailures } = await failureService.getUsersFailures();
       setFailures(userFailures);
       setIsFetchingFailures(false);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      handleError(err);
       setIsFetchingFailures(false);
       setIsError(true);
     }

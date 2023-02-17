@@ -6,12 +6,6 @@ import { Rating } from 'react-simple-star-rating';
 import { Star } from 'grommet-icons';
 import { useNotificationContext } from '../../../../../../context/NotificationContext';
 
-interface IStarRatingForm {
-  failureId: string;
-  userReview: number;
-  setStarsData: ({ starAverage, userReview }: { starAverage: number; userReview: number }) => void;
-}
-
 const tooltipArray = [
   'Terrible',
   'Terrible+',
@@ -25,9 +19,15 @@ const tooltipArray = [
   'Much wow',
 ];
 
+interface IStarRatingForm {
+  failureId: string;
+  userReview: number;
+  setStarsData: ({ starAverage, userReview }: { starAverage: number; userReview: number }) => void;
+}
+
 const StarRatingForm = ({ failureId, userReview, setStarsData }: IStarRatingForm) => {
   const { user } = useUserContext();
-  const { createNotification } = useNotificationContext();
+  const { createNotification, handleError } = useNotificationContext();
 
   const [isSendingRating, setIsSendingRating] = useState<boolean>(false);
   const [rating, setRating] = useState<number>(userReview);
@@ -37,7 +37,6 @@ const StarRatingForm = ({ failureId, userReview, setStarsData }: IStarRatingForm
       setIsSendingRating(true);
       const { updatedRatingData }: any = await failureService.sendRating({
         failureId,
-        raterId: user?.id || '',
         ratingValue,
       });
       setIsSendingRating(false);
@@ -52,12 +51,8 @@ const StarRatingForm = ({ failureId, userReview, setStarsData }: IStarRatingForm
         isError: false,
       });
     } catch (err) {
-      console.log(err);
+      handleError(err);
       setIsSendingRating(false);
-      createNotification({
-        message: 'Something went wrong! Try again later.',
-        isError: true,
-      });
     }
   };
 

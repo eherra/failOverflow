@@ -584,13 +584,13 @@ const getFailureCreatedDistribution = async (userId: string) => {
           createdAt: {
             $dateFromParts: {
               year: {
-                $year: "$_id",
+                $year: "$createdAt",
               },
               month: {
-                $month: "$_id",
+                $month: "$createdAt",
               },
               day: {
-                $dayOfMonth: "$_id",
+                $dayOfMonth: "$createdAt",
               },
             },
           },

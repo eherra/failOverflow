@@ -23,7 +23,7 @@ interface ICommentsModal {
 
 const CommentsModal = ({ failure, setCommentsModalShow, setFailures }: ICommentsModal) => {
   const screenSize = useContext(ResponsiveContext);
-  const { createNotification } = useNotificationContext();
+  const { handleError } = useNotificationContext();
   const allowCommentsText = failure?.allowComments ? 'Yes' : 'No';
   const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>(allowCommentsText);
 
@@ -43,11 +43,7 @@ const CommentsModal = ({ failure, setCommentsModalShow, setFailures }: IComments
         return newState;
       });
     } catch (err) {
-      console.log(err);
-      createNotification({
-        message: 'Something went wrong! Try again later.',
-        isError: true,
-      });
+      handleError(err);
     }
   };
 

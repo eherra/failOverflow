@@ -5,10 +5,11 @@ import failureService from '../../../api/failures';
 import { IFailureOfTheWeek } from '../../../types';
 import FailureCard from './FailureCard';
 import FailureCardHeading from './FailureCardHeading';
+import { useNotificationContext } from '../../../context/NotificationContext';
 
 const VoteOfTheWeekCard = () => {
   const [weekFailure, setWeekFailure] = useState<IFailureOfTheWeek | undefined>(undefined);
-
+  const { handleError } = useNotificationContext();
   useEffect(() => {
     fetchFailureOfTheWeek();
   }, []);
@@ -18,7 +19,7 @@ const VoteOfTheWeekCard = () => {
       const { failureOfTheWeek } = await failureService.getFailureOfTheWeek();
       setWeekFailure(failureOfTheWeek[0]);
     } catch (err) {
-      console.log(err);
+      handleError(err);
     }
   };
 

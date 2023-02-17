@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, Heading, CardHeader, Text, CardBody, DataChart, Spinner } from 'grommet';
 import failureService from '../../../../api/failures';
+import { useNotificationContext } from '../../../../context/NotificationContext';
 
 interface FailuredCreatedData {
   date: string;
@@ -8,6 +9,7 @@ interface FailuredCreatedData {
 }
 
 const FailuresCreatedCard = () => {
+  const { handleError } = useNotificationContext();
   const [failureData, setFailureData] = useState<Array<FailuredCreatedData>>([]);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -23,20 +25,22 @@ const FailuresCreatedCard = () => {
       setFailureData(failureDistribution);
       console.log(failureDistribution);
       setIsFetching(false);
-    } catch (err) {
-      console.log(err);
+    } catch (error: any) {
+      handleError(error);
       setIsFetching(false);
       setIsError(true);
     }
   };
 
+  const maxYValue = Math.max(...failureData.map((f: FailuredCreatedData) => f.amount)) + 1;
+
   return (
     <Card margin='medium' pad='medium'>
       <CardHeader align='start' direction='column' gap='xsmall'>
         <Heading level={2} size='small'>
-          Failures created
+          Failure creation distribution
         </Heading>
-        <Text size='small'>Failure amount</Text>
+        <Text size='small'>Failures created</Text>
       </CardHeader>
       <CardBody>
         {isError ? (
@@ -47,6 +51,7 @@ const FailuresCreatedCard = () => {
               <Spinner size='large' />
             ) : (
               <DataChart
+                bounds={{ y: [0, maxYValue] }}
                 data={failureData}
                 series={['date', 'amount', { property: 'amount' }]}
                 chart={[{ property: 'amount', color: '#A7BEAE' }]}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, Distribution, Card, Heading, CardHeader, Text, CardBody, Spinner } from 'grommet';
 import failureService from '../../../../api/failures';
+import { useNotificationContext } from '../../../../context/NotificationContext';
 
 interface TechUsedData {
   value: number;
@@ -11,6 +12,7 @@ interface TechUsedData {
 const listOfColors = ['graph-0', 'brand', 'light-5', 'graph-0'];
 
 const TechDistributionCard = () => {
+  const { handleError } = useNotificationContext();
   const [techData, setTechData] = useState<Array<TechUsedData>>([]);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -36,7 +38,7 @@ const TechDistributionCard = () => {
       setTechData(coloredTechData);
       setIsFetching(false);
     } catch (err) {
-      console.log(err);
+      handleError(err);
       setIsFetching(false);
       setIsError(true);
     }

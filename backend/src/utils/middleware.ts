@@ -31,7 +31,7 @@ const errorHandler = (error: any, _request: Request, response: Response, next: N
       });
     case "TokenExpiredError":
       return response.status(401).json({
-        error: "token has been expired",
+        error: "Token has been expired",
       });
     case "Error":
       if (error.message === "UnauthorizedPasswordChange") {

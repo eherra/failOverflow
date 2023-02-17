@@ -5,6 +5,7 @@ import { useUserContext } from '../../../../../../context/UserContext';
 import StarReviewColumn from './StarReviewColumn';
 import VoteColumn from './VoteColumn';
 import { Like } from 'grommet-icons';
+import { useNotificationContext } from '../../../../../../context/NotificationContext';
 
 interface IReviewTab {
   failureId: string;
@@ -12,6 +13,7 @@ interface IReviewTab {
 
 const ReviewTab = ({ failureId }: IReviewTab) => {
   const { user } = useUserContext();
+  const { handleError } = useNotificationContext();
   const [isLoadingData, setIsLoading] = useState<boolean>(false);
   const [isVoteFetchError, setIsVoteFetchError] = useState<boolean>(false);
   const [isRatingFetchError, setIsRatingFetchError] = useState<boolean>(false);
@@ -41,6 +43,7 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
         userReview: ratingData?.userRating,
       });
     } catch (err) {
+      handleError(err);
       setIsRatingFetchError(true);
     }
   };
@@ -53,6 +56,7 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
         hasUserVoted: voteResponse?.hasUserVoted,
       });
     } catch (err) {
+      handleError(err);
       setIsVoteFetchError(true);
     }
   };
