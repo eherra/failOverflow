@@ -111,7 +111,7 @@ failuresRouter.get(
   userAuthenticator,
   async (_req: Request, res: Response) => {
     const failureOfTheMonth = await failureService.getFailureOfTheMonth();
-
+    console.log(failureOfTheMonth);
     res.status(200).json({
       failureOfTheMonth,
     });

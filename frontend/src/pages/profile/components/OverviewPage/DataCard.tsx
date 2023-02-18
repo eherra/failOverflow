@@ -6,7 +6,7 @@ interface IDataCard {
   chartText?: string;
   isError: boolean;
   chartField: ReactNode;
-  hasData?: boolean;
+  hasData: boolean;
 }
 
 const DataCard = ({ heading, chartText, isError, chartField, hasData }: IDataCard) => {

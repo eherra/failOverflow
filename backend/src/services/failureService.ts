@@ -59,14 +59,6 @@ const createFailure = async (failure: FailureValues, creatorId: string) => {
 const getAllFailures = async () => {
   const allFailures = await Failure.aggregate([
     {
-      $project: {
-        comments: 0,
-        starRatings: 0,
-        votes: 0,
-        __v: 0,
-      },
-    },
-    {
       $lookup: {
         from: "users",
         localField: "creator",
@@ -76,6 +68,10 @@ const getAllFailures = async () => {
     },
     {
       $project: {
+        comments: 0,
+        starRatings: 0,
+        votes: 0,
+        __v: 0,
         "creator.passwordHash": 0,
         "creator.__v": 0,
       },
@@ -355,18 +351,6 @@ const getFailureOfTheWeek = async () => {
       },
     },
     {
-      $project: {
-        votesData: 0,
-        weeksVotes: 0,
-        starRatings: 0,
-        comments: 0,
-        votes: 0,
-        tags: 0,
-        __v: 0,
-        allowComments: 0,
-      },
-    },
-    {
       $lookup: {
         from: "users",
         localField: "creator",
@@ -376,6 +360,14 @@ const getFailureOfTheWeek = async () => {
     },
     {
       $project: {
+        votesData: 0,
+        weeksVotes: 0,
+        starRatings: 0,
+        comments: 0,
+        votes: 0,
+        tags: 0,
+        __v: 0,
+        allowComments: 0,
         "creator.passwordHash": 0,
         "creator.__v": 0,
       },
@@ -384,7 +376,6 @@ const getFailureOfTheWeek = async () => {
       $limit: 1,
     },
   ]);
-
   return weekFailure[0];
 };
 
@@ -436,14 +427,6 @@ const getFailureOfTheMonth = async () => {
       },
     },
     {
-      $project: {
-        __v: 0,
-        votes: 0,
-        allowComments: 0,
-        comments: 0,
-      },
-    },
-    {
       $addFields: {
         monthsReview: {
           $filter: {
@@ -479,11 +462,6 @@ const getFailureOfTheMonth = async () => {
       },
     },
     {
-      $project: {
-        reviewData: 0,
-      },
-    },
-    {
       $lookup: {
         from: "users",
         localField: "creator",
@@ -493,12 +471,19 @@ const getFailureOfTheMonth = async () => {
     },
     {
       $project: {
+        __v: 0,
+        votes: 0,
+        allowComments: 0,
+        comments: 0,
+        reviewData: 0,
         "creator.passwordHash": 0,
         "creator.__v": 0,
       },
     },
+    {
+      $limit: 1,
+    },
   ]);
-
   return failureOfTheMonth;
 };
 
@@ -573,11 +558,6 @@ const getFailureCreatedDistribution = async (userId: string) => {
       },
     },
     {
-      $project: {
-        createdAt: 1,
-      },
-    },
-    {
       $group: {
         _id: {
           createdAt: {
@@ -628,11 +608,6 @@ const getVoteDistribution = async (userId: string) => {
         "votes.0": {
           $exists: true,
         },
-      },
-    },
-    {
-      $project: {
-        votes: 1,
       },
     },
     {
