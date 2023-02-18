@@ -13,13 +13,13 @@ import {
   ResponsiveContext,
 } from 'grommet';
 import FailureDetailModal from '../../common/FailureDetailModal';
-import { Creator, IFailureOfTheMonth, IFailureOfTheWeek } from '../../../types';
+import { ICreator, IFailureOfTheMonth, IFailureOfTheWeek } from '../../../types';
 
 interface IFailureCard {
   ownColumn: ReactNode;
   heading: ReactNode;
   failure?: IFailureOfTheWeek | IFailureOfTheMonth;
-  creator?: Creator;
+  creator?: ICreator;
 }
 
 const FailureCard = ({ ownColumn, failure, creator, heading }: IFailureCard) => {

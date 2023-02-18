@@ -1,6 +1,7 @@
 import logger from "./logger";
 import { SECRET } from "./config";
 import { Request, Response, NextFunction } from "express";
+import { IUserDTO } from "../types";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
 
@@ -54,11 +55,11 @@ const errorHandler = (error: any, _request: Request, response: Response, next: N
 
 const tokenExtractor = (req: any, _res: Response, next: NextFunction) => {
   const authorization = req.get("authorization");
-  if (authorization && authorization.startsWith("Bearer ")) {
-    req.token = authorization.replace("Bearer ", "");
-  } else {
-    req.token = null;
-  }
+  req.token =
+    authorization && authorization.startsWith("Bearer ")
+      ? authorization.replace("Bearer ", "")
+      : null;
+
   next();
 };
 
@@ -67,7 +68,11 @@ export const userAuthenticator = async (req: any, res: Response, next: NextFunct
   if (!decodedToken.id) {
     return res.status(401).json({ error: "token missing or invalid" });
   }
-  const user = await User.findById(decodedToken.id).select({ _id: 1, username: 1 });
+  const user: IUserDTO | null = await User.findById(decodedToken.id).select({
+    _id: 1,
+    username: 1,
+  });
+
   if (!user) {
     return res.status(401).json({ error: "Unauthorized call" });
   }

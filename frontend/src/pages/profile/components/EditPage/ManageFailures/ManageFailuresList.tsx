@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import { Box, List, Menu, ResponsiveContext, Text, Spinner } from 'grommet';
 import { More } from 'grommet-icons';
 import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
-import { Failure } from '../../../../../types';
+import { IFailure } from '../../../../../types';
 import FailureDetailModal from '../../../../common/FailureDetailModal';
 import CommentsModal from './CommentsModal';
 import DeleteFailureModal from './DeleteFailureModal';
@@ -17,9 +17,9 @@ const ManageFailuresList = () => {
   const [detailsModalShow, setDetailsModalShow] = useState<boolean>(false);
   const [commentsModaleShow, setCommentsModalShow] = useState<boolean>(false);
   const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
-  const [toEdit, setToEdit] = useState<Failure | undefined>();
+  const [toEdit, setToEdit] = useState<IFailure | undefined>();
 
-  const [failures, setFailures] = useState<Array<Failure>>([]);
+  const [failures, setFailures] = useState<Array<IFailure>>([]);
   const [isFetchingFailures, setIsFetchingFailures] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 

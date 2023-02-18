@@ -14,12 +14,12 @@ import {
 import { Trash } from 'grommet-icons';
 import { confirmStringMatching } from '../../../../common/FormValidation';
 import failureService from '../../../../../api/failures';
-import { Failure } from '../../../../../types';
+import { IFailure } from '../../../../../types';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
 
 interface IDeleteFailureModal {
   setDeleteModalShow(boolean: any): void;
-  setFailures(failures: Array<Failure>): void;
+  setFailures(failures: Array<IFailure>): void;
   confirmText?: string;
   failureId?: string;
 }
@@ -43,7 +43,7 @@ const DeleteFailureModal = ({
       await failureService.deleteFailure(failureId || '');
       /* @ts-expect-error TODO check this */
       setFailures((failures: Array<Failure>) =>
-        failures.filter((failure: Failure) => failure._id !== failureId),
+        failures.filter((failure: IFailure) => failure._id !== failureId),
       );
       setIsDeletingFailure(false);
       setDeleteModalShow(false);

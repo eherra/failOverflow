@@ -1,9 +1,9 @@
 import { Tag, Box, Avatar } from 'grommet';
 import { createTimePassedInfo } from '../../../../utils/TimeUtils';
-import { Creator } from '../../../../types';
+import { ICreator } from '../../../../types';
 
 interface IAccordionTitle {
-  creator: Creator;
+  creator: ICreator;
   title: string;
   technologies: Array<string>;
   createdAt: string;

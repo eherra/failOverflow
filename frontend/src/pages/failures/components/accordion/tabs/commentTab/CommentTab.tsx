@@ -7,16 +7,11 @@ import UserCommentsColumn from './UserCommentsColumn';
 import { useNotificationContext } from '../../../../../../context/NotificationContext';
 import { WavyLink } from 'react-wavy-transitions';
 import LabelWithInfoTip from '../../../../../common/LabelWithInfoTip';
+import { IComment } from '../../../../../../types';
 
 interface ICommentTab {
   failureId: string;
   allowComments: boolean;
-}
-
-interface IComment {
-  comment: string;
-  createdAt: string;
-  _id: string;
 }
 
 const CommentTab = ({ failureId, allowComments }: ICommentTab) => {

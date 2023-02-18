@@ -12,13 +12,13 @@ import {
 import { Chat } from 'grommet-icons';
 import failureService from '../../../../../api/failures';
 import UserCommentsColumn from '../../../../failures/components/accordion/tabs/commentTab/UserCommentsColumn';
-import { Failure } from '../../../../../types';
+import { IFailure } from '../../../../../types';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
 
 interface ICommentsModal {
-  failure?: Failure;
+  failure?: IFailure;
   setCommentsModalShow(boolean: any): void;
-  setFailures(failures: Array<Failure>): void;
+  setFailures(failures: Array<IFailure>): void;
 }
 
 const CommentsModal = ({ failure, setCommentsModalShow, setFailures }: ICommentsModal) => {
@@ -34,7 +34,7 @@ const CommentsModal = ({ failure, setCommentsModalShow, setFailures }: IComments
 
       /* @ts-expect-error TODO check this */
       setFailures((prevFailures: Array<Failure>) => {
-        const newState = prevFailures.map((mFailure: Failure) => {
+        const newState = prevFailures.map((mFailure: IFailure) => {
           if (mFailure._id === failure?._id) {
             return { ...mFailure, allowComments: !mFailure.allowComments };
           }

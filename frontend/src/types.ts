@@ -1,19 +1,18 @@
-export interface Creator {
-  userId: string;
-  username: string;
-  avatar: string;
-}
-
 export interface IComment {
+  id: string;
   comment: string;
   createdAt: string;
-  _id: string;
 }
 
-export interface Failure {
-  id: string | undefined;
+export interface ICreator {
+  userId: string;
+  username: string;
+  avatarUrl?: string;
+}
+
+export interface IFailure {
   _id: string;
-  creator: Array<Creator>;
+  creator: Array<ICreator>;
   title: string;
   description: string;
   solution: string;
@@ -31,9 +30,7 @@ export interface ILoginValues {
   password: string;
 }
 
-export interface IRegisterValues {
-  username: string;
-  password: string;
+export interface IRegisterValues extends ILoginValues {
   avatarFile?: File;
 }
 
@@ -43,24 +40,12 @@ export interface IPasswordChangeFormValues {
   confirmPassword: string;
 }
 
-export interface IFailureOfTheMonth {
-  _id: string;
-  creator: Array<Creator>;
-  title: string;
-  description: string;
-  solution: string;
-  technologies: Array<string>;
-  createdAt: string;
+export interface IFailureOfTheMonth
+  extends Omit<IFailure, 'votes' | 'starRating' | 'comments' | 'allowComments'> {
   reviewAverage?: number;
 }
 
-export interface IFailureOfTheWeek {
-  _id: string;
-  creator: Array<Creator>;
-  title: string;
-  description: string;
-  solution: string;
-  technologies: Array<string>;
+export interface IFailureOfTheWeek
+  extends Omit<IFailure, 'votes' | 'starRating' | 'comments' | 'allowComments'> {
   totalVotes: number;
-  createdAt: string;
 }
