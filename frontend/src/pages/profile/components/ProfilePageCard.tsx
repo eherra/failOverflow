@@ -2,7 +2,7 @@ import { Button, Card, CardHeader, Heading, Text, CardFooter } from 'grommet';
 import { ReactNode } from 'react';
 import { WavyLink } from 'react-wavy-transitions';
 
-interface ProfilePageCardProps {
+interface IProfilePageCard {
   title: string;
   subtitle: string;
   buttonLabel: string;
@@ -18,7 +18,7 @@ const ProfilePageCard = ({
   link,
   icon,
   buttonIcon,
-}: ProfilePageCardProps) => {
+}: IProfilePageCard) => {
   return (
     <Card margin='medium' pad='medium'>
       <CardHeader pad='small' align='start' direction='column' gap='xsmall'>

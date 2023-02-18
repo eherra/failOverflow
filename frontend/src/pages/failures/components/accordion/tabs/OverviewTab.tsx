@@ -18,18 +18,10 @@ const OverviewTab = ({ description, solution, technologies, createdAt }: IOvervi
           layout='grid'
           valueProps={{ width: 'small' }}
           justifyContent='center'>
-          <NameValuePair key={description} name='Description'>
-            {description}
-          </NameValuePair>
-          <NameValuePair key={solution} name='Solution'>
-            {solution}
-          </NameValuePair>
-          <NameValuePair key='tech' name='Technologies'>
-            {technologies.join(', ')}
-          </NameValuePair>
-          <NameValuePair key={createdAt} name='Created'>
-            {createStyledDateInfo(createdAt)}
-          </NameValuePair>
+          <NameValuePair name='Description'>{description}</NameValuePair>
+          <NameValuePair name='Solution'>{solution}</NameValuePair>
+          <NameValuePair name='Technologies'>{technologies.join(', ')}</NameValuePair>
+          <NameValuePair name='Created'>{createStyledDateInfo(createdAt)}</NameValuePair>
         </NameValueList>
       </Box>
     </Tab>

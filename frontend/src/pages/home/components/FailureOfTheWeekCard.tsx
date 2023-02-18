@@ -17,7 +17,7 @@ const VoteOfTheWeekCard = () => {
   const fetchFailureOfTheWeek = async () => {
     try {
       const { failureOfTheWeek } = await failureService.getFailureOfTheWeek();
-      setWeekFailure(failureOfTheWeek[0]);
+      setWeekFailure(failureOfTheWeek);
     } catch (err) {
       handleError(err);
     }

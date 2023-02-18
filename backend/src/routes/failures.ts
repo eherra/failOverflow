@@ -8,7 +8,7 @@ const failuresRouter = express.Router();
 /**
  * GET /api/failures
  * @summary Gets all failures
- * @return {} 200 - All failures
+ * @return {} 200 - failures
  * @return {} 400 - Bad request response
  */
 failuresRouter.get("/", async (_req: Request, res: Response) => {
@@ -20,12 +20,12 @@ failuresRouter.get("/", async (_req: Request, res: Response) => {
 
 /**
  * GET /api/failures/:userId
- * @summary Gets all failures of user according to path param ID
+ * @summary Gets all failures of logged in user
  * @return {} 200 - All user failures
  * @return {} 400 - Bad request response
  */
 failuresRouter.get("/user", userAuthenticator, async (req: any, res: Response) => {
-  const user: any = req.user;
+  const user = req.user;
   const userFailures = await failureService.findUsersFailures(user.id);
 
   res.status(200).json({
@@ -43,6 +43,7 @@ failuresRouter.get("/user", userAuthenticator, async (req: any, res: Response) =
 failuresRouter.get("/rate/:failureId/user/:userId?", async (req: Request, res: Response) => {
   const { failureId, userId } = req.params;
   const ratingData = await failureService.getRatingData(failureId, userId);
+
   res.status(200).json({
     ratingData,
   });
@@ -58,6 +59,7 @@ failuresRouter.get("/rate/:failureId/user/:userId?", async (req: Request, res: R
 failuresRouter.get("/vote/:failureId/user/:userId?", async (req: Request, res: Response) => {
   const { failureId, userId } = req.params;
   const votesData = await failureService.getVoteData(failureId, userId);
+
   res.status(200).json({
     hasUserVoted: votesData.hasUserVoted,
     votesAmount: votesData.votesAmount,
@@ -75,6 +77,7 @@ failuresRouter.get(
   userAuthenticator,
   async (_req: Request, res: Response) => {
     const failureOfTheWeek = await failureService.getFailureOfTheWeek();
+
     res.status(200).json({
       failureOfTheWeek,
     });
@@ -91,6 +94,7 @@ failuresRouter.get(
 failuresRouter.get("/comment/:failureId", async (req: Request, res: Response) => {
   const { failureId } = req.params;
   const commentsData = await failureService.getFailureComments(failureId);
+
   res.status(200).json({
     commentsData,
   });
@@ -107,6 +111,7 @@ failuresRouter.get(
   userAuthenticator,
   async (_req: Request, res: Response) => {
     const failureOfTheMonth = await failureService.getFailureOfTheMonth();
+
     res.status(200).json({
       failureOfTheMonth,
     });
@@ -121,7 +126,8 @@ failuresRouter.get(
  */
 failuresRouter.get("/tech-distribution", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
-  const { techDistribution } = await failureService.getTechDistribution(user.id);
+  const techDistribution = await failureService.getTechDistribution(user.id);
+
   res.status(200).json({
     techDistribution,
   });
@@ -136,8 +142,24 @@ failuresRouter.get("/tech-distribution", userAuthenticator, async (req: any, res
 failuresRouter.get("/failures-distribution", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
   const failureDistribution = await failureService.getFailureCreatedDistribution(user.id);
+
   res.status(200).json({
     failureDistribution,
+  });
+});
+
+/**
+ * GET /api/failures/vote-distribution"
+ * @summary Gets vote distribution data
+ * @return {} 200 - Vote distribution data in array where date and votes received on that date present
+ * @return {} 400 - Bad request response
+ */
+failuresRouter.get("/vote-distribution", userAuthenticator, async (req: any, res: Response) => {
+  const user = req.user;
+  const voteDistribution = await failureService.getVoteDistribution(user.id);
+
+  res.status(200).json({
+    voteDistribution,
   });
 });
 
@@ -152,6 +174,7 @@ failuresRouter.post("/", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
   const { failure } = req.body;
   const createdFailure = await failureService.createFailure(failure, user.id);
+
   res.status(201).json({ createdFailure });
 });
 
@@ -190,6 +213,7 @@ failuresRouter.post("/vote/:failureId", userAuthenticator, async (req: any, res:
   const user = req.user;
   const failureId = req.params.failureId;
   const { isDeletingVote } = req.body;
+
   if (isDeletingVote) {
     await failureService.deleteVoteFromFailure({
       voterId: user.id,
@@ -201,6 +225,7 @@ failuresRouter.post("/vote/:failureId", userAuthenticator, async (req: any, res:
       failureId,
     });
   }
+
   res.sendStatus(200);
 });
 
@@ -216,11 +241,13 @@ failuresRouter.post("/rate/:failureId", userAuthenticator, async (req: any, res:
   const user = req.user;
   const failureId = req.params.failureId;
   const { ratingValue } = req.body;
+
   const updatedRatingData = await failureService.addStarRating({
     raterId: user.id,
     ratingValue,
     failureId,
   });
+
   res.status(200).json({
     updatedRatingData,
   });
@@ -241,6 +268,7 @@ failuresRouter.put(
     const { failureId } = req.params;
     const { isCommentsAllowed } = req.body;
     await failureService.toggleFailureCommentingAllowance(failureId, isCommentsAllowed);
+
     res.sendStatus(200);
   },
 );
@@ -256,6 +284,7 @@ failuresRouter.delete("/:failureId", userAuthenticator, async (req: any, res: Re
   const user = req.user;
   const failureId = req.params.failureId;
   await failureService.deleteFailure(failureId, user.id);
+
   res.sendStatus(200);
 });
 
