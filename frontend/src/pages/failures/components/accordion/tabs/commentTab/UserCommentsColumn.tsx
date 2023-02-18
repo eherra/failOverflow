@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { NameValuePair } from 'grommet';
 import ShowMoreCommentsButton from '../../../../../common/ShowMoreCommentsButton';
-
-interface IComment {
-  comment: string;
-  createdAt: string;
-  _id: string;
-}
+import { IComment } from '../../../../../../types';
 
 interface IUserComments {
   comments?: Array<IComment>;

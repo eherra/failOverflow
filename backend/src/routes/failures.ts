@@ -2,6 +2,13 @@ import "express-async-errors";
 import express, { Request, Response } from "express";
 import failureService from "../services/failureService";
 import { userAuthenticator } from "../utils/middleware";
+import {
+  IFailure,
+  IFailureOfTheWeek,
+  IFailureOfTheMonth,
+  ICreatedFailure,
+  IComment,
+} from "../types";
 
 const failuresRouter = express.Router();
 
@@ -12,7 +19,7 @@ const failuresRouter = express.Router();
  * @return {} 400 - Bad request response
  */
 failuresRouter.get("/", async (_req: Request, res: Response) => {
-  const failures = await failureService.getAllFailures();
+  const failures: Array<IFailure> = await failureService.getAllFailures();
   res.status(200).json({
     failures,
   });
@@ -26,7 +33,7 @@ failuresRouter.get("/", async (_req: Request, res: Response) => {
  */
 failuresRouter.get("/user", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
-  const userFailures = await failureService.findUsersFailures(user.id);
+  const userFailures: Array<IFailure> = await failureService.findUsersFailures(user.id);
 
   res.status(200).json({
     userFailures,
@@ -76,7 +83,7 @@ failuresRouter.get(
   "/vote/failure-week",
   userAuthenticator,
   async (_req: Request, res: Response) => {
-    const failureOfTheWeek = await failureService.getFailureOfTheWeek();
+    const failureOfTheWeek: IFailureOfTheWeek = await failureService.getFailureOfTheWeek();
 
     res.status(200).json({
       failureOfTheWeek,
@@ -110,8 +117,7 @@ failuresRouter.get(
   "/rate/failure-month",
   userAuthenticator,
   async (_req: Request, res: Response) => {
-    const failureOfTheMonth = await failureService.getFailureOfTheMonth();
-    console.log(failureOfTheMonth);
+    const failureOfTheMonth: IFailureOfTheMonth = await failureService.getFailureOfTheMonth();
     res.status(200).json({
       failureOfTheMonth,
     });
@@ -173,7 +179,7 @@ failuresRouter.get("/vote-distribution", userAuthenticator, async (req: any, res
 failuresRouter.post("/", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
   const { failure } = req.body;
-  const createdFailure = await failureService.createFailure(failure, user.id);
+  const createdFailure: ICreatedFailure = await failureService.createFailure(failure, user.id);
 
   res.status(201).json({ createdFailure });
 });
@@ -190,7 +196,8 @@ failuresRouter.post("/comment/:failureId", userAuthenticator, async (req: any, r
   const user = req.user;
   const failureId = req.params.failureId;
   const { comment } = req.body;
-  const createdComment = await failureService.addCommentToFailure({
+
+  const createdComment: IComment = await failureService.addCommentToFailure({
     comment,
     commentorId: user.id,
     failureId,
@@ -211,8 +218,8 @@ failuresRouter.post("/comment/:failureId", userAuthenticator, async (req: any, r
  */
 failuresRouter.post("/vote/:failureId", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
-  const failureId = req.params.failureId;
-  const { isDeletingVote } = req.body;
+  const failureId: string = req.params.failureId;
+  const { isDeletingVote }: { isDeletingVote: boolean } = req.body;
 
   if (isDeletingVote) {
     await failureService.deleteVoteFromFailure({
@@ -239,8 +246,8 @@ failuresRouter.post("/vote/:failureId", userAuthenticator, async (req: any, res:
  */
 failuresRouter.post("/rate/:failureId", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
-  const failureId = req.params.failureId;
-  const { ratingValue } = req.body;
+  const failureId: string = req.params.failureId;
+  const { ratingValue }: { ratingValue: number } = req.body;
 
   const updatedRatingData = await failureService.addStarRating({
     raterId: user.id,
@@ -266,7 +273,7 @@ failuresRouter.put(
   userAuthenticator,
   async (req: Request, res: Response) => {
     const { failureId } = req.params;
-    const { isCommentsAllowed } = req.body;
+    const { isCommentsAllowed }: { isCommentsAllowed: boolean } = req.body;
     await failureService.toggleFailureCommentingAllowance(failureId, isCommentsAllowed);
 
     res.sendStatus(200);
@@ -282,7 +289,7 @@ failuresRouter.put(
  */
 failuresRouter.delete("/:failureId", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
-  const failureId = req.params.failureId;
+  const { failureId } = req.params;
   await failureService.deleteFailure(failureId, user.id);
 
   res.sendStatus(200);

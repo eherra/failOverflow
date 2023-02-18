@@ -19,9 +19,8 @@ const MostLikedFailureCard = () => {
   const fetchFailureOfTheMonth = async () => {
     try {
       const { failureOfTheMonth } = await failureService.getReviewOfTheMonth();
-      setMonthReview(failureOfTheMonth[0]);
+      setMonthReview(failureOfTheMonth);
     } catch (err) {
-      console.log(err);
       handleError(err);
     }
   };

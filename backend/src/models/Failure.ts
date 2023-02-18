@@ -66,14 +66,6 @@ const failureSchema: Schema = new mongoose.Schema({
   ],
 });
 
-failureSchema.set("toJSON", {
-  transform: (_document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
-});
-
 failureSchema.plugin(uniqueValidator);
 
 export default mongoose.model<IFailure & Document>("Failure", failureSchema);

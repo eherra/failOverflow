@@ -1,24 +1,21 @@
 import { useState } from 'react';
 import { Box, Tabs, AccordionPanel } from 'grommet';
+import { IFailure } from '../../../../types';
 import ReviewTab from './tabs/reviewTab/ReviewTab';
 import AccordionTitle from './AccordionTitle';
 import OverviewTab from './tabs/OverviewTab';
 import CommentTab from './tabs/commentTab/CommentTab';
-import { Failure } from '../../../../types';
 
-interface IAccordionUnitProps {
-  failure: Failure;
-}
-
-const AccordionUnit = ({ failure }: IAccordionUnitProps) => {
+const AccordionUnit = ({ failure }: { failure: IFailure }) => {
   const [tabIndex, setTabIndex] = useState<number>();
 
   const onActive = (nextIndex: any) => setTabIndex(nextIndex);
-  const { title, creator, description, solution, technologies, createdAt, allowComments } = failure;
+  const { _id, title, creator, description, solution, technologies, createdAt, allowComments } =
+    failure;
 
   return (
     <AccordionPanel
-      key={failure._id}
+      key={_id}
       label={
         <AccordionTitle
           creator={creator[0]}

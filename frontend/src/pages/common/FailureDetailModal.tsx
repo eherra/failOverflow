@@ -9,13 +9,13 @@ import {
   ResponsiveContext,
 } from 'grommet';
 import { Catalog } from 'grommet-icons';
-import { Failure } from '../../types';
+import { IFailure } from '../../types';
 import { createStyledDateInfo } from '../../utils/TimeUtils';
 import { IFailureOfTheMonth } from '../../types';
 import { IFailureOfTheWeek } from '../../types';
 
 interface IShowFailureDetailsModal {
-  failure?: Failure | IFailureOfTheWeek | IFailureOfTheMonth;
+  failure?: IFailure | IFailureOfTheWeek | IFailureOfTheMonth;
   setDetailsModalShow(boolean: any): void;
 }
 

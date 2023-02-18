@@ -5,21 +5,16 @@ import StarRating from "../models/StarRating";
 import { ObjectId } from "mongodb";
 import mongoose, { ClientSession } from "mongoose";
 
-import {
-  getReviewAverage,
-  getUserReview,
-  hasUserVoted,
-  getNumberOfWeek,
-} from "./utils/ratingUtils";
+import { getUserReview, hasUserVoted, getNumberOfWeek } from "./utils/ratingUtils";
 
-interface FailureValues {
+interface INewFailureValues {
   creatorId: string;
   title: string;
   description: string;
   solution: string;
+  allowComments: boolean;
   technologies?: Array<string>;
   tags?: string;
-  allowComments: boolean;
 }
 
 interface ICommentValues {
@@ -36,10 +31,10 @@ interface IVoteValues {
 interface IStarReviewValues {
   failureId: string;
   raterId: string;
-  ratingValue: string;
+  ratingValue: number;
 }
 
-const createFailure = async (failure: FailureValues, creatorId: string) => {
+const createFailure = async (failure: INewFailureValues, creatorId: string) => {
   // TODO: validate inputs
   const failureModel = new Failure({
     creator: creatorId,
@@ -177,7 +172,7 @@ const addCommentToFailure = async ({ comment, commentorId, failureId }: IComment
 };
 
 const addVoteToFailure = async ({ voterId, failureId }: IVoteValues) => {
-  // TODO: check taht voterId is not already existing in votes
+  // TODO: check that voterId is not already existing in votes
   const voteModel = new Vote({
     givenBy: voterId,
   });
@@ -247,7 +242,6 @@ const addStarRating = async ({ ratingValue, failureId, raterId }: IStarReviewVal
 };
 
 const getRatingData = async (failureId: string, userId: string) => {
-  // refactor that the average is counted on mongoDB side
   const ratingsData: any = await Failure.aggregate([
     {
       $match: {
@@ -263,16 +257,28 @@ const getRatingData = async (failureId: string, userId: string) => {
       },
     },
     {
+      $addFields: {
+        reviewAverage: {
+          $avg: {
+            $map: {
+              input: "$starReviews",
+              in: "$$this.starRating",
+            },
+          },
+        },
+      },
+    },
+    {
       $project: {
         starReviews: 1,
+        reviewAverage: 1,
       },
     },
   ]);
-  const reviewAsArray = ratingsData[0].starReviews;
-
+  const reviewObj = ratingsData[0];
   return {
-    ratingAverage: getReviewAverage(reviewAsArray),
-    userRating: userId ? getUserReview(reviewAsArray, userId) : null,
+    ratingAverage: reviewObj.reviewAverage,
+    userRating: userId ? getUserReview(reviewObj.starReviews, userId) : null,
   };
 };
 
@@ -376,7 +382,7 @@ const getFailureOfTheWeek = async () => {
       $limit: 1,
     },
   ]);
-  return weekFailure[0];
+  return weekFailure.length ? weekFailure[0] : null;
 };
 
 const getFailureComments = async (failureId: string) => {
@@ -484,7 +490,7 @@ const getFailureOfTheMonth = async () => {
       $limit: 1,
     },
   ]);
-  return failureOfTheMonth;
+  return failureOfTheMonth.length ? failureOfTheMonth[0] : null;
 };
 
 const getTechDistribution = async (userId: string) => {

@@ -1,11 +1,11 @@
 import { Accordion, Spinner, Box, Text } from 'grommet';
 import { useState, useEffect } from 'react';
 import AccordionUnit from './accordion/AccordionUnit';
-import { Failure } from '../../../types';
+import { IFailure } from '../../../types';
 import failureService from '../../../api/failures';
 
 const FailureList = () => {
-  const [failures, setFailures] = useState<Array<Failure>>([]);
+  const [failures, setFailures] = useState<Array<IFailure>>([]);
   const [isFetchingFailures, setIsFetchingFailures] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -17,6 +17,7 @@ const FailureList = () => {
     try {
       setIsFetchingFailures(true);
       const { failures } = await failureService.getAllFailures();
+      console.log(failures);
       setFailures(failures);
       setIsFetchingFailures(false);
     } catch (err) {

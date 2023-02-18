@@ -1,9 +1,3 @@
-export const getReviewAverage = (data: any): number => {
-  if (!data.length) return 0;
-  const rates = data.map((obj: any) => obj.starRating);
-  return rates.reduce((a: number, b: number) => a + b) / rates.length;
-};
-
 export const getUserReview = (data: any, userId: string): number => {
   if (!data.length) return 0;
   const userReview = data.find((obj: any) => obj.givenBy.toString() === userId);

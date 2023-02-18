@@ -16,6 +16,7 @@ import SelectTechnologiesField from './SelectTechnologiesField';
 import failureService from '../../../../api/failures';
 import { useNotificationContext } from '../../../../context/NotificationContext';
 import { Script } from 'grommet-icons';
+import { IFailure } from '../../../../types';
 
 interface ICreateFailureModal {
   setOpen(value: boolean): any;
@@ -43,7 +44,7 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
   const handleFormSubmit = async ({ value }: IValue) => {
     try {
       setIsCreatingFailure(true);
-      const createdFailure = await failureService.createFailure(value);
+      const createdFailure: IFailure = await failureService.createFailure(value);
       console.log(createdFailure);
       setIsCreatingFailure(false);
       setOpen(false);
