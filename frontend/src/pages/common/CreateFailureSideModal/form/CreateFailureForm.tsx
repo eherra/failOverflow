@@ -27,7 +27,6 @@ interface ICreateFailureFormValues {
   description: string;
   solution: string;
   technologies?: Array<string>;
-  tags?: string;
   allowComments: boolean;
 }
 
@@ -105,10 +104,6 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
           />
         </FormField>
         <SelectTechnologiesField />
-
-        <FormField label='Tags' htmlFor='tags' name='tags'>
-          <Select name='tags' options={['tag 1', 'tag 2', 'tag 3']} placeholder='Select tags' />
-        </FormField>
 
         <FormField label='Comments allowed?' htmlFor='allowComments' name='allowComments'>
           <CheckBox

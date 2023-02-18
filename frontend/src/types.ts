@@ -18,7 +18,6 @@ export interface IFailure {
   solution: string;
   technologies: Array<string>;
   starRating: string;
-  tags: Array<string>;
   votes: number;
   createdAt: string;
   allowComments: boolean;

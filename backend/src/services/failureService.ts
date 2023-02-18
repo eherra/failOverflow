@@ -14,7 +14,6 @@ interface INewFailureValues {
   solution: string;
   allowComments: boolean;
   technologies?: Array<string>;
-  tags?: string;
 }
 
 interface ICommentValues {
@@ -42,7 +41,6 @@ const createFailure = async (failure: INewFailureValues, creatorId: string) => {
     description: failure.description,
     solution: failure.solution,
     technologies: failure?.technologies,
-    tags: failure?.tags,
     allowComments: failure.allowComments,
   });
 
@@ -371,7 +369,6 @@ const getFailureOfTheWeek = async () => {
         starRatings: 0,
         comments: 0,
         votes: 0,
-        tags: 0,
         __v: 0,
         allowComments: 0,
         "creator.passwordHash": 0,
