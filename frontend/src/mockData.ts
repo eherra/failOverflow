@@ -14,7 +14,6 @@ export const failureData = {
       solution: 'Turned off/on my computer',
       technologies: ['Wiremock', 'Robot Framework', 'Java Spring'],
       starRating: '4.7',
-      tags: ['Java11', 'WireMock', 'Testing'],
       votes: 19,
       timeOfCreation: '2023-01-23T09:00:00.594Z',
       comments: [
@@ -36,7 +35,6 @@ export const failureData = {
       solution: 'Turned off/on my computer',
       technologies: ['React', 'TypeScript'],
       starRating: '3.0',
-      tags: ['hooks', 'React18', 'Frontend'],
       votes: 12,
       timeOfCreation: '2023-01-01T09:00:00.594Z',
       comments: ['good stuff', 'Oh I spent so long with this as well!'],
@@ -53,7 +51,6 @@ export const failureData = {
       solution: 'Turned off/on my computer',
       technologies: ['React', 'TypeScript'],
       starRating: '3.0',
-      tags: ['typeScript', 'Cobol', 'mainframe'],
       votes: 12,
       timeOfCreation: '2020-12-01T12:55:43.594Z',
       comments: ['good stuff', 'Oh I spent so long with this as well!'],
@@ -105,7 +102,6 @@ export const weekVoteData = {
     solution: 'Turned off/on my computer',
     technologies: ['Wiremock', 'Robot Framework', 'Java Spring'],
     starRating: '3.5',
-    tags: ['Java11', 'WireMock', 'Testing'],
     votes: 19,
     timeOfCreation: '2023-01-23T09:00:00.594Z',
     comments: [

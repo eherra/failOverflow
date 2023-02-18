@@ -30,11 +30,6 @@ const failureSchema: Schema = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
-  tags: {
-    type: Array<string>,
-    required: false,
-    default: [],
-  },
   allowComments: {
     type: Boolean,
     required: true,
