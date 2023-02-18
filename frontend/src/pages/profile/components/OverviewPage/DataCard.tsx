@@ -10,7 +10,6 @@ interface IDataCard {
 }
 
 const DataCard = ({ heading, chartText, isError, chartField, hasData }: IDataCard) => {
-  console.log(hasData);
   return (
     <Card margin='medium' pad='medium'>
       <CardHeader align='start' direction='column' gap='xsmall'>

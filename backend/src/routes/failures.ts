@@ -3,11 +3,16 @@ import express, { Request, Response } from "express";
 import failureService from "../services/failureService";
 import { userAuthenticator } from "../utils/middleware";
 import {
-  IFailure,
+  IUserAllFailure,
   IFailureOfTheWeek,
   IFailureOfTheMonth,
   ICreatedFailure,
   IComment,
+  IFailureDistribution,
+  IVoteDistribution,
+  IVotesData,
+  IRatingData,
+  IAllFailure,
 } from "../types";
 
 const failuresRouter = express.Router();
@@ -15,11 +20,11 @@ const failuresRouter = express.Router();
 /**
  * GET /api/failures
  * @summary Gets all failures
- * @return {} 200 - failures
+ * @return {Array<IAllFailure>} 200 - Array of failures which objects has IAllFailure values present
  * @return {} 400 - Bad request response
  */
 failuresRouter.get("/", async (_req: Request, res: Response) => {
-  const failures: Array<IFailure> = await failureService.getAllFailures();
+  const failures: Array<IAllFailure> = await failureService.getAllFailures();
   res.status(200).json({
     failures,
   });
@@ -28,13 +33,13 @@ failuresRouter.get("/", async (_req: Request, res: Response) => {
 /**
  * GET /api/failures/:userId
  * @summary Gets all failures of logged in user
- * @return {} 200 - All user failures
+ * @return {Array<IUserAllFailure>} 200 - Array of all user failures which objects has IUserAllFailure values present
  * @return {} 400 - Bad request response
+ * @return {} 401 - Unauthorized call (if JWT token not present or has expired)
  */
 failuresRouter.get("/user", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
-  const userFailures: Array<IFailure> = await failureService.findUsersFailures(user.id);
-
+  const userFailures: Array<IUserAllFailure> = await failureService.findUsersFailures(user.id);
   res.status(200).json({
     userFailures,
   });
@@ -44,12 +49,12 @@ failuresRouter.get("/user", userAuthenticator, async (req: any, res: Response) =
  * GET /api/failures/rate/:failureId/user/:userId
  * @summary Gets ratings average and user ratings
  * @param   req.params  failureId: required, userId: Not required -> if user not logged in
- * @return {} 200 - ratingAverage, userRating -> if userId provided
+ * @return {IRatingData} 200 - ratingAverage, userRating -> if userId provided
  * @return {} 400 - Bad request response
  */
 failuresRouter.get("/rate/:failureId/user/:userId?", async (req: Request, res: Response) => {
   const { failureId, userId } = req.params;
-  const ratingData = await failureService.getRatingData(failureId, userId);
+  const ratingData: IRatingData = await failureService.getRatingData(failureId, userId);
 
   res.status(200).json({
     ratingData,
@@ -60,12 +65,12 @@ failuresRouter.get("/rate/:failureId/user/:userId?", async (req: Request, res: R
  * GET /api/failures/vote/:failureId/user/:userId
  * @summary Gets amount of votes and users vote info according to the failure given by param
  * @param   req.params  failureId: required, userId: Not required -> if user not logged in
- * @return {} 200 - votesAmount, hasUserVoted -> if userId provided
+ * @return {IVotesData} 200 - votesAmount, hasUserVoted -> if userId provided
  * @return {} 400 - Bad request response
  */
 failuresRouter.get("/vote/:failureId/user/:userId?", async (req: Request, res: Response) => {
   const { failureId, userId } = req.params;
-  const votesData = await failureService.getVoteData(failureId, userId);
+  const votesData: IVotesData = await failureService.getVoteData(failureId, userId);
 
   res.status(200).json({
     hasUserVoted: votesData.hasUserVoted,
@@ -76,8 +81,9 @@ failuresRouter.get("/vote/:failureId/user/:userId?", async (req: Request, res: R
 /**
  * GET /api/failures/vote/failure-week"
  * @summary Gets failure of the week
- * @return {} 200 - failure info of the week
+ * @return {IFailureOfTheWeek} 200 - Failure of the week data
  * @return {} 400 - Bad request response
+ * @return {} 401 - Unauthorized call (if JWT token not present or has expired)
  */
 failuresRouter.get(
   "/vote/failure-week",
@@ -95,12 +101,12 @@ failuresRouter.get(
  * GET /api/failures/comment/:failureId"
  * @summary Gets failures comments
  * @param   req.params.required  failureId
- * @return {} 200 - comments of failure
+ * @return {Array<IComment>} 200 - comments of failure
  * @return {} 400 - Bad request response
  */
 failuresRouter.get("/comment/:failureId", async (req: Request, res: Response) => {
   const { failureId } = req.params;
-  const commentsData = await failureService.getFailureComments(failureId);
+  const commentsData: Array<IComment> = await failureService.getFailureComments(failureId);
 
   res.status(200).json({
     commentsData,
@@ -110,8 +116,10 @@ failuresRouter.get("/comment/:failureId", async (req: Request, res: Response) =>
 /**
  * GET /api/failures/rate/failure-month"
  * @summary Gets failure of the month
- * @return {} 200 - failure info of the month
+ * @return {IFailureOfTheMonth} 200 - failure of the month data
  * @return {} 400 - Bad request response
+ * @return {} 401 - Unauthorized call (if JWT token not present or has expired)
+
  */
 failuresRouter.get(
   "/rate/failure-month",
@@ -129,6 +137,7 @@ failuresRouter.get(
  * @summary Gets technologies distribution data
  * @return {} 200 - Distribution data in array where value (how often occurring in failures) and name (tech) present
  * @return {} 400 - Bad request response
+ * @return {} 401 - Unauthorized call (if JWT token not present or has expired)
  */
 failuresRouter.get("/tech-distribution", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
@@ -142,12 +151,14 @@ failuresRouter.get("/tech-distribution", userAuthenticator, async (req: any, res
 /**
  * GET /api/failures/failures-distribution"
  * @summary Gets failures distribution data
- * @return {} 200 - Failures distribution data in array where date and amount created on that date present
+ * @return {Array<IFailureDistribution>} 200 - Failures distribution data in array where date and amount created on that date present
  * @return {} 400 - Bad request response
+ * @return {} 401 - Unauthorized call (if JWT token not present or has expired)
  */
 failuresRouter.get("/failures-distribution", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
-  const failureDistribution = await failureService.getFailureCreatedDistribution(user.id);
+  const failureDistribution: Array<IFailureDistribution> =
+    await failureService.getFailureCreatedDistribution(user.id);
 
   res.status(200).json({
     failureDistribution,
@@ -157,12 +168,15 @@ failuresRouter.get("/failures-distribution", userAuthenticator, async (req: any,
 /**
  * GET /api/failures/vote-distribution"
  * @summary Gets vote distribution data
- * @return {} 200 - Vote distribution data in array where date and votes received on that date present
+ * @return {Array<IVoteDistribution>} 200 - Vote distribution data in array where date and votes received on that date present
  * @return {} 400 - Bad request response
+ * @return {} 401 - Unauthorized call (if JWT token not present or has expired)
  */
 failuresRouter.get("/vote-distribution", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
-  const voteDistribution = await failureService.getVoteDistribution(user.id);
+  const voteDistribution: Array<IVoteDistribution> = await failureService.getVoteDistribution(
+    user.id,
+  );
 
   res.status(200).json({
     voteDistribution,
@@ -172,9 +186,10 @@ failuresRouter.get("/vote-distribution", userAuthenticator, async (req: any, res
 /**
  * POST /api/failures
  * @summary Creates new failure
- * @param {Failure} request.body.required
- * @return {} 201 - Created failure
+ * @param {} request.body.required
+ * @return {ICreatedFailure} 201 - Created failure
  * @return {} 400 - Bad request response
+ * @return {} 401 - Unauthorized call (if JWT token not present or has expired)
  */
 failuresRouter.post("/", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
@@ -186,11 +201,12 @@ failuresRouter.post("/", userAuthenticator, async (req: any, res: Response) => {
 
 /**
  * POST /api/failures/comment/:failureId
- * @summary Created comment to Comment collections and attached it to failure given as path param
+ * @summary Creates comment and attached it to failureId given as path param
  * @param {} req.params.required - failureId
  * @param {} request.body.required - comment
- * @return {} 200 - All user failures
+ * @return {IComment} 200 - Created comment
  * @return {} 400 - Bad request response
+ * @return {} 401 - Unauthorized call (if JWT token not present or has expired)
  */
 failuresRouter.post("/comment/:failureId", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
@@ -215,6 +231,7 @@ failuresRouter.post("/comment/:failureId", userAuthenticator, async (req: any, r
  * @param {} request.body.required - isDeletingVote
  * @return {} 200 - Succeed
  * @return {} 400 - Bad request response
+ * @return {} 401 - Unauthorized call (if JWT token not present or has expired)
  */
 failuresRouter.post("/vote/:failureId", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
@@ -241,15 +258,16 @@ failuresRouter.post("/vote/:failureId", userAuthenticator, async (req: any, res:
  * @summary Gives a rating to a failure according to param failureId
  * @param {} req.params.required - failureId
  * @param {} request.body.required - ratingValue
- * @return {} 200 - Updated rating data with fields: ratingAverage, userReview
+ * @return {IRatingData} 200 - Updated rating data with fields: ratingAverage, userReview
  * @return {} 400 - Bad request response
+ * @return {} 401 - Unauthorized call (if JWT token not present or has expired)
  */
 failuresRouter.post("/rate/:failureId", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
   const failureId: string = req.params.failureId;
   const { ratingValue }: { ratingValue: number } = req.body;
 
-  const updatedRatingData = await failureService.addStarRating({
+  const updatedRatingData: IRatingData = await failureService.addStarRating({
     raterId: user.id,
     ratingValue,
     failureId,
@@ -267,6 +285,7 @@ failuresRouter.post("/rate/:failureId", userAuthenticator, async (req: any, res:
  * @param   req.body.required    isCommentsAllowed
  * @return {} 200 - success
  * @return {} 400 - Bad request response
+ * @return {} 401 - Unauthorized call (if JWT token not present or has expired)
  */
 failuresRouter.put(
   "/comment/:failureId/toggle-comment-allowance",
@@ -286,6 +305,7 @@ failuresRouter.put(
  * @param {} req.params.required - failureId
  * @return {} 200 - Success
  * @return {} 400 - Bad request response
+ * @return {} 401 - Unauthorized call (if JWT token not present or has expired)
  */
 failuresRouter.delete("/:failureId", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;

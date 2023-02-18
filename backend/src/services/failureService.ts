@@ -6,32 +6,7 @@ import { ObjectId } from "mongodb";
 import mongoose, { ClientSession } from "mongoose";
 
 import { getUserReview, hasUserVoted, getNumberOfWeek } from "./utils/ratingUtils";
-
-interface INewFailureValues {
-  creatorId: string;
-  title: string;
-  description: string;
-  solution: string;
-  allowComments: boolean;
-  technologies?: Array<string>;
-}
-
-interface ICommentValues {
-  comment: string;
-  commentorId: string;
-  failureId: string;
-}
-
-interface IVoteValues {
-  voterId: string;
-  failureId: string;
-}
-
-interface IStarReviewValues {
-  failureId: string;
-  raterId: string;
-  ratingValue: number;
-}
+import { INewFailureValues, IVoteValues, IStarReviewValues, ICommentValues } from "../types";
 
 const createFailure = async (failure: INewFailureValues, creatorId: string) => {
   // TODO: validate inputs
