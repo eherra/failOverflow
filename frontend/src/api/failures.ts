@@ -136,6 +136,11 @@ const getFailuresCreatedDistribution = async () => {
   return response.data;
 };
 
+const getVoteDistribution = async () => {
+  const response = await axios.get(`${url}/vote-distribution`, config());
+  return response.data;
+};
+
 export default {
   createFailure,
   getAllFailures,
@@ -152,4 +157,5 @@ export default {
   getReviewOfTheMonth,
   getTechDistribution,
   getFailuresCreatedDistribution,
+  getVoteDistribution,
 };

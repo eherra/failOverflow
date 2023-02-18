@@ -7,12 +7,12 @@ import ProfilePage from './pages/profile/ProfilePage';
 import LoginPage from './pages/auth/pages/login/LoginPage';
 import LandingPage from './pages/landing/LandingPage';
 import RegisterPage from './pages/auth/pages/register/RegisterPage';
-import ProfileEditPage from './pages/profile/pages/ProfileEditPage';
 import FAQPage from './pages/FAQ/FaQPage';
 import AuthorizedRoute from './pages/auth/components/AuthorizedRoute';
 
 const ProfileOverviewPage = React.lazy(() => import('./pages/profile/pages/ProfileOverviewPage'));
 const FailuresPage = React.lazy(() => import('./pages/failures/FailuresPage'));
+const ProfileEditPage = React.lazy(() => import('./pages/profile/pages/ProfileEditPage'));
 
 const App = () => {
   return (
@@ -34,7 +34,14 @@ const App = () => {
         <Route element={<AuthorizedRoute />}>
           <Route index element={<HomePage />} />
           <Route path='profile' element={<ProfilePage />} />
-          <Route path='profile/edit' element={<ProfileEditPage />} />
+          <Route
+            path='profile/edit'
+            element={
+              <Suspense fallback={<Spinner size='large' alignSelf='center' />}>
+                <ProfileEditPage />
+              </Suspense>
+            }
+          />
           <Route
             path='profile/overview'
             element={

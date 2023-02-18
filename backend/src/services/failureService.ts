@@ -314,8 +314,7 @@ const toggleFailureCommentingAllowance = async (failureId: string, valueToToggle
 };
 
 const getFailureOfTheWeek = async () => {
-  const currentWeeksNumber = getNumberOfWeek(new Date());
-
+  const currentWeeksNumber = getNumberOfWeek(new Date()) - 1;
   const weekFailure = await Failure.aggregate([
     {
       $lookup: {
@@ -386,7 +385,7 @@ const getFailureOfTheWeek = async () => {
     },
   ]);
 
-  return weekFailure;
+  return weekFailure[0];
 };
 
 const getFailureComments = async (failureId: string) => {
@@ -563,7 +562,7 @@ const getTechDistribution = async (userId: string) => {
       },
     },
   ]);
-  return techData[0];
+  return techData;
 };
 
 const getFailureCreatedDistribution = async (userId: string) => {
@@ -621,6 +620,83 @@ const getFailureCreatedDistribution = async (userId: string) => {
   return failureDistribution;
 };
 
+const getVoteDistribution = async (userId: string) => {
+  const voteDistribution: any = await Failure.aggregate([
+    {
+      $match: {
+        creator: new ObjectId(userId),
+        "votes.0": {
+          $exists: true,
+        },
+      },
+    },
+    {
+      $project: {
+        votes: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: "votes",
+        localField: "votes",
+        foreignField: "_id",
+        as: "votes",
+      },
+    },
+    {
+      $project: {
+        "votes._id": 1,
+        "votes.createdAt": 1,
+      },
+    },
+    {
+      $unwind: {
+        path: "$votes",
+      },
+    },
+    {
+      $group: {
+        _id: {
+          createdAt: {
+            $dateFromParts: {
+              year: {
+                $year: "$votes.createdAt",
+              },
+              month: {
+                $month: "$votes.createdAt",
+              },
+              day: {
+                $dayOfMonth: "$votes.createdAt",
+              },
+            },
+          },
+        },
+        amount: {
+          $sum: 1,
+        },
+      },
+    },
+    {
+      $sort: {
+        "_id.createdAt": 1,
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        amount: 1,
+        date: {
+          $dateToString: {
+            date: "$_id.createdAt",
+            format: "%d-%m-%Y",
+          },
+        },
+      },
+    },
+  ]);
+  return voteDistribution;
+};
+
 export default {
   createFailure,
   getAllFailures,
@@ -638,4 +714,5 @@ export default {
   getFailureOfTheMonth,
   getTechDistribution,
   getFailureCreatedDistribution,
+  getVoteDistribution,
 };

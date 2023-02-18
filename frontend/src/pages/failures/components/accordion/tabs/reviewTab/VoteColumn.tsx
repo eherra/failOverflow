@@ -39,7 +39,6 @@ const VoteColumn = ({ failureId, votesAmount, hasUserVoted, setVotesData }: IVot
       const toastMessage = `Vote ${hasUserVoted ? 'removed' : 'added'} succesfully!`;
       createNotification({ message: toastMessage, icon: <Like color='#96ab9c' />, isError: false });
     } catch (err) {
-      console.log(err);
       handleError(err);
       setIsSendingVote(false);
     }
