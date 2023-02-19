@@ -7,7 +7,6 @@ import {
   FormField,
   Header,
   Heading,
-  Select,
   TextArea,
   TextInput,
   Spinner,
@@ -15,7 +14,7 @@ import {
 import SelectTechnologiesField from './SelectTechnologiesField';
 import failureService from '../../../../api/failures';
 import { useNotificationContext } from '../../../../context/NotificationContext';
-import { Script } from 'grommet-icons';
+import { Script, AddCircle, FormPrevious } from 'grommet-icons';
 import { IFailure } from '../../../../types';
 
 interface ICreateFailureModal {
@@ -53,7 +52,6 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
         icon: <Script color='#96ab9c' />,
       });
     } catch (err) {
-      console.log(err);
       handleError(err);
       setIsCreatingFailure(false);
     }
@@ -121,7 +119,7 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
             primary
             type='submit'
           />
-          <Button label='Cancel' onClick={() => setOpen(false)} />
+          <Button icon={<FormPrevious />} label='Cancel' onClick={() => setOpen(false)} />
         </Box>
       </Form>
     </Box>

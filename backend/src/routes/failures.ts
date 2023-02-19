@@ -32,7 +32,7 @@ failuresRouter.get("/", async (_req: Request, res: Response) => {
 
 /**
  * GET /api/failures/:userId
- * @summary Gets all failures of logged in user
+ * @summary Gets all failures which are created by specific user
  * @return {Array<IUserAllFailure>} 200 - Array of all user failures which objects has IUserAllFailure values present
  * @return {} 400 - Bad request response
  * @return {} 401 - Unauthorized call (if JWT token not present or has expired)

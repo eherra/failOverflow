@@ -2,7 +2,7 @@ import { Tip, Text, Box } from 'grommet';
 import { StatusInfo } from 'grommet-icons';
 
 interface ILabelWithInfoTip {
-  text: string;
+  text?: string;
   tipContent: string;
   alignTipContent: any;
 }

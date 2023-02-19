@@ -35,5 +35,5 @@
 | 16.2.2023 | 6 | refactored backend to use async errors library, frontend bug fixed regadring updating tab values after giving review/vote, added jwt token and exactors to backend, refactoring more|
 | 17.2.2023 | 5 | implemented backend fetch for tech distribution and failure creation distribution, enhanced error handeling,  refactoring |
 | 18.2.2023 | 4 | implementing deleting failure, api documentation improvements, types improvements |
-| 19.2.2023 | 3 | enhancements for comments fetching and for UI showing them, overview page refactoring |
+| 19.2.2023 | 3 | took helmet.js in use for the backend, enhancements for comments fetching and for UI showing them, overview page refactoring |
 | total    | 148 | | 

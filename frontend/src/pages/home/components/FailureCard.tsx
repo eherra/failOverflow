@@ -11,9 +11,11 @@ import {
   CardFooter,
   Button,
   ResponsiveContext,
+  Text,
 } from 'grommet';
 import FailureDetailModal from '../../common/FailureDetailModal';
 import { ICreator, IFailureOfTheMonth, IFailureOfTheWeek } from '../../../types';
+import LabelWithInfoTip from '../../common/LabelWithInfoTip';
 
 interface IFailureCard {
   ownColumn: ReactNode;
@@ -34,30 +36,31 @@ const FailureCard = ({ ownColumn, failure, creator, heading }: IFailureCard) => 
             {heading}
           </Heading>
           {failure && (
-            <Box direction='row' gap='xsmall' pad='xxsmall'>
-              <p>created by</p>
-              <p>{creator?.username}</p>
+            <Box direction='row' gap='xsmall'>
+              <Text>created by</Text>
+              <Text style={{ textDecoration: 'underline' }}>{creator?.username}</Text>
               <Avatar src='avatar.png' size='medium' />
             </Box>
           )}
         </CardHeader>
         {failure ? (
           <>
-            <CardBody>
+            <CardBody pad='medium'>
               <NameValueList
                 pairProps={{ direction: 'column' }}
                 layout='grid'
                 valueProps={{ width: 'small' }}
-                justifyContent='start'>
+                justifyContent='center'>
                 <NameValuePair name='Title'>{failure?.title}</NameValuePair>
                 {ownColumn}
               </NameValueList>
             </CardBody>
             <CardFooter
-              align={['xsmall', 'small'].includes(screenSize) ? 'end' : 'end'}
+              align={['xsmall', 'small'].includes(screenSize) ? 'end' : undefined}
               gap='xsmall'>
               <Button
-                label='Show details'
+                style={{ marginLeft: 'auto' }}
+                label='View details'
                 onClick={() => {
                   setFailureDetailsModalShow(true);
                 }}

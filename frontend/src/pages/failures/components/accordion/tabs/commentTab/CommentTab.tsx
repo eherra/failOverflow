@@ -88,6 +88,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
                       required
                       placeholder='e.g. did you find it helpful?'
                       id='textArea'
+                      maxLength={300}
                       value={commentInput}
                       onChange={(event) => setCommentInput(event.target.value)}
                     />

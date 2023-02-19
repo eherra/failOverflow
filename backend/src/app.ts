@@ -12,9 +12,10 @@ import helmet from "helmet";
 const app = express();
 
 app.use(cors());
+app.use(helmet());
+
 app.use(express.static("build"));
 app.use(express.json());
-app.use(helmet());
 
 mongoose.set("strictQuery", false);
 

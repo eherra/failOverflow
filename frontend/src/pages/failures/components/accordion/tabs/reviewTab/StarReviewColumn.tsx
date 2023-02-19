@@ -20,7 +20,7 @@ const StarReviewColumn = ({
   const { user } = useUserContext();
   return (
     <Box direction='column' gap='medium'>
-      <NameValuePair key='stars' name='Stars average'>
+      <NameValuePair key='stars' name='Reviews average'>
         {reviewAverage ? reviewAverage : 'No reviews yet'}
       </NameValuePair>
       {user ? (

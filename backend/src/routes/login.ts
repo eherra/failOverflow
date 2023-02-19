@@ -13,7 +13,7 @@ const loginRouter = express.Router();
 loginRouter.post("/", async (req: Request, res: Response) => {
   const { username, password } = req.body;
   const { user, token } = await loginService.loginUser(username, password);
-  res.status(200).json({ username: user?.username, id: user?._id, token: token });
+  res.status(200).json({ username: user.username, id: user._id, token: token });
 });
 
 export default loginRouter;

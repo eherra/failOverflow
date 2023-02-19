@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Rating } from 'react-simple-star-rating';
 import { NameValuePair } from 'grommet';
-import { Trophy } from 'grommet-icons';
 import failureService from '../../../api/failures';
 import { IFailureOfTheMonth } from '../../../types';
 import FailureCard from './FailureCard';
 import FailureCardHeading from './FailureCardHeading';
 import { useNotificationContext } from '../../../context/NotificationContext';
 
-const MostLikedFailureCard = () => {
+const FailureOfTheMonth = () => {
   const [monthReview, setMonthReview] = useState<IFailureOfTheMonth | undefined>(undefined);
   const { handleError } = useNotificationContext();
 
@@ -40,10 +39,15 @@ const MostLikedFailureCard = () => {
     <FailureCard
       creator={creator}
       ownColumn={MonthData}
-      heading={<FailureCardHeading heading='Failure of the Month' icon={<Trophy />} />}
+      heading={
+        <FailureCardHeading
+          heading='Failure of the Month'
+          tipContent='Failure which has received most reviews during current month.'
+        />
+      }
       failure={monthReview}
     />
   );
 };
 
-export default MostLikedFailureCard;
+export default FailureOfTheMonth;
