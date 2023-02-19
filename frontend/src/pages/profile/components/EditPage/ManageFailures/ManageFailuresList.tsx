@@ -33,7 +33,7 @@ const ManageFailuresList = () => {
       const { userFailures } = await failureService.getUsersFailures();
       setFailures(userFailures);
       setIsFetchingFailures(false);
-    } catch (err: any) {
+    } catch (err) {
       handleError(err);
       setIsFetchingFailures(false);
       setIsError(true);
@@ -42,7 +42,7 @@ const ManageFailuresList = () => {
 
   // TODO: better error message
   if (isError) {
-    return <p>Could not fetch failures of user</p>;
+    return <p>Could not fetch failures of user.</p>;
   }
 
   if (isFetchingFailures) {
@@ -117,7 +117,8 @@ const ManageFailuresList = () => {
 
           {commentsModaleShow && (
             <CommentsModal
-              failure={toEdit}
+              failureId={toEdit?._id}
+              allowComments={toEdit?.allowComments}
               setCommentsModalShow={setCommentsModalShow}
               setFailures={setFailures}
             />

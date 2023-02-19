@@ -3,11 +3,11 @@ import { Box, NameValueList, Tab, Form, FormField, TextArea, Button, Text, Spinn
 import failureService from '../../../../../../api/failures';
 import { Login, ChatOption, Chat } from 'grommet-icons';
 import { useUserContext } from '../../../../../../context/UserContext';
-import UserCommentsColumn from './UserCommentsColumn';
+import UserCommentsColumn from '../../../../../common/UserCommentsColumn';
 import { useNotificationContext } from '../../../../../../context/NotificationContext';
 import { WavyLink } from 'react-wavy-transitions';
 import LabelWithInfoTip from '../../../../../common/LabelWithInfoTip';
-import { IComment } from '../../../../../../types';
+import { IListComment } from '../../../../../../types';
 
 interface ICommentTab {
   failureId: string;
@@ -20,7 +20,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
 
   const [commentInput, setCommentInput] = useState<string>('');
   const [isSendingComment, setIsSendingComment] = useState<boolean>(false);
-  const [currComments, setCurrComments] = useState<Array<IComment>>([]);
+  const [currComments, setCurrComments] = useState<Array<IListComment>>([]);
   const [isCommentsFetchError, setIsCommentsFetchError] = useState<boolean>(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
   const fetchCommentsData = async () => {
     try {
       const { commentsData } = await failureService.getFailureComments(failureId);
-      setCurrComments(commentsData[0].comments);
+      setCurrComments(commentsData || []);
     } catch (err) {
       setIsCommentsFetchError(true);
     }
@@ -44,7 +44,10 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
         comment: commentInput,
         failureId: failureId,
       });
-      setCurrComments((prevComments) => [...prevComments, createdComment]);
+      createdComment.username = user?.username;
+      createdComment.avatarUrl = user?.avatarUrl;
+
+      setCurrComments((prevComments) => [createdComment, ...prevComments]);
       setCommentInput('');
       setIsSendingComment(false);
       createNotification({
@@ -111,7 +114,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
           )}
 
           {isCommentsFetchError ? (
-            <p>Something went wrong. Try again later</p>
+            <p>Something went wrong. Try again later.</p>
           ) : (
             <UserCommentsColumn comments={currComments} />
           )}

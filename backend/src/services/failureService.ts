@@ -365,16 +365,58 @@ const getFailureComments = async (failureId: string) => {
       },
     },
     {
-      $project: {
-        comments: 1,
-      },
-    },
-    {
       $lookup: {
         from: "comments",
         localField: "comments",
         foreignField: "_id",
         as: "comments",
+      },
+    },
+    {
+      $unwind: "$comments",
+    },
+    {
+      $lookup: {
+        from: "users",
+        let: {
+          userId: {
+            $toObjectId: "$comments.givenBy",
+          },
+          comments: "$comments",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$_id", "$$userId"],
+              },
+            },
+          },
+          {
+            $replaceRoot: {
+              newRoot: {
+                $mergeObjects: ["$$comments", "$$ROOT"],
+              },
+            },
+          },
+        ],
+        as: "comments",
+      },
+    },
+    {
+      $group: {
+        _id: "$_id",
+        comments: {
+          $push: {
+            $first: "$comments",
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        "comments.passwordHash": 0,
+        "comments.__v": 0,
       },
     },
     {
@@ -390,7 +432,7 @@ const getFailureComments = async (failureId: string) => {
       },
     },
   ]);
-  return commentsData;
+  return commentsData.length ? commentsData[0]?.comments : null;
 };
 
 const getFailureOfTheMonth = async () => {

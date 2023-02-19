@@ -57,10 +57,7 @@ const LoginForm = () => {
             <TextInput type='password' name='password' />
           </FormField>
         </Box>
-        <Box
-          align={['xsmall', 'small'].includes(screenSize) ? undefined : 'start'}
-          pad={{ top: 'small' }}
-          gap='small'>
+        <Box align={['xsmall', 'small'].includes(screenSize) ? undefined : 'start'} gap='medium'>
           <Button
             icon={isUserContextLoading ? <Spinner /> : undefined}
             label={isUserContextLoading ? 'Signing in' : 'Sign in'}

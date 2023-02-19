@@ -7,15 +7,13 @@ import { IRegisterValues } from '../types';
 interface User {
   id: string;
   username: string;
+  avatarUrl?: string;
   token?: string;
 }
 
 interface IUserContext {
   user: User | null;
-  setUser: (user: User) => void;
   isUserContextLoading: boolean;
-  setIsUserContextLoading: (isLoading: boolean) => void;
-  checkAuthorization: () => void;
   handleLogin: (data: ILoginValues) => void;
   handleRegister: (values: any) => void;
   handleLogout: () => void;
@@ -27,10 +25,7 @@ interface IUserProvider {
 
 export const UserContext = createContext<IUserContext>({
   user: null,
-  setUser: () => null,
   isUserContextLoading: false,
-  setIsUserContextLoading: (val: boolean) => null,
-  checkAuthorization: () => {},
   handleLogin: () => {},
   handleRegister: () => {},
   handleLogout: () => {},
@@ -64,7 +59,6 @@ export const UserProvider = ({ children }: IUserProvider) => {
       setUser({
         id: loggedUserFromDB.id,
         username: loggedUserFromDB.username,
-        token: loggedUserFromDB.token,
       });
       localStorage.setItem('loggedUser', JSON.stringify(loggedUserFromDB));
       setIsUserContextLoading(false);
@@ -97,10 +91,7 @@ export const UserProvider = ({ children }: IUserProvider) => {
     <UserContext.Provider
       value={{
         user,
-        setUser,
         isUserContextLoading,
-        setIsUserContextLoading,
-        checkAuthorization,
         handleLogin,
         handleRegister,
         handleLogout,

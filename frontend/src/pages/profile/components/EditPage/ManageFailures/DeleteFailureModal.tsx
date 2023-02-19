@@ -63,7 +63,7 @@ const DeleteFailureModal = ({
     <Layer
       onClickOutside={() => setDeleteModalShow(false)}
       onEsc={() => setDeleteModalShow(false)}
-      modal={false}>
+      modal={true}>
       <Form
         value={value}
         onChange={setValue}
