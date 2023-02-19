@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -11,31 +11,52 @@ import {
 } from 'grommet';
 import { Chat } from 'grommet-icons';
 import failureService from '../../../../../api/failures';
-import UserCommentsColumn from '../../../../failures/components/accordion/tabs/commentTab/UserCommentsColumn';
-import { IFailure } from '../../../../../types';
+import UserCommentsColumn from '../../../../common/UserCommentsColumn';
+import { IFailure, IListComment } from '../../../../../types';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
 
 interface ICommentsModal {
-  failure?: IFailure;
+  allowComments?: boolean;
+  failureId?: string;
   setCommentsModalShow(boolean: any): void;
   setFailures(failures: Array<IFailure>): void;
 }
 
-const CommentsModal = ({ failure, setCommentsModalShow, setFailures }: ICommentsModal) => {
+const CommentsModal = ({
+  allowComments,
+  failureId,
+  setCommentsModalShow,
+  setFailures,
+}: ICommentsModal) => {
   const screenSize = useContext(ResponsiveContext);
   const { handleError } = useNotificationContext();
-  const allowCommentsText = failure?.allowComments ? 'Yes' : 'No';
+  const allowCommentsText = allowComments ? 'Yes' : 'No';
   const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>(allowCommentsText);
+  const [currComments, setCurrComments] = useState<Array<IListComment>>([]);
+  const [isCommentsFetchError, setIsCommentsFetchError] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetchCommentsData();
+  }, []);
+
+  const fetchCommentsData = async () => {
+    try {
+      const { commentsData } = await failureService.getFailureComments(failureId || '');
+      setCurrComments(commentsData || []);
+    } catch (err) {
+      setIsCommentsFetchError(true);
+    }
+  };
 
   const toggleCommentAllowed = async (toggleValue: boolean) => {
     try {
-      await failureService.toggleCommentAllowed(failure?._id || '', !toggleValue);
+      await failureService.toggleCommentAllowed(failureId || '', !toggleValue);
       setCommentsAllowedLabel((prevValue) => (prevValue === 'Yes' ? 'No' : 'Yes'));
 
-      /* @ts-expect-error TODO check this */
+      /* @ts-expect-error gives error */
       setFailures((prevFailures: Array<Failure>) => {
         const newState = prevFailures.map((mFailure: IFailure) => {
-          if (mFailure._id === failure?._id) {
+          if (mFailure._id === failureId) {
             return { ...mFailure, allowComments: !mFailure.allowComments };
           }
           return mFailure;
@@ -53,7 +74,8 @@ const CommentsModal = ({ failure, setCommentsModalShow, setFailures }: IComments
     <Layer
       onClickOutside={() => setCommentsModalShow(false)}
       onEsc={() => setCommentsModalShow(false)}
-      modal={false}>
+      modal={true}
+      style={{ overflow: 'auto' }}>
       <Box pad='medium' direction='row' gap='medium'>
         <Box direction='row' align='start' gap='small'>
           <Chat />
@@ -68,8 +90,12 @@ const CommentsModal = ({ failure, setCommentsModalShow, setFailures }: IComments
           layout='grid'
           valueProps={{ width: 'large' }}
           justifyContent='center'>
-          <UserCommentsColumn comments={failure?.comments} />
-          <NameValuePair name='Change commenting allowance'>
+          {isCommentsFetchError ? (
+            <p>Could not fetch comments data.</p>
+          ) : (
+            <UserCommentsColumn comments={currComments} />
+          )}
+          <NameValuePair name='Allow commenting?'>
             <CheckBox
               name='comments'
               label={commentsAllowedLabel}
@@ -79,17 +105,17 @@ const CommentsModal = ({ failure, setCommentsModalShow, setFailures }: IComments
             />
           </NameValuePair>
         </NameValueList>
-      </Box>
-      <Box
-        align={['xsmall', 'small'].includes(screenSize) ? undefined : 'end'}
-        pad='small'
-        gap='xsmall'>
-        <Button
-          label='Close details'
-          onClick={() => {
-            setCommentsModalShow(false);
-          }}
-        />
+        <Box
+          align={['xsmall', 'small'].includes(screenSize) ? undefined : 'end'}
+          pad='small'
+          gap='xsmall'>
+          <Button
+            label='Close details'
+            onClick={() => {
+              setCommentsModalShow(false);
+            }}
+          />
+        </Box>
       </Box>
     </Layer>
   );

@@ -4,6 +4,11 @@ export interface IComment {
   createdAt: string;
 }
 
+export interface IListComment extends IComment {
+  username: string;
+  avatarUrl: string;
+}
+
 export interface ICreator {
   userId: string;
   username: string;
@@ -21,7 +26,7 @@ export interface IFailure {
   votes: number;
   createdAt: string;
   allowComments: boolean;
-  comments: Array<IComment>;
+  comments: Array<IComment | IListComment>;
 }
 
 export interface ILoginValues {

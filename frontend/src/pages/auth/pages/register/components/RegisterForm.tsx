@@ -46,8 +46,8 @@ const RegisterForm = () => {
           <AvatarForm tipContent='Can be added/edited later on. (Max 2.5MB)' />
           <Box
             align={['xsmall', 'small'].includes(size) ? undefined : 'start'}
-            pad={{ top: 'xxsmall' }}
-            gap='small'>
+            pad={{ top: 'xxsmall', bottom: 'small' }}
+            gap='medium'>
             <Button
               icon={isUserContextLoading ? <Spinner /> : undefined}
               label={isUserContextLoading ? 'Registering account' : 'Register account'}

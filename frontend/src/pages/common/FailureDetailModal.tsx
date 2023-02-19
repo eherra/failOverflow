@@ -26,7 +26,7 @@ const FailureDetailModal = ({ setDetailsModalShow, failure }: IShowFailureDetail
     <Layer
       onClickOutside={() => setDetailsModalShow(false)}
       onEsc={() => setDetailsModalShow(false)}
-      modal={false}>
+      modal={true}>
       <Box pad='medium' direction='row' gap='medium'>
         <Box direction='row' align='start' gap='small'>
           <Catalog />
