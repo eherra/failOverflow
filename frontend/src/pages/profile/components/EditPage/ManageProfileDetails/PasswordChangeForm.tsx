@@ -37,7 +37,7 @@ const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
         confirmPassword: '',
       });
       setChangePassword(false);
-    } catch (err: any) {
+    } catch (err) {
       handleError(err);
       setIsUpdatingPassword(false);
       setPasswordValues({

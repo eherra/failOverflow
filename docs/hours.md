@@ -36,4 +36,5 @@
 | 17.2.2023 | 5 | implemented backend fetch for tech distribution and failure creation distribution, enhanced error handeling,  refactoring |
 | 18.2.2023 | 4 | implementing deleting failure, api documentation improvements, types improvements |
 | 19.2.2023 | 3 | took helmet.js in use for the backend, enhancements for comments fetching and for UI showing them, overview page refactoring |
-| total    | 148 | | 
+| 20.2.2023 | 2 | working with AWS s3 avatar photo uploads |
+| total    | 150 | | 

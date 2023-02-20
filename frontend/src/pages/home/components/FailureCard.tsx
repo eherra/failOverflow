@@ -39,7 +39,10 @@ const FailureCard = ({ ownColumn, failure, creator, heading }: IFailureCard) => 
             <Box direction='row' gap='xsmall'>
               <Text>created by</Text>
               <Text style={{ textDecoration: 'underline' }}>{creator?.username}</Text>
-              <Avatar src='avatar.png' size='medium' />
+              <Avatar
+                src='https://failoverflow.s3.eu-north-1.amazonaws.com/ad8c073fb3e3ec67996748bad8499918'
+                size='medium'
+              />
             </Box>
           )}
         </CardHeader>

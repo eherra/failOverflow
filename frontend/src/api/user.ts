@@ -26,7 +26,12 @@ const config = () => {
 };
 
 const registerNewUser = async (registerValues: IRegisterValues) => {
-  const response = await axios.post(url, registerValues);
+  /* @ts-expect-error giving error */
+  const avatar = registerValues?.avatar ? registerValues?.avatar[0] : undefined;
+  const formValues = { ...registerValues, avatar: avatar };
+  const response = await axios.post(url, formValues, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
   return response.data;
 };
 

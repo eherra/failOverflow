@@ -27,6 +27,7 @@
     "@types/mongodb": "^4.0.7",
     "@types/mongoose": "^5.11.97",
     "@types/mongoose-unique-validator": "^1.0.6",
+    "@types/multer": "^1.4.7",
     "@typescript-eslint/eslint-plugin": "^5.48.0",
     "@typescript-eslint/parser": "^5.48.0",
     "eslint-config-prettier": "^8.6.0",
@@ -36,6 +37,7 @@
   },
   "dependencies": {
     "@types/cors": "^2.8.13",
+    "aws-sdk": "^2.1318.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -49,6 +51,7 @@
     "mongodb": "^5.0.0",
     "mongoose": "^6.9.0",
     "mongoose-unique-validator": "^3.1.0",
+    "multer": "^1.4.5-lts.1",
     "prettier": "^2.8.4",
     "pretty-quick": "^3.1.3"
   }

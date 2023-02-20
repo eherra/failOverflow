@@ -14,8 +14,8 @@ const AvatarForm = ({ tipContent }: IAvatarForm) => {
 
   return (
     <FormField
-      htmlFor='fileinput'
-      name='fileinput'
+      htmlFor='avatar'
+      name='avatar'
       label={
         <LabelWithInfoTip
           text='Upload avatar'
@@ -31,7 +31,7 @@ const AvatarForm = ({ tipContent }: IAvatarForm) => {
         }}
         maxSize={maxImageSize}
         onChange={(event, { files }: any) => setHasFile(files.length)}
-        name='fileinput'
+        name='avatar'
       />
     </FormField>
   );

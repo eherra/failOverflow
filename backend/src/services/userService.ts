@@ -2,6 +2,7 @@ import User from "../models/User";
 import { IUserDTO } from "../types";
 import { generatePasswordHash, isPasswordMatching } from "./utils/passwordUtils";
 import { generateJwtToken } from "./utils/tokenUtils";
+import { uploadImageToAWS } from "../utils/s3";
 
 interface IChangePasswordValues {
   currentPassword: string;
@@ -10,12 +11,17 @@ interface IChangePasswordValues {
   userId: string;
 }
 
-const createUser = async (username: string, password: string) => {
+const createUser = async (username: string, password: string, file: any) => {
   const passwordHash = await generatePasswordHash(password, 15);
+  let result: any;
+  if (file) {
+    result = await uploadImageToAWS(file);
+  }
 
   const user = new User({
     username,
     passwordHash,
+    avatarUrl: result?.Location,
   });
 
   const savedUser = await user.save();
@@ -25,6 +31,7 @@ const createUser = async (username: string, password: string) => {
   return {
     token: token,
     username: savedUser.username,
+    avatarUrl: savedUser.avatarUrl,
     id: savedUser.id,
   };
 };

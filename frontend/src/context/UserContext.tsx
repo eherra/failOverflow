@@ -59,6 +59,7 @@ export const UserProvider = ({ children }: IUserProvider) => {
       setUser({
         id: loggedUserFromDB.id,
         username: loggedUserFromDB.username,
+        avatarUrl: loggedUserFromDB?.avatarUrl,
       });
       localStorage.setItem('loggedUser', JSON.stringify(loggedUserFromDB));
       setIsUserContextLoading(false);
@@ -72,11 +73,17 @@ export const UserProvider = ({ children }: IUserProvider) => {
   const handleRegister = async (registerValues: IRegisterValues) => {
     setIsUserContextLoading(true);
     try {
+      console.log(registerValues);
       const createdUser = await userService.registerNewUser(registerValues);
-      setUser({ id: createdUser.id, username: createdUser.username });
+      setUser({
+        id: createdUser.id,
+        username: createdUser.username,
+        avatarUrl: createdUser?.avatarUrl,
+      });
       localStorage.setItem('loggedUser', JSON.stringify(createdUser));
       setIsUserContextLoading(false);
     } catch (err) {
+      console.log(err);
       setIsUserContextLoading(false);
       throw err;
     }

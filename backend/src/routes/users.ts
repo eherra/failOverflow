@@ -2,8 +2,10 @@ import "express-async-errors";
 import express, { Request, Response } from "express";
 import userService from "../services/userService";
 import { userAuthenticator } from "../utils/middleware";
+import multer from "multer";
 
 const userRouter = express.Router();
+const upload = multer({ dest: "uploads/" });
 
 /**
  * POST /api/users
@@ -11,9 +13,11 @@ const userRouter = express.Router();
  * @return {} 201 - Created user and its generated token
  * @return {} 400 - ValidationError if username is taken
  */
-userRouter.post("/", async (req: Request, res: Response) => {
+userRouter.post("/", upload.single("avatar"), async (req: Request, res: Response) => {
   const { username, password } = req.body;
-  const createdUser = await userService.createUser(username, password);
+  const file = req.file;
+
+  const createdUser = await userService.createUser(username, password, file);
   res.status(201).send(createdUser);
 });
 

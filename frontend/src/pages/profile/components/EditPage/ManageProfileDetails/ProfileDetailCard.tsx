@@ -49,7 +49,7 @@ const ProfileDetailCard = () => {
 
               <NameValuePair name='Avatar'>
                 <Box direction='row' gap='small'>
-                  <Avatar src='/avatar.png' size='large' />
+                  <Avatar src={user?.avatarUrl ? user?.avatarUrl : '/avatar.png'} size='large' />
                   <Box justify='center'>
                     <Button label='Change avatar' onClick={() => setChangeAvatar(true)} />
                   </Box>
