@@ -289,7 +289,7 @@ const toggleFailureCommentingAllowance = async (failureId: string, valueToToggle
 };
 
 const getFailureOfTheWeek = async () => {
-  const currentWeeksNumber = getNumberOfWeek(new Date()) - 1;
+  const currentWeeksNumber = getNumberOfWeek(new Date());
   const weekFailure = await Failure.aggregate([
     {
       $lookup: {

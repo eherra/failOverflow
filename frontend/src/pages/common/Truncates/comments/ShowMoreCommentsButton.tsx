@@ -4,15 +4,20 @@ import { FormDown, FormUp } from 'grommet-icons';
 interface IShowMoreCommentsButton {
   showAll: boolean;
   setShowAll(boolean: any): void;
+  commentsAmount: number;
 }
 
-const ShowMoreCommentsButton = ({ showAll, setShowAll }: IShowMoreCommentsButton) => (
+const ShowMoreCommentsButton = ({
+  commentsAmount,
+  showAll,
+  setShowAll,
+}: IShowMoreCommentsButton) => (
   <Button
     plain
     style={{ textDecoration: 'underline' }}
     alignSelf='start'
     size='small'
-    label={`Show ${!showAll ? 'all' : 'less'} comments`}
+    label={showAll ? 'Show less' : `Show more comments (${commentsAmount - 2})`}
     onClick={() => setShowAll(() => !showAll)}
     icon={!showAll ? <FormDown /> : <FormUp />}
     reverse

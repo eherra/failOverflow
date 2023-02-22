@@ -11,7 +11,7 @@ import {
 } from 'grommet';
 import { Chat } from 'grommet-icons';
 import failureService from '../../../../../api/failures';
-import UserCommentsColumn from '../../../../common/UserCommentsColumn';
+import UserCommentsColumn from '../../../../common/Truncates/comments/UserCommentsColumn';
 import { IFailure, IListComment } from '../../../../../types';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
 
