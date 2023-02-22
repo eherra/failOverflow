@@ -2,7 +2,7 @@ import User from "../models/User";
 import { IUserDTO } from "../types";
 import { generatePasswordHash, isPasswordMatching } from "./utils/passwordUtils";
 import { generateJwtToken } from "./utils/tokenUtils";
-import { uploadImageToAWS } from "../utils/s3";
+import { uploadImageToAWS } from "../aws/s3";
 
 interface IChangePasswordValues {
   currentPassword: string;

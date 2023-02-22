@@ -13,7 +13,7 @@ const AccordionTitle = ({ creator, title, technologies, createdAt }: IAccordionT
   return (
     <Box direction='column'>
       <Box direction='row' gap='small' pad='xsmall'>
-        <Avatar src='avatar.png' size='medium' />
+        <Avatar src={creator.avatarUrl ? creator.avatarUrl : 'avatar.png'} size='medium' />
         <p>{creator.username}</p>
         <p style={{ opacity: '0.8' }}>{`created ${createTimePassedInfo(createdAt)} ago`}</p>
       </Box>
