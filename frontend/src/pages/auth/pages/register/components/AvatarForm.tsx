@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-
+import { useState } from 'react';
 import { FormField, FileInput } from 'grommet';
-
 import LabelWithInfoTip from '../../../../common/LabelWithInfoTip';
 
 interface IAvatarForm {
@@ -9,7 +7,7 @@ interface IAvatarForm {
 }
 
 const AvatarForm = ({ tipContent }: IAvatarForm) => {
-  const [hasFile, setHasFile] = useState(0);
+  const [hasFile, setHasFile] = useState<number>(0);
   const maxImageSize = 2_621_440; // 2.5MB
 
   return (

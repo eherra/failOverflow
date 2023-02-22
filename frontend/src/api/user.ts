@@ -25,6 +25,12 @@ const config = () => {
   };
 };
 
+const configWithFormData = () => {
+  return {
+    headers: { Authorization: `Bearer ${getJwtToken()}`, 'Content-Type': 'multipart/form-data' },
+  };
+};
+
 const registerNewUser = async (registerValues: IRegisterValues) => {
   /* @ts-expect-error giving error */
   const avatar = registerValues?.avatar ? registerValues?.avatar[0] : undefined;
@@ -35,9 +41,16 @@ const registerNewUser = async (registerValues: IRegisterValues) => {
   return response.data;
 };
 
-const changePassword = async ({ passwordValues }: IChangePassword) => {
-  const response = await axios.put(`${url}`, passwordValues, config());
+const changeAvatar = async (value: any) => {
+  const avatar = value?.avatar ? value?.avatar[0] : undefined;
+  const formValues = { avatar: avatar };
+  const response = await axios.put(`${url}/avatar`, formValues, configWithFormData());
   return response.data;
 };
 
-export default { registerNewUser, changePassword };
+const changePassword = async ({ passwordValues }: IChangePassword) => {
+  const response = await axios.put(url, passwordValues, config());
+  return response.data;
+};
+
+export default { registerNewUser, changeAvatar, changePassword };

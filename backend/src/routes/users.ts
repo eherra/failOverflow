@@ -22,7 +22,25 @@ userRouter.post("/", upload.single("avatar"), async (req: Request, res: Response
 });
 
 /**
- * PUT /api/users/:userId
+ * PUT /api/users/avatar
+ * @summary Updated users avatar
+ * @return {} 200 - Success
+ * @return {} 400 - If updates didn't succeed
+ */
+userRouter.put(
+  "/avatar",
+  userAuthenticator,
+  upload.single("avatar"),
+  async (req: any, res: Response) => {
+    const file = req.file;
+    const user = req.user;
+    await userService.changeAvatar(file, user.id);
+    res.sendStatus(200);
+  },
+);
+
+/**
+ * PUT /api/users
  * @summary Changes users password if params info matches
  * @param {} request.body.required - currentPassword, newPassword, confirmPassword
  * @return {} 200 - success

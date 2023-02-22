@@ -36,6 +36,19 @@ const createUser = async (username: string, password: string, file: any) => {
   };
 };
 
+// TODO: consider storing only key to aws in mongodb and update it
+const changeAvatar = async (file: any, userId: string) => {
+  let result: any;
+  console.log(file);
+  if (file) {
+    result = await uploadImageToAWS(file);
+  }
+
+  const avatarUrl = result?.Location;
+  await User.findByIdAndUpdate(userId, { avatarUrl: avatarUrl });
+  return "avatarUrl";
+};
+
 const changePassword = async ({
   currentPassword,
   newPassword,
@@ -58,4 +71,4 @@ const changePassword = async ({
   await User.findByIdAndUpdate(userId, { passwordHash: newPasswordHash });
 };
 
-export default { createUser, changePassword };
+export default { createUser, changeAvatar, changePassword };
