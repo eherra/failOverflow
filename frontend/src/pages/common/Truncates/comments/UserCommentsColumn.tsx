@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NameValuePair, Avatar, Box, List, Text } from 'grommet';
-import { IListComment } from '../../types';
-import { createTimePassedInfo } from '../../utils/TimeUtils';
+import { IListComment } from '../../../../types';
+import { createTimePassedInfo } from '../../../../utils/TimeUtils';
 import ShowMoreCommentsButton from './ShowMoreCommentsButton';
 
 interface IUserComments {
@@ -10,14 +10,13 @@ interface IUserComments {
 
 const UserCommentsColumn = ({ comments }: IUserComments) => {
   const [showAllComments, setShowAllComments] = useState<boolean>(false);
+  const commentsWithTruncation = comments?.slice(0, showAllComments ? comments.length : 2);
   return (
     <NameValuePair name="User's comments">
       <>
         {comments?.length ? (
           <>
-            <List
-              data={comments.slice(0, showAllComments || comments.length < 2 ? comments.length : 2)}
-              style={{ marginBottom: '1em' }}>
+            <List data={commentsWithTruncation} style={{ marginBottom: '1em' }}>
               {
                 /* @ts-expect-error giving error */
                 (comment: IListComment, index: number) => (
@@ -33,7 +32,11 @@ const UserCommentsColumn = ({ comments }: IUserComments) => {
               }
             </List>
             {comments.length > 2 && (
-              <ShowMoreCommentsButton showAll={showAllComments} setShowAll={setShowAllComments} />
+              <ShowMoreCommentsButton
+                commentsAmount={comments.length}
+                showAll={showAllComments}
+                setShowAll={setShowAllComments}
+              />
             )}
           </>
         ) : (
