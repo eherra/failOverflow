@@ -1,11 +1,9 @@
 import "express-async-errors";
 import express, { Request, Response } from "express";
-import userService from "../services/userService";
 import { userAuthenticator } from "../utils/middleware";
-import multer from "multer";
-
+import { upload } from "../aws/multer";
+import userService from "../services/userService";
 const userRouter = express.Router();
-const upload = multer({ dest: "uploads/" });
 
 /**
  * POST /api/users
@@ -15,7 +13,7 @@ const upload = multer({ dest: "uploads/" });
  */
 userRouter.post("/", upload.single("avatar"), async (req: Request, res: Response) => {
   const { username, password } = req.body;
-  const file = req.file;
+  const file: Express.Multer.File | undefined = req.file;
 
   const createdUser = await userService.createUser(username, password, file);
   res.status(201).send(createdUser);
@@ -34,8 +32,8 @@ userRouter.put(
   async (req: any, res: Response) => {
     const file = req.file;
     const user = req.user;
-    await userService.changeAvatar(file, user.id);
-    res.sendStatus(200);
+    const avatarUrl = await userService.changeAvatar(file, user.id);
+    res.status(200).json({ avatarUrl });
   },
 );
 

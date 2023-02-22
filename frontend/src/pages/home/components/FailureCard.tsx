@@ -15,7 +15,6 @@ import {
 } from 'grommet';
 import FailureDetailModal from '../../common/FailureDetailModal';
 import { ICreator, IFailureOfTheMonth, IFailureOfTheWeek } from '../../../types';
-import LabelWithInfoTip from '../../common/LabelWithInfoTip';
 
 interface IFailureCard {
   ownColumn: ReactNode;

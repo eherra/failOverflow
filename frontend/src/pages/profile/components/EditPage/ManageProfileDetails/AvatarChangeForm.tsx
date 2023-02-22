@@ -4,6 +4,7 @@ import userService from '../../../../../api/user';
 import AvatarForm from '../../../../auth/pages/register/components/AvatarForm';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
 import { DocumentImage } from 'grommet-icons';
+import { useUserContext } from '../../../../../context/UserContext';
 
 interface IAvatarChangeForm {
   setChangeAvatar(boolean: any): void;
@@ -11,6 +12,7 @@ interface IAvatarChangeForm {
 
 const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
   const { createNotification, handleError } = useNotificationContext();
+  const { updateAvatar } = useUserContext();
   const screenSize = useContext(ResponsiveContext);
   const [formValues, setFormValues] = useState<{ avatar: File }>();
   const [isUpdatingAvatar, setIsUpdatingAvatar] = useState<boolean>(false);
@@ -18,13 +20,15 @@ const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
   const handleAvatarChangeSubmit = async (value: any) => {
     try {
       setIsUpdatingAvatar(true);
-      await userService.changeAvatar(value);
+      const { avatarUrl } = await userService.changeAvatar(value);
       setIsUpdatingAvatar(false);
+      updateAvatar(avatarUrl);
       createNotification({
         message: 'Avatar changed successfully!',
         isError: false,
         icon: <DocumentImage color='#96ab9c' />,
       });
+
       setChangeAvatar(false);
     } catch (err) {
       handleError(err);

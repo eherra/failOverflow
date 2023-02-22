@@ -11,17 +11,19 @@ interface IChangePasswordValues {
   userId: string;
 }
 
-const createUser = async (username: string, password: string, file: any) => {
+const createUser = async (
+  username: string,
+  password: string,
+  file: Express.Multer.File | undefined,
+) => {
   const passwordHash = await generatePasswordHash(password, 15);
-  let result: any;
   if (file) {
-    result = await uploadImageToAWS(file);
+    await uploadImageToAWS({ file });
   }
-
   const user = new User({
     username,
     passwordHash,
-    avatarUrl: result?.Location,
+    avatarUrl: file?.filename,
   });
 
   const savedUser = await user.save();
@@ -36,17 +38,16 @@ const createUser = async (username: string, password: string, file: any) => {
   };
 };
 
-// TODO: consider storing only key to aws in mongodb and update it
-const changeAvatar = async (file: any, userId: string) => {
-  let result: any;
-  console.log(file);
-  if (file) {
-    result = await uploadImageToAWS(file);
+const changeAvatar = async (file: Express.Multer.File, userId: string) => {
+  const userInfo = await User.findById(userId).select({ avatarUrl: 1 });
+  if (userInfo?.avatarUrl) {
+    await uploadImageToAWS({ file, awsFileKey: userInfo.avatarUrl });
+    return userInfo.avatarUrl;
+  } else {
+    await uploadImageToAWS({ file });
+    await User.findByIdAndUpdate(userId, { avatarUrl: file.filename });
+    return file.filename;
   }
-
-  const avatarUrl = result?.Location;
-  await User.findByIdAndUpdate(userId, { avatarUrl: avatarUrl });
-  return "avatarUrl";
 };
 
 const changePassword = async ({

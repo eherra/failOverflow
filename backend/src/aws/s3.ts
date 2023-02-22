@@ -15,13 +15,19 @@ const s3 = new S3({
   secretAccessKey,
 });
 
-export const uploadImageToAWS = (file: any) => {
+interface IUploadValues {
+  file: Express.Multer.File;
+  awsFileKey?: String; // only used if updating existing avatar -> using the same existing key
+}
+
+export const uploadImageToAWS = ({ file, awsFileKey }: IUploadValues) => {
   const fileStream = fs.createReadStream(file.path);
 
   const uploadParams = {
     Bucket: awsBucketName,
     Body: fileStream,
-    Key: file.filename,
+    Key: awsFileKey ? awsFileKey : file.filename,
+    ContentType: "image/jpeg",
   };
 
   /* @ts-expect-error giving error */
