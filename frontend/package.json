@@ -34,7 +34,7 @@
     "prepare": "cd .. && husky install frontend/.husky",
     "lint-frontend": "lint-staged"
   },
-  "proxy": "http://localhost:3000",
+  "proxy": "http://localhost:3001",
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "eslint --quiet --fix"
