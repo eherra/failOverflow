@@ -1,4 +1,4 @@
-FROM node:18.12-alpine
+FROM --platform=linux/amd64 node:18.12-alpine
 
 WORKDIR /usr/src/app
 COPY ./frontend ./frontend
