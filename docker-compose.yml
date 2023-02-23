@@ -18,7 +18,7 @@ services:
     environment:
       - NODE_ENV=production
       - SECRET=somethingSecret
-      - MONGODB_URI=mongodb://username:password@docker-db/failure_db
+      - MONGODB_URI_DOCKER=mongodb://username:password@docker-db/failure_db
     build:
       context: ./
       dockerfile: Dockerfile
