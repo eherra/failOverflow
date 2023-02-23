@@ -2,9 +2,9 @@ import { Button } from 'grommet';
 import { FormDown, FormUp } from 'grommet-icons';
 
 interface IShowMoreCommentsButton {
+  commentsAmount: number;
   showAll: boolean;
   setShowAll(boolean: any): void;
-  commentsAmount: number;
 }
 
 const ShowMoreCommentsButton = ({

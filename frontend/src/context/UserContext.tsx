@@ -14,6 +14,7 @@ interface User {
 interface IUserContext {
   user: User | null;
   isUserContextLoading: boolean;
+  updateAvatarToUser: (values: string) => void;
   handleLogin: (data: ILoginValues) => void;
   handleRegister: (values: any) => void;
   handleLogout: () => void;
@@ -26,6 +27,7 @@ interface IUserProvider {
 export const UserContext = createContext<IUserContext>({
   user: null,
   isUserContextLoading: false,
+  updateAvatarToUser: () => {},
   handleLogin: () => {},
   handleRegister: () => {},
   handleLogout: () => {},
@@ -59,11 +61,11 @@ export const UserProvider = ({ children }: IUserProvider) => {
       setUser({
         id: loggedUserFromDB.id,
         username: loggedUserFromDB.username,
+        avatarUrl: loggedUserFromDB?.avatarUrl,
       });
       localStorage.setItem('loggedUser', JSON.stringify(loggedUserFromDB));
       setIsUserContextLoading(false);
     } catch (err) {
-      console.log(err);
       setIsUserContextLoading(false);
       throw err;
     }
@@ -73,7 +75,12 @@ export const UserProvider = ({ children }: IUserProvider) => {
     setIsUserContextLoading(true);
     try {
       const createdUser = await userService.registerNewUser(registerValues);
-      setUser({ id: createdUser.id, username: createdUser.username });
+      console.log(createdUser);
+      setUser({
+        id: createdUser.id,
+        username: createdUser.username,
+        avatarUrl: createdUser?.avatarUrl,
+      });
       localStorage.setItem('loggedUser', JSON.stringify(createdUser));
       setIsUserContextLoading(false);
     } catch (err) {
@@ -87,11 +94,24 @@ export const UserProvider = ({ children }: IUserProvider) => {
     setUser(null);
   };
 
+  const updateAvatarToUser = (avatarUrl: string) => {
+    const loggedUserJSON = localStorage.getItem('loggedUser');
+    // avatarUrl stays the same when updating avatar. If user is adding first time avatar, then there's a new url created
+    if (loggedUserJSON && !user?.avatarUrl) {
+      const loggedUser = JSON.parse(loggedUserJSON);
+      loggedUser.avatarUrl = avatarUrl;
+      console.log(loggedUser);
+      setUser(loggedUser);
+      localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
         user,
         isUserContextLoading,
+        updateAvatarToUser,
         handleLogin,
         handleRegister,
         handleLogout,

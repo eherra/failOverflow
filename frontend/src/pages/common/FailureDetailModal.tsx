@@ -13,6 +13,7 @@ import { IFailure } from '../../types';
 import { createStyledDateInfo } from '../../utils/TimeUtils';
 import { IFailureOfTheMonth } from '../../types';
 import { IFailureOfTheWeek } from '../../types';
+import TruncateText from './TruncateText';
 
 interface IShowFailureDetailsModal {
   failure?: IFailure | IFailureOfTheWeek | IFailureOfTheMonth;
@@ -46,10 +47,10 @@ const FailureDetailModal = ({ setDetailsModalShow, failure }: IShowFailureDetail
             {failure?.title}
           </NameValuePair>
           <NameValuePair key={failure?.description} name='Description'>
-            {failure?.description}
+            <TruncateText text={failure?.description || ''} />
           </NameValuePair>
           <NameValuePair key={failure?.solution} name='Solution'>
-            {failure?.solution}
+            <TruncateText text={failure?.description || ''} />
           </NameValuePair>
           <NameValuePair key='tech' name='Technologies'>
             {failure?.technologies.join(', ')}

@@ -15,12 +15,12 @@ const ProfileEditPage = () => {
         <Grid columns={{ count: 'fit', size: 'medium' }} gap='medium'>
           <ProfileDetailCard />
           <Box height='medium'>
-            <Image src={'/editProfile.svg'} fit='contain' />
+            <Image src={'/profile/editProfile.svg'} fit='contain' />
           </Box>
         </Grid>
         <Grid columns={{ count: 'fit', size: 'medium' }} gap='medium'>
           <Box height='medium'>
-            <Image src={'/surf.svg'} fit='contain' />
+            <Image src={'/profile/surf.svg'} fit='contain' />
           </Box>
           <FailuresCard />
         </Grid>

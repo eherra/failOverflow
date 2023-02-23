@@ -16,7 +16,7 @@ const ProfileOverviewPage = () => {
         <Grid columns={{ count: 'fit', size: 'medium' }} gap='medium'>
           <TechDistributionCard />
           <Box height='medium'>
-            <Image src={'/analytics.svg'} fit='contain' />
+            <Image src={'/profile/analytics.svg'} fit='contain' />
           </Box>
         </Grid>
         <Grid columns={{ count: 'fit', size: 'medium' }} gap='medium'>

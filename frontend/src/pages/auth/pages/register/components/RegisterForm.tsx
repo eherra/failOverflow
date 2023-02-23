@@ -41,7 +41,8 @@ const RegisterForm = () => {
           onSubmit={({ value }) => handleRegisterSubmit(value)}
           value={formValues}
           onChange={(value) => setFormValues(value)}
-          method='post'>
+          method='post'
+          encType='multipart/form-data'>
           <UsernamePasswordForm />
           <AvatarForm tipContent='Can be added/edited later on. (Max 2.5MB)' />
           <Box

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { NameValuePair, Avatar, Box, List, Text } from 'grommet';
-import { IListComment } from '../../../../types';
-import { createTimePassedInfo } from '../../../../utils/TimeUtils';
+import { NameValuePair, Box, List } from 'grommet';
+import { IListComment } from '../../../types';
+import CommentRow from './CommentRow';
 import ShowMoreCommentsButton from './ShowMoreCommentsButton';
 
 interface IUserComments {
@@ -21,12 +21,7 @@ const UserCommentsColumn = ({ comments }: IUserComments) => {
                 /* @ts-expect-error giving error */
                 (comment: IListComment, index: number) => (
                   <Box key={index}>
-                    <CommentRow
-                      key={comment.createdAt}
-                      comment={comment.comment}
-                      username={comment.username}
-                      createdAt={comment.createdAt}
-                    />
+                    <CommentRow key={comment.createdAt} {...comment} />
                   </Box>
                 )
               }
@@ -44,31 +39,6 @@ const UserCommentsColumn = ({ comments }: IUserComments) => {
         )}
       </>
     </NameValuePair>
-  );
-};
-
-interface ICommentRow {
-  comment?: string;
-  username?: string;
-  createdAt?: string;
-}
-
-const CommentRow = ({ comment, username, createdAt }: ICommentRow) => {
-  return (
-    <>
-      <Box direction='row' gap='small'>
-        <Avatar src='/avatar.png' size='medium' />
-        <p>{username}</p>
-        <p
-          style={{ opacity: '0.8', marginLeft: 'auto', fontSize: '17px' }}>{`${createTimePassedInfo(
-          createdAt || '',
-        )} ago`}</p>
-      </Box>
-
-      <Text style={{ fontStyle: 'italic' }} size='medium' margin='xsmall'>
-        {comment}
-      </Text>
-    </>
   );
 };
 

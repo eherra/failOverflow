@@ -14,7 +14,7 @@ import {
 import SelectTechnologiesField from './SelectTechnologiesField';
 import failureService from '../../../../api/failures';
 import { useNotificationContext } from '../../../../context/NotificationContext';
-import { Script, AddCircle, FormPrevious } from 'grommet-icons';
+import { Script, FormPrevious } from 'grommet-icons';
 import { IFailure } from '../../../../types';
 
 interface ICreateFailureModal {

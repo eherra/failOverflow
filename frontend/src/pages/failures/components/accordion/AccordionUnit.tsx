@@ -13,6 +13,8 @@ const AccordionUnit = ({ failure }: { failure: IFailure }) => {
   const { _id, title, creator, description, solution, technologies, createdAt, allowComments } =
     failure;
 
+  console.log(creator);
+
   return (
     <AccordionPanel
       key={_id}

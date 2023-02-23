@@ -35,7 +35,7 @@ export interface ILoginValues {
 }
 
 export interface IRegisterValues extends ILoginValues {
-  avatarFile?: File;
+  avatar?: File;
 }
 
 export interface IPasswordChangeFormValues {

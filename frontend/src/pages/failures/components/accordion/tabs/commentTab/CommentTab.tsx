@@ -3,7 +3,7 @@ import { Box, NameValueList, Tab, Form, FormField, TextArea, Button, Text, Spinn
 import failureService from '../../../../../../api/failures';
 import { Login, ChatOption, Chat } from 'grommet-icons';
 import { useUserContext } from '../../../../../../context/UserContext';
-import UserCommentsColumn from '../../../../../common/Truncates/comments/UserCommentsColumn';
+import UserCommentsColumn from '../../../../../common/Comments/UserCommentsColumn';
 import { useNotificationContext } from '../../../../../../context/NotificationContext';
 import { WavyLink } from 'react-wavy-transitions';
 import LabelWithInfoTip from '../../../../../common/LabelWithInfoTip';

@@ -2,6 +2,7 @@ import User from "../models/User";
 import { IUserDTO } from "../types";
 import { generatePasswordHash, isPasswordMatching } from "./utils/passwordUtils";
 import { generateJwtToken } from "./utils/tokenUtils";
+import { uploadImageToAWS } from "../aws/s3";
 
 interface IChangePasswordValues {
   currentPassword: string;
@@ -10,12 +11,19 @@ interface IChangePasswordValues {
   userId: string;
 }
 
-const createUser = async (username: string, password: string) => {
+const createUser = async (
+  username: string,
+  password: string,
+  file: Express.Multer.File | undefined,
+) => {
   const passwordHash = await generatePasswordHash(password, 15);
-
+  if (file) {
+    await uploadImageToAWS({ file });
+  }
   const user = new User({
     username,
     passwordHash,
+    avatarUrl: file?.filename,
   });
 
   const savedUser = await user.save();
@@ -25,8 +33,21 @@ const createUser = async (username: string, password: string) => {
   return {
     token: token,
     username: savedUser.username,
+    avatarUrl: savedUser.avatarUrl,
     id: savedUser.id,
   };
+};
+
+const changeAvatar = async (file: Express.Multer.File, userId: string) => {
+  const userInfo = await User.findById(userId).select({ avatarUrl: 1 });
+  if (userInfo?.avatarUrl) {
+    await uploadImageToAWS({ file, awsFileKey: userInfo.avatarUrl });
+    return userInfo.avatarUrl;
+  } else {
+    await uploadImageToAWS({ file });
+    await User.findByIdAndUpdate(userId, { avatarUrl: file.filename });
+    return file.filename;
+  }
 };
 
 const changePassword = async ({
@@ -51,4 +72,4 @@ const changePassword = async ({
   await User.findByIdAndUpdate(userId, { passwordHash: newPasswordHash });
 };
 
-export default { createUser, changePassword };
+export default { createUser, changeAvatar, changePassword };

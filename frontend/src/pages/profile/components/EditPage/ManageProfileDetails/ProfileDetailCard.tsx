@@ -15,6 +15,7 @@ import { ContactInfo } from 'grommet-icons';
 import PasswordChangeForm from './PasswordChangeForm';
 import AvatarChangeForm from './AvatarChangeForm';
 import { useUserContext } from '../../../../../context/UserContext';
+import { AWS_URL } from '../../../../../utils/config';
 
 const ProfileDetailCard = () => {
   const { user } = useUserContext();
@@ -49,7 +50,10 @@ const ProfileDetailCard = () => {
 
               <NameValuePair name='Avatar'>
                 <Box direction='row' gap='small'>
-                  <Avatar src='/avatar.png' size='large' />
+                  <Avatar
+                    src={user?.avatarUrl ? `${AWS_URL}/${user.avatarUrl}` : '/defaultAvatar.jpeg'}
+                    size='large'
+                  />
                   <Box justify='center'>
                     <Button label='Change avatar' onClick={() => setChangeAvatar(true)} />
                   </Box>

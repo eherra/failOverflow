@@ -15,7 +15,7 @@ import {
 } from 'grommet';
 import FailureDetailModal from '../../common/FailureDetailModal';
 import { ICreator, IFailureOfTheMonth, IFailureOfTheWeek } from '../../../types';
-import LabelWithInfoTip from '../../common/LabelWithInfoTip';
+import { AWS_URL } from '../../../utils/config';
 
 interface IFailureCard {
   ownColumn: ReactNode;
@@ -39,7 +39,10 @@ const FailureCard = ({ ownColumn, failure, creator, heading }: IFailureCard) => 
             <Box direction='row' gap='xsmall'>
               <Text>created by</Text>
               <Text style={{ textDecoration: 'underline' }}>{creator?.username}</Text>
-              <Avatar src='avatar.png' size='medium' />
+              <Avatar
+                src={creator?.avatarUrl ? `${AWS_URL}/${creator.avatarUrl}` : '/defaultAvatar.jpeg'}
+                size='medium'
+              />
             </Box>
           )}
         </CardHeader>
