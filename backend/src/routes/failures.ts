@@ -1,6 +1,11 @@
 import "express-async-errors";
 import express, { Request, Response } from "express";
-import failureService from "../services/failureService";
+import failureService from "../services/failures/failureService";
+import commentService from "../services/failures/commentService";
+import voteService from "../services/failures/voteService";
+import reviewService from "../services/failures/reviewService";
+import overviewService from "../services/failures/overviewService";
+
 import { userAuthenticator } from "../utils/middleware";
 import {
   IUserAllFailure,
@@ -39,7 +44,7 @@ failuresRouter.get("/", async (_req: Request, res: Response) => {
  */
 failuresRouter.get("/user", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
-  const userFailures: Array<IUserAllFailure> = await failureService.findUsersFailures(user.id);
+  const userFailures: Array<IUserAllFailure> = await failureService.getUsersFailures(user.id);
   res.status(200).json({
     userFailures,
   });
@@ -54,7 +59,7 @@ failuresRouter.get("/user", userAuthenticator, async (req: any, res: Response) =
  */
 failuresRouter.get("/rate/:failureId/user/:userId?", async (req: Request, res: Response) => {
   const { failureId, userId } = req.params;
-  const ratingData: IRatingData = await failureService.getRatingData(failureId, userId);
+  const ratingData: IRatingData = await reviewService.getReviewData(failureId, userId);
 
   res.status(200).json({
     ratingData,
@@ -70,7 +75,7 @@ failuresRouter.get("/rate/:failureId/user/:userId?", async (req: Request, res: R
  */
 failuresRouter.get("/vote/:failureId/user/:userId?", async (req: Request, res: Response) => {
   const { failureId, userId } = req.params;
-  const votesData: IVotesData = await failureService.getVoteData(failureId, userId);
+  const votesData: IVotesData = await voteService.getVoteData(failureId, userId);
 
   res.status(200).json({
     hasUserVoted: votesData.hasUserVoted,
@@ -106,7 +111,7 @@ failuresRouter.get(
  */
 failuresRouter.get("/comment/:failureId", async (req: Request, res: Response) => {
   const { failureId } = req.params;
-  const commentsData: Array<IComment> = await failureService.getFailureComments(failureId);
+  const commentsData: Array<IComment> = await commentService.getFailureComments(failureId);
 
   res.status(200).json({
     commentsData,
@@ -141,7 +146,7 @@ failuresRouter.get(
  */
 failuresRouter.get("/tech-distribution", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
-  const techDistribution = await failureService.getTechDistribution(user.id);
+  const techDistribution = await overviewService.getTechDistribution(user.id);
 
   res.status(200).json({
     techDistribution,
@@ -158,7 +163,7 @@ failuresRouter.get("/tech-distribution", userAuthenticator, async (req: any, res
 failuresRouter.get("/failures-distribution", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
   const failureDistribution: Array<IFailureDistribution> =
-    await failureService.getFailureCreatedDistribution(user.id);
+    await overviewService.getFailureCreatedDistribution(user.id);
 
   res.status(200).json({
     failureDistribution,
@@ -174,7 +179,7 @@ failuresRouter.get("/failures-distribution", userAuthenticator, async (req: any,
  */
 failuresRouter.get("/vote-distribution", userAuthenticator, async (req: any, res: Response) => {
   const user = req.user;
-  const voteDistribution: Array<IVoteDistribution> = await failureService.getVoteDistribution(
+  const voteDistribution: Array<IVoteDistribution> = await overviewService.getVoteDistribution(
     user.id,
   );
 
@@ -213,7 +218,7 @@ failuresRouter.post("/comment/:failureId", userAuthenticator, async (req: any, r
   const failureId = req.params.failureId;
   const { comment } = req.body;
 
-  const createdComment: IComment = await failureService.addCommentToFailure({
+  const createdComment: IComment = await commentService.addCommentToFailure({
     comment,
     commentorId: user.id,
     failureId,
@@ -239,12 +244,12 @@ failuresRouter.post("/vote/:failureId", userAuthenticator, async (req: any, res:
   const { isDeletingVote }: { isDeletingVote: boolean } = req.body;
 
   if (isDeletingVote) {
-    await failureService.deleteVoteFromFailure({
+    await voteService.deleteVoteFromFailure({
       voterId: user.id,
       failureId,
     });
   } else {
-    await failureService.addVoteToFailure({
+    await voteService.addVoteToFailure({
       voterId: user.id,
       failureId,
     });
@@ -267,7 +272,7 @@ failuresRouter.post("/rate/:failureId", userAuthenticator, async (req: any, res:
   const failureId: string = req.params.failureId;
   const { ratingValue }: { ratingValue: number } = req.body;
 
-  const updatedRatingData: IRatingData = await failureService.addStarRating({
+  const updatedRatingData: IRatingData = await reviewService.addReviewToFailure({
     raterId: user.id,
     ratingValue,
     failureId,
@@ -293,7 +298,7 @@ failuresRouter.put(
   async (req: Request, res: Response) => {
     const { failureId } = req.params;
     const { isCommentsAllowed }: { isCommentsAllowed: boolean } = req.body;
-    await failureService.toggleFailureCommentingAllowance(failureId, isCommentsAllowed);
+    await commentService.toggleFailureCommentingAllowance(failureId, isCommentsAllowed);
 
     res.sendStatus(200);
   },

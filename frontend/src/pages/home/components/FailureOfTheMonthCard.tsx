@@ -42,7 +42,7 @@ const FailureOfTheMonth = () => {
       heading={
         <FailureCardHeading
           heading='Failure of the Month'
-          tipContent='Failure which has received most reviews during current month.'
+          tipContent='Failure which has the best average review from current month.'
         />
       }
       failure={monthReview}
