@@ -38,5 +38,5 @@
 | 19.2.2023 | 3 | took helmet.js in use for the backend, enhancements for comments fetching and for UI showing them, overview page refactoring |
 | 20.2.2023 | 2 | working with AWS s3 avatar photo uploads |
 | 22.2.2023 | 2 | added show more text button to failure description and solution, working with update avatar profile section |
-| 23.2.2023 | 7 | finalizing the aws s3 avatar update functionality, enhancements for truncating long texts, refactoring services from backend, working with dockerfile, docker-compose, mongodb atlas and heroku setup configs |
-| total    | 158 | | 
+| 23.2.2023 | 8 | finalizing the aws s3 avatar update functionality, enhancements for truncating long texts, refactoring services from backend, working with dockerfile, docker-compose, mongodb atlas and heroku setup configs, centered spinner added, refactoring|
+| total    | 159 | | 
