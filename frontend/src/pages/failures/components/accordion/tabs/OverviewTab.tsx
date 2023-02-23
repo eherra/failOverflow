@@ -1,7 +1,7 @@
 import { Box, NameValueList, NameValuePair, Tab } from 'grommet';
 import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
 import { Overview } from 'grommet-icons';
-import TruncateText from '../../../../common/Truncates/texts/TruncateText';
+import TruncateText from '../../../../common/TruncateText';
 
 interface IOverview {
   description: string;

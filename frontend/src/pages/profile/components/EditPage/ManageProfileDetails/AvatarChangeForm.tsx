@@ -5,6 +5,7 @@ import AvatarForm from '../../../../auth/pages/register/components/AvatarForm';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
 import { DocumentImage } from 'grommet-icons';
 import { useUserContext } from '../../../../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 interface IAvatarChangeForm {
   setChangeAvatar(boolean: any): void;
@@ -12,8 +13,10 @@ interface IAvatarChangeForm {
 
 const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
   const { createNotification, handleError } = useNotificationContext();
-  const { updateAvatar } = useUserContext();
+  const { updateAvatarToUser } = useUserContext();
+  const navigate = useNavigate();
   const screenSize = useContext(ResponsiveContext);
+
   const [formValues, setFormValues] = useState<{ avatar: File }>();
   const [isUpdatingAvatar, setIsUpdatingAvatar] = useState<boolean>(false);
 
@@ -22,13 +25,13 @@ const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
       setIsUpdatingAvatar(true);
       const { avatarUrl } = await userService.changeAvatar(value);
       setIsUpdatingAvatar(false);
-      updateAvatar(avatarUrl);
+      updateAvatarToUser(avatarUrl);
       createNotification({
         message: 'Avatar changed successfully!',
         isError: false,
         icon: <DocumentImage color='#96ab9c' />,
       });
-
+      navigate('/profile/edit');
       setChangeAvatar(false);
     } catch (err) {
       handleError(err);

@@ -51,7 +51,7 @@ const ProfileDetailCard = () => {
               <NameValuePair name='Avatar'>
                 <Box direction='row' gap='small'>
                   <Avatar
-                    src={user?.avatarUrl ? AWS_URL + user.avatarUrl : '/avatar.png'}
+                    src={user?.avatarUrl ? `${AWS_URL}/${user.avatarUrl}` : '/defaultAvatar.jpeg'}
                     size='large'
                   />
                   <Box justify='center'>
