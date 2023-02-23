@@ -1,7 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:8080';
 const restUrl = '/api/failures';
-const url = baseUrl + restUrl;
 
 interface ICommentValues {
   comment: string;
@@ -35,29 +33,29 @@ const config = () => {
 
 // Failures
 const getAllFailures = async () => {
-  const response = await axios.get(url, config());
+  const response = await axios.get(restUrl, config());
   return response.data;
 };
 
 const getUsersFailures = async () => {
-  const response = await axios.get(`${url}/user`, config());
+  const response = await axios.get(`${restUrl}/user`, config());
   return response.data;
 };
 
 const createFailure = async (failure: any) => {
-  const response = await axios.post(url, { failure: failure }, config());
+  const response = await axios.post(restUrl, { failure: failure }, config());
   return response.data;
 };
 
 const deleteFailure = async (failureId: string) => {
-  const response = await axios.delete(`${url}/${failureId}`, config());
+  const response = await axios.delete(`${restUrl}/${failureId}`, config());
   return response.data;
 };
 
 // Comments
 const addCommentToFailure = async ({ comment, failureId }: ICommentValues) => {
   const response = await axios.post(
-    `${url}/comment/${failureId}`,
+    `${restUrl}/comment/${failureId}`,
     {
       comment,
     },
@@ -67,13 +65,13 @@ const addCommentToFailure = async ({ comment, failureId }: ICommentValues) => {
 };
 
 const getFailureComments = async (failureId: string) => {
-  const response = await axios.get(`${url}/comment/${failureId}`, config());
+  const response = await axios.get(`${restUrl}/comment/${failureId}`, config());
   return response.data;
 };
 
 const toggleCommentAllowed = async (failureId: string, isCommentsAllowed: boolean) => {
   const response = await axios.put(
-    `${url}/comment/${failureId}/toggle-comment-allowance`,
+    `${restUrl}/comment/${failureId}/toggle-comment-allowance`,
     {
       isCommentsAllowed,
     },
@@ -85,7 +83,7 @@ const toggleCommentAllowed = async (failureId: string, isCommentsAllowed: boolea
 // Voting
 const handleVoting = async ({ failureId, isDeletingVote }: IVotingValues) => {
   const response = await axios.post(
-    `${url}/vote/${failureId}`,
+    `${restUrl}/vote/${failureId}`,
     {
       isDeletingVote,
     },
@@ -95,19 +93,19 @@ const handleVoting = async ({ failureId, isDeletingVote }: IVotingValues) => {
 };
 
 const getVotingData = async (failureId: string, userId: string) => {
-  const response = await axios.get(`${url}/vote/${failureId}/user/${userId}`, config());
+  const response = await axios.get(`${restUrl}/vote/${failureId}/user/${userId}`, config());
   return response.data;
 };
 
 const getFailureOfTheWeek = async () => {
-  const response = await axios.get(`${url}/vote/failure-week`, config());
+  const response = await axios.get(`${restUrl}/vote/failure-week`, config());
   return response.data;
 };
 
 // Start ratings / review
 const sendRating = async ({ failureId, ratingValue }: IReviewValues) => {
   const response = await axios.post(
-    `${url}/rate/${failureId}`,
+    `${restUrl}/rate/${failureId}`,
     {
       ratingValue,
     },
@@ -117,27 +115,27 @@ const sendRating = async ({ failureId, ratingValue }: IReviewValues) => {
 };
 
 const getRatingData = async (failureId: string, userId: string) => {
-  const response = await axios.get(`${url}/rate/${failureId}/user/${userId}`, config());
+  const response = await axios.get(`${restUrl}/rate/${failureId}/user/${userId}`, config());
   return response.data;
 };
 
 const getReviewOfTheMonth = async () => {
-  const response = await axios.get(`${url}/rate/failure-month`, config());
+  const response = await axios.get(`${restUrl}/rate/failure-month`, config());
   return response.data;
 };
 
 const getTechDistribution = async () => {
-  const response = await axios.get(`${url}/tech-distribution`, config());
+  const response = await axios.get(`${restUrl}/tech-distribution`, config());
   return response.data;
 };
 
 const getFailuresCreatedDistribution = async () => {
-  const response = await axios.get(`${url}/failures-distribution`, config());
+  const response = await axios.get(`${restUrl}/failures-distribution`, config());
   return response.data;
 };
 
 const getVoteDistribution = async () => {
-  const response = await axios.get(`${url}/vote-distribution`, config());
+  const response = await axios.get(`${restUrl}/vote-distribution`, config());
   return response.data;
 };
 

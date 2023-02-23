@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  docker-db:
+    image: mongo:latest
+    ports:
+      - 3567:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: failure_db
+    volumes:
+      - ./backend/mongo-init-data.js:/docker-entrypoint-initdb.d/mongo-init-data.js
+    container_name: docker-db
+
+  fail-overflow-prod:
+    platform: linux/amd64
+    environment:
+      - NODE_ENV=production
+      - SECRET=somethingSecret
+      - MONGODB_URI_DOCKER=mongodb://username:password@docker-db/failure_db
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    container_name: fail-overlow-prod
+    depends_on:
+      - docker-db
+
+volumes:
+  mongodb_data_container:

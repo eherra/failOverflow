@@ -1,5 +1,5 @@
 import { IUserDTO } from "../../types";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export const isPasswordMatching = async (user: IUserDTO | null, password: string) => {
   return user === null ? false : await bcrypt.compare(password, user.passwordHash);
