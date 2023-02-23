@@ -22,7 +22,7 @@ const AvatarForm = ({ tipContent }: IAvatarForm) => {
         />
       }>
       <FileInput
-        accept='image/*'
+        accept='image/png, image/gif, image/jpeg, image/jpg'
         messages={{
           dropPrompt: 'Drag and drop image',
           browse: hasFile ? 'Replace image' : 'Select image',
