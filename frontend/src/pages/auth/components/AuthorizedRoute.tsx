@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { Spinner } from 'grommet';
 import { useUserContext } from '../../../context/UserContext';
+import CenteredLoadingSpinner from '../../common/CenteredLoadingSpinner';
 
 interface IAuthorizedRoute {
   redirectPath?: string;
@@ -12,7 +12,7 @@ const AuthorizedRoute = ({ redirectPath = '/landing', children }: IAuthorizedRou
   const { user, isUserContextLoading } = useUserContext();
 
   if (isUserContextLoading) {
-    return <Spinner size='large' />;
+    return <CenteredLoadingSpinner />;
   }
 
   if (!user) {

@@ -1,8 +1,10 @@
-import { Accordion, Spinner, Box, Text } from 'grommet';
+import { Accordion, Box, Text } from 'grommet';
+import { Alert } from 'grommet-icons';
 import { useState, useEffect } from 'react';
 import AccordionUnit from './accordion/AccordionUnit';
 import { IFailure } from '../../../types';
 import failureService from '../../../api/failures';
+import CenteredLoadingSpinner from '../../common/CenteredLoadingSpinner';
 
 const FailureList = () => {
   const [failures, setFailures] = useState<Array<IFailure>>([]);
@@ -26,27 +28,31 @@ const FailureList = () => {
     }
   };
 
-  // TODO: better error message
   if (isError) {
-    return <p>Error</p>;
+    return (
+      <Box direction='row' gap='small'>
+        <Alert />
+        <Text>Something went wrong while fetching failures. Try again later.</Text>
+      </Box>
+    );
   }
 
   return (
     <>
       {isFetchingFailures ? (
-        <Spinner size='large' />
+        <CenteredLoadingSpinner />
       ) : (
         <>
-          {!failures.length ? (
-            <Box direction='row' gap='small'>
-              <Text>There are no failures to show.</Text>
-            </Box>
-          ) : (
+          {failures.length ? (
             <Accordion multiple width='85%'>
-              {failures?.map((failure, index) => (
+              {failures.map((failure, index) => (
                 <AccordionUnit key={index} failure={failure} />
               ))}
             </Accordion>
+          ) : (
+            <Box direction='row' gap='small'>
+              <Text>There are no failures to show.</Text>
+            </Box>
           )}
         </>
       )}

@@ -1,4 +1,4 @@
-import { Box, Button, Footer, Text } from 'grommet';
+import { Box, Button, Footer, Text, Tip, Image } from 'grommet';
 import { WavyLink } from 'react-wavy-transitions';
 
 const MainFooter = () => {
@@ -14,7 +14,14 @@ const MainFooter = () => {
         <WavyLink to='/faq' color='#A7BEAE' duration='1000' direction='down'>
           <Button hoverIndicator label='FAQ' />
         </WavyLink>
-        <Button label='Careers' />
+        <Tip
+          content={
+            <Box pad='small'>
+              <Image src={'/work.gif'} height='200px' width='250px' />
+            </Box>
+          }>
+          <Button label='Careers' />
+        </Tip>
       </Box>
     </Footer>
   );

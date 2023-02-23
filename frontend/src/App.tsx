@@ -9,6 +9,7 @@ import LandingPage from './pages/landing/LandingPage';
 import RegisterPage from './pages/auth/pages/register/RegisterPage';
 import FAQPage from './pages/FAQ/FaQPage';
 import AuthorizedRoute from './pages/auth/components/AuthorizedRoute';
+import CenteredLoadingSpinner from './pages/common/CenteredLoadingSpinner';
 
 const ProfileOverviewPage = React.lazy(() => import('./pages/profile/pages/ProfileOverviewPage'));
 const FailuresPage = React.lazy(() => import('./pages/failures/FailuresPage'));
@@ -25,7 +26,7 @@ const App = () => {
         <Route
           path='failures'
           element={
-            <Suspense fallback={<Spinner size='large' alignSelf='center' />}>
+            <Suspense fallback={<CenteredLoadingSpinner />}>
               <FailuresPage />
             </Suspense>
           }
@@ -37,7 +38,7 @@ const App = () => {
           <Route
             path='profile/edit'
             element={
-              <Suspense fallback={<Spinner size='large' alignSelf='center' />}>
+              <Suspense fallback={<CenteredLoadingSpinner />}>
                 <ProfileEditPage />
               </Suspense>
             }
@@ -45,7 +46,7 @@ const App = () => {
           <Route
             path='profile/overview'
             element={
-              <Suspense fallback={<Spinner size='large' alignSelf='center' />}>
+              <Suspense fallback={<CenteredLoadingSpinner />}>
                 <ProfileOverviewPage />
               </Suspense>
             }
