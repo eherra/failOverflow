@@ -37,6 +37,11 @@ const getFailureComments = async (failureId: string) => {
       $unwind: "$comments",
     },
     {
+      $sort: {
+        "comments.createdAt": -1,
+      },
+    },
+    {
       $lookup: {
         from: "users",
         let: {
@@ -78,18 +83,7 @@ const getFailureComments = async (failureId: string) => {
       $project: {
         "comments.passwordHash": 0,
         "comments.__v": 0,
-      },
-    },
-    {
-      $project: {
-        comments: {
-          $sortArray: {
-            input: "$comments",
-            sortBy: {
-              createdAt: -1,
-            },
-          },
-        },
+        "comments.givenBy": 0,
       },
     },
   ]);

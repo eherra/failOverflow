@@ -2,9 +2,9 @@ version: "3.8"
 
 services:
   docker-db:
-    image: mongo:latest
+    image: mongo:5
     ports:
-      - 3567:27017
+      - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example

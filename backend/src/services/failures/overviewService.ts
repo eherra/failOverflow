@@ -25,6 +25,11 @@ const getTechDistribution = async (userId: string) => {
       },
     },
     {
+      $sort: {
+        count: -1,
+      },
+    },
+    {
       $group: {
         _id: null,
         techDistribution: {
@@ -43,18 +48,6 @@ const getTechDistribution = async (userId: string) => {
             in: {
               value: "$$this.v",
               name: "$$this.k",
-            },
-          },
-        },
-      },
-    },
-    {
-      $project: {
-        techDistribution: {
-          $sortArray: {
-            input: "$techDistribution",
-            sortBy: {
-              value: -1,
             },
           },
         },
