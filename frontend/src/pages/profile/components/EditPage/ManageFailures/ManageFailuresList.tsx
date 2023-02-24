@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { Box, List, Menu, ResponsiveContext, Text, Spinner } from 'grommet';
 import { More } from 'grommet-icons';
-import { createStyledDateInfo } from '../../../../../utils/TimeUtils';
+import { createStyledDateInfo } from '../../../../../utils/timeUtils';
 import { IFailure } from '../../../../../types';
 import FailureDetailModal from '../../../../common/FailureDetailModal';
 import CommentsModal from './CommentsModal';
