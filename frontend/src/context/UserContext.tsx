@@ -14,7 +14,7 @@ interface User {
 interface IUserContext {
   user: User | null;
   isUserContextLoading: boolean;
-  updateAvatarToUser: (values: string) => void;
+  updateAvatarToUser: (avatarUrl: string | null) => void;
   handleLogin: (data: ILoginValues) => void;
   handleRegister: (values: any) => void;
   handleLogout: () => void;
@@ -75,7 +75,6 @@ export const UserProvider = ({ children }: IUserProvider) => {
     setIsUserContextLoading(true);
     try {
       const createdUser = await userService.registerNewUser(registerValues);
-      console.log(createdUser);
       setUser({
         id: createdUser.id,
         username: createdUser.username,
@@ -94,13 +93,11 @@ export const UserProvider = ({ children }: IUserProvider) => {
     setUser(null);
   };
 
-  const updateAvatarToUser = (avatarUrl: string) => {
+  const updateAvatarToUser = (avatarUrl: string | null) => {
     const loggedUserJSON = localStorage.getItem('loggedUser');
-    // avatarUrl stays the same when updating avatar. If user is adding first time avatar, then there's a new url created
-    if (loggedUserJSON && !user?.avatarUrl) {
+    if (loggedUserJSON) {
       const loggedUser = JSON.parse(loggedUserJSON);
       loggedUser.avatarUrl = avatarUrl;
-      console.log(loggedUser);
       setUser(loggedUser);
       localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
     }

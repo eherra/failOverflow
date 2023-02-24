@@ -13,7 +13,7 @@ interface IAvatarChangeForm {
 
 const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
   const { createNotification, handleError } = useNotificationContext();
-  const { updateAvatarToUser } = useUserContext();
+  const { user, updateAvatarToUser } = useUserContext();
   const navigate = useNavigate();
   const screenSize = useContext(ResponsiveContext);
 
@@ -46,7 +46,7 @@ const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
         onChange={(value) => setFormValues(value)}
         onSubmit={({ value }) => handleAvatarChangeSubmit(value)}
         method='post'>
-        <AvatarForm tipContent='Max 2.5MB' />
+        <AvatarForm isRequired={true} tipContent='Max 2.5MB' />
         <Box
           align={['xsmall', 'small'].includes(screenSize) ? undefined : 'start'}
           pad={{ top: 'xxsmall' }}
@@ -54,7 +54,7 @@ const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
           direction='row'>
           <Button
             icon={isUpdatingAvatar ? <Spinner /> : undefined}
-            label={isUpdatingAvatar ? 'Updating avatar' : 'Change avatar'}
+            label={isUpdatingAvatar ? 'Sending avatar...' : 'Confirm avatar'}
             primary
             type='submit'
           />

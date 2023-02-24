@@ -8,4 +8,5 @@ COPY ./backend ./backend
 RUN cd backend && npm install && npm run build:ui && npm run build:backend
 
 WORKDIR /usr/src/app/backend
+EXPOSE 3001
 CMD ["npm", "run", "start"]

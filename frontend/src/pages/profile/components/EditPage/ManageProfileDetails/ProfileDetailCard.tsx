@@ -16,12 +16,14 @@ import PasswordChangeForm from './PasswordChangeForm';
 import AvatarChangeForm from './AvatarChangeForm';
 import { useUserContext } from '../../../../../context/UserContext';
 import { AWS_URL } from '../../../../../utils/config';
+import DeleteAvatarModal from './DeleteAvatarModal';
 
 const ProfileDetailCard = () => {
   const { user } = useUserContext();
 
   const [changePassword, setChangePassword] = useState(false);
   const [changeAvatar, setChangeAvatar] = useState(false);
+  const [deleteAvatarModalShow, setDeleteAvatarModalShow] = useState<boolean>(false);
 
   return (
     <Box gap='medium'>
@@ -54,8 +56,18 @@ const ProfileDetailCard = () => {
                     src={user?.avatarUrl ? `${AWS_URL}/${user.avatarUrl}` : '/defaultAvatar.jpeg'}
                     size='large'
                   />
-                  <Box justify='center'>
-                    <Button label='Change avatar' onClick={() => setChangeAvatar(true)} />
+                  <Box justify='center' direction='column' gap='small'>
+                    <Button
+                      label={user?.avatarUrl ? 'Change avatar' : 'Add avatar'}
+                      onClick={() => setChangeAvatar(true)}
+                    />
+                    {user?.avatarUrl && (
+                      <Button
+                        color='#cd5c5c'
+                        label='Remove avatar'
+                        onClick={() => setDeleteAvatarModalShow(true)}
+                      />
+                    )}
                   </Box>
                 </Box>
               </NameValuePair>
@@ -69,6 +81,9 @@ const ProfileDetailCard = () => {
           </>
         )}
       </Card>
+      {deleteAvatarModalShow && (
+        <DeleteAvatarModal setDeleteAvatarModalShow={setDeleteAvatarModalShow} />
+      )}
     </Box>
   );
 };

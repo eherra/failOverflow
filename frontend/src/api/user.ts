@@ -46,9 +46,14 @@ const changeAvatar = async (value: any) => {
   return response.data;
 };
 
+const deleteAvatar = async () => {
+  const response = await axios.delete(`${restUrl}/avatar`, config());
+  return response.data;
+};
+
 const changePassword = async ({ passwordValues }: IChangePassword) => {
   const response = await axios.put(restUrl, passwordValues, config());
   return response.data;
 };
 
-export default { registerNewUser, changeAvatar, changePassword };
+export default { registerNewUser, changeAvatar, changePassword, deleteAvatar };

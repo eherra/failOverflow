@@ -58,4 +58,16 @@ userRouter.put("/", userAuthenticator, async (req: any, res: Response) => {
   res.sendStatus(200);
 });
 
+/**
+ * DELETE /api/users/avatar
+ * @summary Deletes users avatar
+ * @return {} 200 - Success
+ * @return {} 400 - If deletion didn't succeed
+ */
+userRouter.delete("/avatar", userAuthenticator, async (req: any, res: Response) => {
+  const user = req.user;
+  await userService.deleteAvatar(user.id);
+  res.sendStatus(200);
+});
+
 export default userRouter;

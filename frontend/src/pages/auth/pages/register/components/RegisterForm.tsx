@@ -21,7 +21,7 @@ const RegisterForm = () => {
     try {
       await handleRegister(value);
       createNotification({
-        message: 'Account creating succeeded, welcome!',
+        message: 'Account creation succeeded, welcome!',
         isError: false,
         icon: <UserExpert color='#96ab9c' />,
       });
