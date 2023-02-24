@@ -36,7 +36,7 @@ export const defaultTechnologysOptions = [
   'Jest',
   'JUnit',
   'Julia',
-  'Jupiter',
+  'Jupyter',
   'Kotlin',
   'Kubernetes',
   'Ktor',
