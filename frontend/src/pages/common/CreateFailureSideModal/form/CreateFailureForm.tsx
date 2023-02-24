@@ -78,7 +78,12 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
         method='post'
         onSubmit={({ value }: IValue) => handleFormSubmit({ value })}>
         <FormField required label='Title' htmlFor='title' name='title'>
-          <TextInput minLength={5} name='title' placeholder='Short title of your failure' />
+          <TextInput
+            minLength={5}
+            maxLength={50}
+            name='title'
+            placeholder='Short title of your failure'
+          />
         </FormField>
         <FormField
           required
@@ -93,6 +98,8 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
             placeholder='Explain what happend'
           />
         </FormField>
+        <SelectTechnologiesField />
+
         <FormField required label='Solution' htmlFor='solution' name='solution' tabIndex={-1}>
           <TextArea
             minLength={5}
@@ -101,7 +108,6 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
             placeholder='How did you overcome this failure?'
           />
         </FormField>
-        <SelectTechnologiesField />
 
         <FormField label='Comments allowed?' htmlFor='allowComments' name='allowComments'>
           <CheckBox
