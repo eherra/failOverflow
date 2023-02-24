@@ -13,8 +13,6 @@ const AccordionUnit = ({ failure }: { failure: IFailure }) => {
   const { _id, title, creator, description, solution, technologies, createdAt, allowComments } =
     failure;
 
-  console.log(creator);
-
   return (
     <AccordionPanel
       key={_id}
@@ -37,10 +35,10 @@ const AccordionUnit = ({ failure }: { failure: IFailure }) => {
             />
           </>
           <>
-            <ReviewTab failureId={failure._id} />
+            <ReviewTab failureId={_id} />
           </>
           <>
-            <CommentTab allowComments={allowComments} failureId={failure._id} />
+            <CommentTab allowComments={allowComments} failureId={_id} />
           </>
         </Tabs>
       </Box>

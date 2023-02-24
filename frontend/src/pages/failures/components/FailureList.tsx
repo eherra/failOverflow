@@ -22,7 +22,6 @@ const FailureList = () => {
       setFailures(failures);
       setIsFetchingFailures(false);
     } catch (err) {
-      console.log(err);
       setIsFetchingFailures(false);
       setIsError(true);
     }

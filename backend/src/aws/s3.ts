@@ -17,7 +17,7 @@ const s3 = new S3({
 
 interface IUploadValues {
   file: Express.Multer.File;
-  awsFileKey?: String; // only used if updating existing avatar -> using the same existing key
+  awsFileKey?: string; // only used if updating existing avatar -> using the same existing key
 }
 
 export const uploadImageToAWS = ({ file, awsFileKey }: IUploadValues) => {
@@ -32,4 +32,14 @@ export const uploadImageToAWS = ({ file, awsFileKey }: IUploadValues) => {
 
   /* @ts-expect-error giving error */
   return s3.upload(uploadParams).promise();
+};
+
+export const deleteImageFromAws = (awsFileKey: string) => {
+  const deleteParams = {
+    Bucket: awsBucketName,
+    Key: awsFileKey,
+  };
+
+  /* @ts-expect-error giving error */
+  return s3.deleteObject(deleteParams).promise();
 };

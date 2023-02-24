@@ -4,9 +4,10 @@ import LabelWithInfoTip from '../../../../common/LabelWithInfoTip';
 
 interface IAvatarForm {
   tipContent: string;
+  isRequired?: boolean;
 }
 
-const AvatarForm = ({ tipContent }: IAvatarForm) => {
+const AvatarForm = ({ tipContent, isRequired }: IAvatarForm) => {
   const [hasFile, setHasFile] = useState<number>(0);
   const maxImageSize = 2_621_440; // 2.5MB
 
@@ -14,6 +15,7 @@ const AvatarForm = ({ tipContent }: IAvatarForm) => {
     <FormField
       htmlFor='avatar'
       name='avatar'
+      required={isRequired}
       label={
         <LabelWithInfoTip
           text='Upload avatar'

@@ -16,7 +16,7 @@ services:
   fail-overflow-prod:
     platform: linux/amd64
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - SECRET=somethingSecret
       - MONGODB_URI_DOCKER=mongodb://username:password@docker-db/failure_db
     build:

@@ -2,7 +2,7 @@ import User from "../models/User";
 import { IUserDTO } from "../types";
 import { generatePasswordHash, isPasswordMatching } from "./utils/passwordUtils";
 import { generateJwtToken } from "./utils/tokenUtils";
-import { uploadImageToAWS } from "../aws/s3";
+import { uploadImageToAWS, deleteImageFromAws } from "../aws/s3";
 
 interface IChangePasswordValues {
   currentPassword: string;
@@ -50,6 +50,16 @@ const changeAvatar = async (file: Express.Multer.File, userId: string) => {
   }
 };
 
+const deleteAvatar = async (userId: string) => {
+  // updated avatarUrl to null and returns the old value
+  const userInfo = await User.findByIdAndUpdate(userId, { avatarUrl: null }).select({
+    avatarUrl: 1,
+  });
+  if (userInfo?.avatarUrl) {
+    await deleteImageFromAws(userInfo.avatarUrl);
+  }
+};
+
 const changePassword = async ({
   currentPassword,
   newPassword,
@@ -72,4 +82,4 @@ const changePassword = async ({
   await User.findByIdAndUpdate(userId, { passwordHash: newPasswordHash });
 };
 
-export default { createUser, changeAvatar, changePassword };
+export default { createUser, changeAvatar, deleteAvatar, changePassword };
