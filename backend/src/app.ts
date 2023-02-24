@@ -5,7 +5,7 @@ import userRouter from "./routes/users";
 import loginRouter from "./routes/login";
 import middleware from "./utils/middleware";
 import helmet from "helmet";
-import { NODE_ENV } from "./utils/config";
+import { NODE_ENV, AWS_URL } from "./utils/config";
 
 const app = express();
 app.use(express.static("build"));
@@ -13,6 +13,14 @@ app.use(express.json());
 
 app.use(cors());
 app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      "img-src": ["'self'", AWS_URL],
+    },
+  }),
+);
 
 app.use(middleware.tokenExtractor);
 app.use(middleware.requestLogger);
