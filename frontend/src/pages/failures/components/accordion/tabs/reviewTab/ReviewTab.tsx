@@ -13,7 +13,7 @@ interface IReviewTab {
 
 const ReviewTab = ({ failureId }: IReviewTab) => {
   const { user } = useUserContext();
-  const { handleError } = useNotificationContext();
+  const { handleErrorNotification } = useNotificationContext();
   const [isLoadingData, setIsLoading] = useState<boolean>(false);
   const [isVoteFetchError, setIsVoteFetchError] = useState<boolean>(false);
   const [isRatingFetchError, setIsRatingFetchError] = useState<boolean>(false);
@@ -43,7 +43,7 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
         userReview: ratingData?.userRating,
       });
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
       setIsRatingFetchError(true);
     }
   };
@@ -56,7 +56,7 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
         hasUserVoted: voteResponse?.hasUserVoted,
       });
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
       setIsVoteFetchError(true);
     }
   };

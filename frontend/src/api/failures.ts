@@ -42,12 +42,12 @@ const getUsersFailures = async () => {
   return response.data;
 };
 
-const createFailure = async (failure: any) => {
+export const createFailure = async (failure: any) => {
   const response = await axios.post(restUrl, { failure: failure }, config());
   return response.data;
 };
 
-const deleteFailure = async (failureId: string) => {
+export const deleteFailure = async (failureId: string) => {
   const response = await axios.delete(`${restUrl}/${failureId}`, config());
   return response.data;
 };

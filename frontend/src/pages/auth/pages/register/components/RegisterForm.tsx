@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
   const { isUserContextLoading, handleRegister } = useUserContext();
-  const { createNotification, handleError } = useNotificationContext();
+  const { createNotification, handleErrorNotification } = useNotificationContext();
   const navigate = useNavigate();
 
   const size = useContext(ResponsiveContext);
@@ -27,7 +27,7 @@ const RegisterForm = () => {
       });
       navigate('/');
     } catch (error: any) {
-      handleError(error);
+      handleErrorNotification(error);
     }
   };
 

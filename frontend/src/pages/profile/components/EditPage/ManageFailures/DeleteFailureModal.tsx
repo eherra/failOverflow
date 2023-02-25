@@ -13,13 +13,13 @@ import {
 } from 'grommet';
 import { Trash } from 'grommet-icons';
 import { confirmStringMatching } from '../../../../common/FormValidation';
-import failureService from '../../../../../api/failures';
+import { deleteFailure } from '../../../../../api/failures';
 import { IFailure } from '../../../../../types';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
+import { useMutation, useQueryClient } from 'react-query';
 
 interface IDeleteFailureModal {
   setDeleteModalShow(boolean: any): void;
-  setFailures(failures: Array<IFailure>): void;
   confirmText?: string;
   failureId?: string;
 }
@@ -28,35 +28,37 @@ const DeleteFailureModal = ({
   setDeleteModalShow,
   confirmText,
   failureId,
-  setFailures,
 }: IDeleteFailureModal) => {
-  const { createNotification, handleError } = useNotificationContext();
-  const [isDeletingFailure, setIsDeletingFailure] = useState<boolean>(false);
+  const { createNotification, handleErrorNotification } = useNotificationContext();
   const [value, setValue] = useState({
     deleteInput: '',
   });
 
-  const handleDeleteSubmit = async (event: SyntheticEvent) => {
-    event.preventDefault();
-    try {
-      setIsDeletingFailure(true);
-      await failureService.deleteFailure(failureId || '');
-      /* @ts-expect-error TODO check this */
-      setFailures((failures: Array<Failure>) =>
-        failures.filter((failure: IFailure) => failure._id !== failureId),
+  const queryClient = useQueryClient();
+
+  const deleteFailureMutation = useMutation(deleteFailure, {
+    onSuccess: () => {
+      const userFailures: IFailure[] | undefined = queryClient.getQueryData('userFailures');
+      queryClient.setQueryData(
+        'userFailures',
+        userFailures?.filter((failure: IFailure) => failure._id !== failureId),
       );
-      setIsDeletingFailure(false);
       setDeleteModalShow(false);
       createNotification({
         message: 'Failure deleted successfully!',
         isError: false,
         icon: <Trash color='#96ab9c' />,
       });
-    } catch (err) {
-      handleError(err);
-      setIsDeletingFailure(false);
+    },
+    onError: (error) => {
+      handleErrorNotification(error);
       setDeleteModalShow(false);
-    }
+    },
+  });
+
+  const handleDeleteSubmit = (event: SyntheticEvent) => {
+    event.preventDefault();
+    deleteFailureMutation.mutate(failureId || '');
   };
 
   return (
@@ -107,8 +109,8 @@ const DeleteFailureModal = ({
               }}
             />
             <Button
-              label={isDeletingFailure ? 'Deleting failure...' : 'Confirm delete'}
-              icon={isDeletingFailure ? <Spinner /> : undefined}
+              label={deleteFailureMutation.isLoading ? 'Deleting failure...' : 'Confirm delete'}
+              icon={deleteFailureMutation.isLoading ? <Spinner /> : undefined}
               primary
               type='submit'
             />

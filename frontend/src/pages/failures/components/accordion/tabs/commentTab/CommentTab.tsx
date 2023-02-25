@@ -16,7 +16,7 @@ interface ICommentTab {
 
 const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
   const { user } = useUserContext();
-  const { createNotification, handleError } = useNotificationContext();
+  const { createNotification, handleErrorNotification } = useNotificationContext();
 
   const [commentInput, setCommentInput] = useState<string>('');
   const [isSendingComment, setIsSendingComment] = useState<boolean>(false);
@@ -56,7 +56,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
         icon: <ChatOption color='#96ab9c' />,
       });
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
       setIsSendingComment(false);
       setCommentInput('');
     }

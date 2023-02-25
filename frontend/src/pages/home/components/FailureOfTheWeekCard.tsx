@@ -9,7 +9,7 @@ import { useNotificationContext } from '../../../context/NotificationContext';
 
 const FailureOfTheWeekCard = () => {
   const [weekFailure, setWeekFailure] = useState<IFailureOfTheWeek | undefined>(undefined);
-  const { handleError } = useNotificationContext();
+  const { handleErrorNotification } = useNotificationContext();
 
   useEffect(() => {
     fetchFailureOfTheWeek();
@@ -20,7 +20,7 @@ const FailureOfTheWeekCard = () => {
       const { failureOfTheWeek } = await failureService.getFailureOfTheWeek();
       setWeekFailure(failureOfTheWeek);
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
     }
   };
 

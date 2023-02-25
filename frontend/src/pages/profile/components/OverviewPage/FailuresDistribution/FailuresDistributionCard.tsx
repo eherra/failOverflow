@@ -10,7 +10,7 @@ interface IFailureDistribution {
 }
 
 const FailuresDistributionCard = () => {
-  const { handleError } = useNotificationContext();
+  const { handleErrorNotification } = useNotificationContext();
   const [failureData, setFailureData] = useState<Array<IFailureDistribution>>([]);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -23,7 +23,7 @@ const FailuresDistributionCard = () => {
       const { failureDistribution } = await failureService.getFailuresCreatedDistribution();
       setFailureData(failureDistribution);
     } catch (error) {
-      handleError(error);
+      handleErrorNotification(error);
       setIsError(true);
     }
   };

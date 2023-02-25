@@ -11,7 +11,7 @@ interface IVotesDistribution {
 
 const VotesDistributionCard = () => {
   const [votesData, setVotesData] = useState<Array<IVotesDistribution>>([]);
-  const { handleError } = useNotificationContext();
+  const { handleErrorNotification } = useNotificationContext();
   const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const VotesDistributionCard = () => {
       const { voteDistribution } = await failureService.getVoteDistribution();
       setVotesData(voteDistribution);
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
       setIsError(true);
     }
   };

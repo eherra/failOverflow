@@ -9,10 +9,11 @@ import DeleteFailureModal from './DeleteFailureModal';
 import failureService from '../../../../../api/failures';
 import CreateFailureSideModal from '../../../../common/CreateFailureSideModal/CreateFailureSideModal';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
+import { useQuery } from 'react-query';
 
 const ManageFailuresList = () => {
   const screenSize = useContext(ResponsiveContext);
-  const { handleError } = useNotificationContext();
+  const { handleErrorNotification } = useNotificationContext();
 
   const [detailsModalShow, setDetailsModalShow] = useState<boolean>(false);
   const [commentsModaleShow, setCommentsModalShow] = useState<boolean>(false);
@@ -20,41 +21,39 @@ const ManageFailuresList = () => {
   const [toEdit, setToEdit] = useState<IFailure | undefined>();
 
   const [failures, setFailures] = useState<Array<IFailure>>([]);
-  const [isFetchingFailures, setIsFetchingFailures] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
 
-  useEffect(() => {
-    fetchUsersFailures();
-  }, []);
+  const { data, error, isFetching } = useQuery<IFailure[], Error>(
+    'userFailures',
+    async () => fetchUsersFailures(),
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
 
   const fetchUsersFailures = async () => {
     try {
-      setIsFetchingFailures(true);
       const { userFailures } = await failureService.getUsersFailures();
-      setFailures(userFailures);
-      setIsFetchingFailures(false);
+      return userFailures;
     } catch (err) {
-      handleError(err);
-      setIsFetchingFailures(false);
-      setIsError(true);
+      handleErrorNotification(err);
     }
   };
 
   // TODO: better error message
-  if (isError) {
+  if (error) {
     return <p>Could not fetch failures of user.</p>;
   }
 
-  if (isFetchingFailures) {
+  if (isFetching) {
     return <Spinner size='large' />;
   }
 
   return (
     <Box overflow='auto' pad='xsmall'>
-      {failures.length ? (
+      {data?.length ? (
         <>
           <List
-            data={failures}
+            data={data}
             action={(failure, index) => (
               <Menu
                 key={index}
@@ -127,7 +126,6 @@ const ManageFailuresList = () => {
           {deleteModalShow && (
             <DeleteFailureModal
               failureId={toEdit?._id}
-              setFailures={setFailures}
               confirmText={toEdit?.title}
               setDeleteModalShow={setDeleteModalShow}
             />

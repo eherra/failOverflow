@@ -15,7 +15,7 @@ interface ITechDistribution {
 const listOfColors = ['graph-0', 'brand', 'light-5', 'graph-0'];
 
 const TechDistributionCard = () => {
-  const { handleError } = useNotificationContext();
+  const { handleErrorNotification } = useNotificationContext();
   const [techData, setTechData] = useState<Array<ITechDistribution>>([]);
   const [isError, setIsError] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -41,7 +41,7 @@ const TechDistributionCard = () => {
       setTechData(coloredTechData);
       setIsFetching(false);
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
       setIsFetching(false);
       setIsError(true);
     }

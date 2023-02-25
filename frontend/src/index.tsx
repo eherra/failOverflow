@@ -6,6 +6,7 @@ import { Grommet, Spinner } from 'grommet';
 import { UserProvider } from './context/UserContext';
 import { WavyContainer } from 'react-wavy-transitions';
 import { NotificationProvider } from './context/NotificationContext';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const customTheme = {
   global: {
@@ -21,18 +22,21 @@ const customTheme = {
     },
   },
 };
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Grommet theme={customTheme} full>
     <Suspense fallback={<Spinner size='large' alignSelf='center' />}>
-      <BrowserRouter>
-        <WavyContainer />
-        <UserProvider>
-          <NotificationProvider>
-            <App />
-          </NotificationProvider>
-        </UserProvider>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <WavyContainer />
+          <UserProvider>
+            <NotificationProvider>
+              <App />
+            </NotificationProvider>
+          </UserProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
     </Suspense>
   </Grommet>,
 );

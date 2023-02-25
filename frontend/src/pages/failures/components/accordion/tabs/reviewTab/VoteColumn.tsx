@@ -20,7 +20,7 @@ interface IVoteColumn {
 
 const VoteColumn = ({ failureId, votesAmount, hasUserVoted, setVotesData }: IVoteColumn) => {
   const { user } = useUserContext();
-  const { handleError, createNotification } = useNotificationContext();
+  const { handleErrorNotification, createNotification } = useNotificationContext();
 
   const [isSendingVote, setIsSendingVote] = useState<boolean>(false);
 
@@ -39,7 +39,7 @@ const VoteColumn = ({ failureId, votesAmount, hasUserVoted, setVotesData }: IVot
       const toastMessage = `Vote ${hasUserVoted ? 'removed' : 'added'} succesfully!`;
       createNotification({ message: toastMessage, icon: <Like color='#96ab9c' />, isError: false });
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
       setIsSendingVote(false);
     }
   };

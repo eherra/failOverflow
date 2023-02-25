@@ -11,7 +11,7 @@ interface INotificationValues {
 interface INotificationContext {
   setIsVisible: (isLoading: boolean) => void;
   createNotification: (data: INotificationValues) => void;
-  handleError: (err: any) => void;
+  handleErrorNotification: (err: any) => void;
 }
 
 interface INotificationProvider {
@@ -21,7 +21,7 @@ interface INotificationProvider {
 export const NotificationContext = createContext<INotificationContext>({
   setIsVisible: (isVisible: boolean) => null,
   createNotification: () => null,
-  handleError: (err: any) => null,
+  handleErrorNotification: (err: any) => null,
 });
 
 export const NotificationProvider = ({ children }: INotificationProvider) => {
@@ -39,7 +39,7 @@ export const NotificationProvider = ({ children }: INotificationProvider) => {
   };
 
   // TODO: refacotr
-  const handleError = (error: any) => {
+  const handleErrorNotification = (error: any) => {
     const { data } = error.response;
     if (data?.name === 'TokenExpiredError') {
       createNotification({ message: 'Your session has been expired!', isError: true });
@@ -59,7 +59,8 @@ export const NotificationProvider = ({ children }: INotificationProvider) => {
   };
 
   return (
-    <NotificationContext.Provider value={{ setIsVisible, createNotification, handleError }}>
+    <NotificationContext.Provider
+      value={{ setIsVisible, createNotification, handleErrorNotification }}>
       {isVisible && (
         <ToastNotification
           setIsVisible={setIsVisible}

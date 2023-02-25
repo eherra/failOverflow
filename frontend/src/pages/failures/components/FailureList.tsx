@@ -1,33 +1,36 @@
 import { Accordion, Box, Text } from 'grommet';
 import { Alert } from 'grommet-icons';
-import { useState, useEffect } from 'react';
 import AccordionUnit from './accordion/AccordionUnit';
 import { IFailure } from '../../../types';
 import failureService from '../../../api/failures';
 import CenteredLoadingSpinner from '../../common/CenteredLoadingSpinner';
+import { useQuery } from 'react-query';
+import { useNotificationContext } from '../../../context/NotificationContext';
 
 const FailureList = () => {
-  const [failures, setFailures] = useState<Array<IFailure>>([]);
-  const [isFetchingFailures, setIsFetchingFailures] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
-
-  useEffect(() => {
-    fetchAllFailures();
-  }, []);
+  const { handleErrorNotification } = useNotificationContext();
+  const { data, error, isFetching } = useQuery<IFailure[], Error>(
+    'failures',
+    async () => fetchAllFailures(),
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
 
   const fetchAllFailures = async () => {
     try {
-      setIsFetchingFailures(true);
       const { failures } = await failureService.getAllFailures();
-      setFailures(failures);
-      setIsFetchingFailures(false);
+      return failures;
     } catch (err) {
-      setIsFetchingFailures(false);
-      setIsError(true);
+      handleErrorNotification(err);
     }
   };
 
-  if (isError) {
+  console.log(data);
+  console.log(error);
+  console.log(isFetching);
+
+  if (error) {
     return (
       <Box direction='row' gap='small'>
         <Alert />
@@ -38,13 +41,13 @@ const FailureList = () => {
 
   return (
     <>
-      {isFetchingFailures ? (
+      {isFetching ? (
         <CenteredLoadingSpinner />
       ) : (
         <>
-          {failures.length ? (
+          {data?.length ? (
             <Accordion multiple width='85%'>
-              {failures.map((failure, index) => (
+              {data.map((failure, index) => (
                 <AccordionUnit key={index} failure={failure} />
               ))}
             </Accordion>

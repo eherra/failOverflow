@@ -26,7 +26,7 @@ interface IStarRatingForm {
 }
 
 const StarRatingForm = ({ failureId, userReview, setStarsData }: IStarRatingForm) => {
-  const { createNotification, handleError } = useNotificationContext();
+  const { createNotification, handleErrorNotification } = useNotificationContext();
 
   const [isSendingRating, setIsSendingRating] = useState<boolean>(false);
   const [rating, setRating] = useState<number>(userReview);
@@ -50,7 +50,7 @@ const StarRatingForm = ({ failureId, userReview, setStarsData }: IStarRatingForm
         isError: false,
       });
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
       setIsSendingRating(false);
     }
   };

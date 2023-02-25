@@ -29,7 +29,7 @@ const CommentsModal = ({
   setFailures,
 }: ICommentsModal) => {
   const screenSize = useContext(ResponsiveContext);
-  const { handleError } = useNotificationContext();
+  const { handleErrorNotification } = useNotificationContext();
   const allowCommentsText = allowComments ? 'Yes' : 'No';
   const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>(allowCommentsText);
   const [currComments, setCurrComments] = useState<Array<IListComment>>([]);
@@ -64,7 +64,7 @@ const CommentsModal = ({
         return newState;
       });
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
     }
   };
 

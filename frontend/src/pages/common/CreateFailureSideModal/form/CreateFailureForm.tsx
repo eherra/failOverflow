@@ -12,10 +12,10 @@ import {
   Spinner,
 } from 'grommet';
 import SelectTechnologiesField from './SelectTechnologiesField';
-import failureService from '../../../../api/failures';
+import { createFailure } from '../../../../api/failures';
 import { useNotificationContext } from '../../../../context/NotificationContext';
 import { Script, FormPrevious } from 'grommet-icons';
-import { IFailure } from '../../../../types';
+import { useMutation, useQueryClient } from 'react-query';
 
 interface ICreateFailureModal {
   setOpen(value: boolean): any;
@@ -34,7 +34,15 @@ interface IValue {
 }
 
 const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
-  const { createNotification, handleError } = useNotificationContext();
+  const { createNotification, handleErrorNotification } = useNotificationContext();
+  const queryClient = useQueryClient();
+
+  const newFailureMutation = useMutation(createFailure, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('failures');
+      queryClient.invalidateQueries('userFailures');
+    },
+  });
 
   const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>('Yes');
   const [isCreatingFailure, setIsCreatingFailure] = useState<boolean>(false);
@@ -42,8 +50,7 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
   const handleFormSubmit = async ({ value }: IValue) => {
     try {
       setIsCreatingFailure(true);
-      const createdFailure: IFailure = await failureService.createFailure(value);
-      console.log(createdFailure);
+      newFailureMutation.mutate(value);
       setIsCreatingFailure(false);
       setOpen(false);
       createNotification({
@@ -52,7 +59,7 @@ const CreateFailureForm = ({ setOpen }: ICreateFailureModal) => {
         icon: <Script color='#96ab9c' />,
       });
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
       setIsCreatingFailure(false);
     }
   };
