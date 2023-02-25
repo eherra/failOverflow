@@ -14,6 +14,9 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+  }),
   helmet.contentSecurityPolicy({
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),

@@ -24,12 +24,6 @@ Data charts are:
 - failure creation distribution
 - votes received distribution
 
-
-### Design system <img src="https://github.com/eherra/failoverflow/blob/main/docs/images/grommet.png"> 
-
-https://v2.grommet.io/starter
-
-
 ### AWS <img src="https://github.com/eherra/failoverflow/blob/main/docs/images/awsS3.png"> 
 
 Users avatar photos will be saved to AWS S3 bucket. Library [multer](https://www.npmjs.com/package/multer) is used while working with the image files.
@@ -40,16 +34,26 @@ App is hosted at Heroku Container Registry as a docker image.
 Link: \
 XXX
 
+
 ### Security
 For backend (Express.js) security HTTP headers -> [helmet.js](https://helmetjs.github.io/)
 
 Token based authorizations on endpoint calls which requires signed in user  -> [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
 
+### Design system <img src="https://github.com/eherra/failoverflow/blob/main/docs/images/grommet.png"> 
+
+https://v2.grommet.io/starter
+
+### Illustrations
+
+https://undraw.co/illustrations
+
+
 ### Local development
 
 Make sure you have backend's and frontend's .env files filled with desired values. You can view .env examples from:
-- [backend](https://github.com/eherra/failOverflow/blob/main/backend/.env.example)
-- [frontend](https://github.com/eherra/failOverflow/blob/main/frontend/.env.example)
+- [backend env](https://github.com/eherra/failOverflow/blob/main/backend/.env.example)
+- [frontend env](https://github.com/eherra/failOverflow/blob/main/frontend/.env.example)
 
 #### Mongodb
 
@@ -76,7 +80,7 @@ cd frontend && npm start
 
 Application is running at http://localhost:3000
 
-### Production
+### Run production version
 Go to projects root folder and run command:
 
 ```
@@ -84,6 +88,12 @@ docker-compose up -d
 ```  
 
 Application is running at http://localhost:3001 or at the `PORT` you filled in your .env folder.
+
+You can shutdown the docker containers with command:
+
+```
+docker-compose down
+```  
 
 ### Project known weaknesses
 
