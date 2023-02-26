@@ -14,25 +14,25 @@
 
 Like Stack Overflow, but for failures.
 
-App's users can create an account and publish failures which they faced while progamming. A failure contains information, such as `title`, `description`, `solution` and the `technologies` which were used. When creating a failure, user can set if they want commenting to be allowed or not for the failure.
+App's users can create an account and publish failures which they faced while progamming. A failure contains information, such as `title`, `description`, `solution` and the `technologies` which were used. When creating a failure, user can set if they want commenting to be allowed or not.
 
 Users can later manage their profile details e.g. change password and add/change/remove avatar photo. Created failures can be deleted later and commenting allowance changed.
 
 Profile overview page contains three different data charts of distributions of users information. 
 
-Data charts:
-- technologies usage distribution
-- failure creation distribution
-- votes acquired distribution
+Data charts distributions:
+- technologies usage
+- failure creation
+- votes acquired
 
 ### 30s demo
 
 View 30 seconds demo of the application [here](link to demo).
 
 ### Hosting
-App is hosted at Heroku Container Registry as a docker image. 
+App is deployed as a docker image to Heroku Container Registry. 
 
-Link: \
+Access to the app from link: \
 XXX
 
 ### Security
