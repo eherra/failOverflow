@@ -50,7 +50,7 @@ const FailureDetailModal = ({ setDetailsModalShow, failure }: IShowFailureDetail
             <TruncateText text={failure?.description || ''} />
           </NameValuePair>
           <NameValuePair key={failure?.solution} name='Solution'>
-            <TruncateText text={failure?.description || ''} />
+            <TruncateText text={failure?.solution || ''} />
           </NameValuePair>
           <NameValuePair key='tech' name='Technologies'>
             {failure?.technologies.join(', ')}
