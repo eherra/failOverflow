@@ -25,9 +25,11 @@ Data charts distributions:
 - failure creations
 - votes acquired
 
-### Overview demo video
+### Overview of the app
 
-View 48 seconds long demo video of the application usage [here.](https://github.com/eherra/failoverflow/blob/main/docs/demo.md).
+48 seconds.
+
+<img src="https://github.com/eherra/failoverflow/blob/main/docs/images/demo.gif" width="70%" heigth="70%">
 
 ### Hosting
 App is deployed as a docker image to Heroku Container Registry. 
