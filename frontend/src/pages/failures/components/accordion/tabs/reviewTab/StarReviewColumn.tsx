@@ -8,15 +8,9 @@ interface IStarReviewColumn {
   failureId: string;
   reviewAverage: number;
   userReview: number;
-  setStarsData: ({ starAverage, userReview }: { starAverage: number; userReview: number }) => void;
 }
 
-const StarReviewColumn = ({
-  failureId,
-  reviewAverage,
-  userReview,
-  setStarsData,
-}: IStarReviewColumn) => {
+const StarReviewColumn = ({ failureId, reviewAverage, userReview }: IStarReviewColumn) => {
   const { user } = useUserContext();
   return (
     <Box direction='column' gap='medium'>
@@ -24,7 +18,7 @@ const StarReviewColumn = ({
         {reviewAverage ? reviewAverage : 'No reviews yet'}
       </NameValuePair>
       {user ? (
-        <StarRatingForm failureId={failureId} userReview={userReview} setStarsData={setStarsData} />
+        <StarRatingForm failureId={failureId} userReview={userReview} />
       ) : (
         <Box align='start' pad={{ top: 'small', bottom: 'small' }} gap='small'>
           <Text weight='bold' size='medium'>

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Box, Tab, NameValueList, Spinner } from 'grommet';
 import failureService from '../../../../../../api/failures';
 import { useUserContext } from '../../../../../../context/UserContext';
@@ -6,6 +5,7 @@ import StarReviewColumn from './StarReviewColumn';
 import VoteColumn from './VoteColumn';
 import { Like } from 'grommet-icons';
 import { useNotificationContext } from '../../../../../../context/NotificationContext';
+import { useQuery } from 'react-query';
 
 interface IReviewTab {
   failureId: string;
@@ -14,50 +14,36 @@ interface IReviewTab {
 const ReviewTab = ({ failureId }: IReviewTab) => {
   const { user } = useUserContext();
   const { handleErrorNotification } = useNotificationContext();
-  const [isLoadingData, setIsLoading] = useState<boolean>(false);
-  const [isVoteFetchError, setIsVoteFetchError] = useState<boolean>(false);
-  const [isRatingFetchError, setIsRatingFetchError] = useState<boolean>(false);
 
-  const [starsData, setStarsData] = useState({
-    starAverage: 0,
-    userReview: 0,
+  const reviews = useQuery(['reviews', failureId], async () => fetchReviewData(), {
+    refetchOnWindowFocus: false,
   });
 
-  const [votesData, setVotesData] = useState({
-    votesAmount: 0,
-    hasUserVoted: false,
+  const votes = useQuery(['votes', failureId], async () => fetchVotesData(), {
+    refetchOnWindowFocus: false,
   });
-
-  useEffect(() => {
-    setIsLoading(true);
-    fetchReviewData();
-    fetchVotesData();
-    setIsLoading(false);
-  }, []);
 
   const fetchReviewData = async () => {
     try {
       const { ratingData } = await failureService.getRatingData(failureId, user?.id || '');
-      setStarsData({
+      return {
         starAverage: ratingData?.ratingAverage,
         userReview: ratingData?.userRating,
-      });
+      };
     } catch (err) {
       handleErrorNotification(err);
-      setIsRatingFetchError(true);
     }
   };
 
   const fetchVotesData = async () => {
     try {
       const voteResponse = await failureService.getVotingData(failureId, user?.id || '');
-      setVotesData({
+      return {
         votesAmount: voteResponse?.votesAmount,
         hasUserVoted: voteResponse?.hasUserVoted,
-      });
+      };
     } catch (err) {
       handleErrorNotification(err);
-      setIsVoteFetchError(true);
     }
   };
 
@@ -69,28 +55,26 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
           layout='grid'
           valueProps={{ width: 'medium' }}
           justifyContent='center'>
-          {isLoadingData ? (
+          {votes.isFetching || reviews.isFetching ? (
             <Spinner size='large' />
           ) : (
             <>
-              {isRatingFetchError ? (
-                <p>Error while fetching review data</p>
+              {reviews.error ? (
+                <p>Error while fetching review data.</p>
               ) : (
                 <StarReviewColumn
-                  setStarsData={setStarsData}
                   failureId={failureId}
-                  userReview={starsData?.userReview}
-                  reviewAverage={starsData?.starAverage}
+                  userReview={reviews?.data?.userReview}
+                  reviewAverage={reviews?.data?.starAverage}
                 />
               )}
-              {isVoteFetchError ? (
-                <p>Error while fetching vote data</p>
+              {votes.error ? (
+                <p>Error while fetching vote data.</p>
               ) : (
                 <VoteColumn
-                  setVotesData={setVotesData}
                   failureId={failureId}
-                  votesAmount={votesData.votesAmount}
-                  hasUserVoted={votesData.hasUserVoted}
+                  votesAmount={votes?.data?.votesAmount}
+                  hasUserVoted={votes?.data?.hasUserVoted}
                 />
               )}
             </>

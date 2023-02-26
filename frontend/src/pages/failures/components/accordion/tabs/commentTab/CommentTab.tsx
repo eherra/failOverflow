@@ -22,7 +22,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
   const queryClient = useQueryClient();
 
   const { data, error } = useQuery<IListComment[], Error>(
-    failureId,
+    ['comments', failureId],
     async () => fetchCommentsData(),
     {
       refetchOnWindowFocus: false,
@@ -41,10 +41,13 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
   const newCommentMutation = useMutation(addCommentToFailure, {
     onSuccess: (data) => {
       const { createdComment } = data;
-      const comments: IListComment[] | undefined = queryClient.getQueryData(failureId);
+      const comments: IListComment[] | undefined = queryClient.getQueryData([
+        'comments',
+        failureId,
+      ]);
       createdComment.username = user?.username;
       createdComment.avatarUrl = user?.avatarUrl;
-      queryClient.setQueryData(failureId, [createdComment, ...(comments || [])]);
+      queryClient.setQueryData(['comments', failureId], [createdComment, ...(comments || [])]);
       createNotification({
         message: 'Comment added succesfully!',
         isError: false,

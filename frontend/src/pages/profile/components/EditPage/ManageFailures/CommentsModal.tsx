@@ -30,7 +30,7 @@ const CommentsModal = ({ allowComments, failureId, setCommentsModalShow }: IComm
   const queryClient = useQueryClient();
 
   const { data, error } = useQuery<IListComment[], Error>(
-    failureId,
+    ['comments', failureId],
     async () => fetchCommentsData(),
     {
       refetchOnWindowFocus: false,

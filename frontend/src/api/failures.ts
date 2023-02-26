@@ -87,7 +87,7 @@ export const toggleCommentAllowed = async ({
 };
 
 // Voting
-const handleVoting = async ({ failureId, isDeletingVote }: IVotingValues) => {
+export const handleVoting = async ({ failureId, isDeletingVote }: IVotingValues) => {
   const response = await axios.post(
     `${restUrl}/vote/${failureId}`,
     {
@@ -109,7 +109,7 @@ const getFailureOfTheWeek = async () => {
 };
 
 // Start ratings / review
-const sendRating = async ({ failureId, ratingValue }: IReviewValues) => {
+export const handleRating = async ({ failureId, ratingValue }: IReviewValues) => {
   const response = await axios.post(
     `${restUrl}/rate/${failureId}`,
     {
@@ -146,18 +146,12 @@ const getVoteDistribution = async () => {
 };
 
 export default {
-  createFailure,
   getAllFailures,
   getUsersFailures,
-  addCommentToFailure,
-  handleVoting,
-  sendRating,
   getRatingData,
   getVotingData,
-  toggleCommentAllowed,
   getFailureOfTheWeek,
   getFailureComments,
-  deleteFailure,
   getReviewOfTheMonth,
   getTechDistribution,
   getFailuresCreatedDistribution,
