@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { Box, List, Menu, ResponsiveContext, Text, Spinner } from 'grommet';
-import { More } from 'grommet-icons';
+import { More, Alert } from 'grommet-icons';
 import { createStyledDateInfo } from '../../../../../utils/timeUtils';
 import { IFailure } from '../../../../../types';
 import FailureDetailModal from '../../../../common/FailureDetailModal';
@@ -20,8 +20,6 @@ const ManageFailuresList = () => {
   const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
   const [toEdit, setToEdit] = useState<IFailure | undefined>();
 
-  const [failures, setFailures] = useState<Array<IFailure>>([]);
-
   const { data, error, isFetching } = useQuery<IFailure[], Error>(
     'userFailures',
     async () => fetchUsersFailures(),
@@ -39,9 +37,13 @@ const ManageFailuresList = () => {
     }
   };
 
-  // TODO: better error message
   if (error) {
-    return <p>Could not fetch failures of user.</p>;
+    return (
+      <Box direction='row' gap='small'>
+        <Alert />
+        <Text>Something went wrong while fetching failures. Try again later.</Text>
+      </Box>
+    );
   }
 
   if (isFetching) {
@@ -116,10 +118,9 @@ const ManageFailuresList = () => {
 
           {commentsModaleShow && (
             <CommentsModal
-              failureId={toEdit?._id}
+              failureId={toEdit?._id || ''}
               allowComments={toEdit?.allowComments}
               setCommentsModalShow={setCommentsModalShow}
-              setFailures={setFailures}
             />
           )}
 

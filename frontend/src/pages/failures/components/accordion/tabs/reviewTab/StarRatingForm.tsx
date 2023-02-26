@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useUserContext } from '../../../../../../context/UserContext';
 import { NameValuePair, Spinner } from 'grommet';
 import failureService from '../../../../../../api/failures';
 import { Rating } from 'react-simple-star-rating';

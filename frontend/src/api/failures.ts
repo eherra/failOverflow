@@ -53,7 +53,7 @@ export const deleteFailure = async (failureId: string) => {
 };
 
 // Comments
-const addCommentToFailure = async ({ comment, failureId }: ICommentValues) => {
+export const addCommentToFailure = async ({ comment, failureId }: ICommentValues) => {
   const response = await axios.post(
     `${restUrl}/comment/${failureId}`,
     {
@@ -69,7 +69,13 @@ const getFailureComments = async (failureId: string) => {
   return response.data;
 };
 
-const toggleCommentAllowed = async (failureId: string, isCommentsAllowed: boolean) => {
+export const toggleCommentAllowed = async ({
+  failureId,
+  isCommentsAllowed,
+}: {
+  failureId: string;
+  isCommentsAllowed: boolean;
+}) => {
   const response = await axios.put(
     `${restUrl}/comment/${failureId}/toggle-comment-allowance`,
     {

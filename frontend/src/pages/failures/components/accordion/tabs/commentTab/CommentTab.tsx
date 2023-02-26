@@ -1,6 +1,6 @@
-import { useState, SyntheticEvent, useEffect } from 'react';
+import { useState, SyntheticEvent } from 'react';
 import { Box, NameValueList, Tab, Form, FormField, TextArea, Button, Text, Spinner } from 'grommet';
-import failureService from '../../../../../../api/failures';
+import failureService, { addCommentToFailure } from '../../../../../../api/failures';
 import { Login, ChatOption, Chat } from 'grommet-icons';
 import { useUserContext } from '../../../../../../context/UserContext';
 import UserCommentsColumn from '../../../../../common/Comments/UserCommentsColumn';
@@ -8,6 +8,7 @@ import { useNotificationContext } from '../../../../../../context/NotificationCo
 import { WavyLink } from 'react-wavy-transitions';
 import LabelWithInfoTip from '../../../../../common/LabelWithInfoTip';
 import { IListComment } from '../../../../../../types';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 interface ICommentTab {
   failureId: string;
@@ -17,49 +18,49 @@ interface ICommentTab {
 const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
   const { user } = useUserContext();
   const { createNotification, handleErrorNotification } = useNotificationContext();
-
   const [commentInput, setCommentInput] = useState<string>('');
-  const [isSendingComment, setIsSendingComment] = useState<boolean>(false);
-  const [currComments, setCurrComments] = useState<Array<IListComment>>([]);
-  const [isCommentsFetchError, setIsCommentsFetchError] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    fetchCommentsData();
-  }, []);
+  const { data, error } = useQuery<IListComment[], Error>(
+    failureId,
+    async () => fetchCommentsData(),
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
 
   const fetchCommentsData = async () => {
     try {
       const { commentsData } = await failureService.getFailureComments(failureId);
-      setCurrComments(commentsData || []);
+      return commentsData;
     } catch (err) {
-      setIsCommentsFetchError(true);
+      handleErrorNotification(err);
     }
   };
 
-  const handleCommentSubmit = async (event: SyntheticEvent) => {
-    event.preventDefault();
-    try {
-      setIsSendingComment(true);
-      const { createdComment } = await failureService.addCommentToFailure({
-        comment: commentInput,
-        failureId: failureId,
-      });
+  const newCommentMutation = useMutation(addCommentToFailure, {
+    onSuccess: (data) => {
+      const { createdComment } = data;
+      const comments: IListComment[] | undefined = queryClient.getQueryData(failureId);
       createdComment.username = user?.username;
       createdComment.avatarUrl = user?.avatarUrl;
-
-      setCurrComments((prevComments) => [createdComment, ...prevComments]);
-      setCommentInput('');
-      setIsSendingComment(false);
+      queryClient.setQueryData(failureId, [createdComment, ...(comments || [])]);
       createNotification({
         message: 'Comment added succesfully!',
         isError: false,
         icon: <ChatOption color='#96ab9c' />,
       });
-    } catch (err) {
-      handleErrorNotification(err);
-      setIsSendingComment(false);
       setCommentInput('');
-    }
+    },
+    onError: (error) => {
+      handleErrorNotification(error);
+      setCommentInput('');
+    },
+  });
+
+  const handleCommentSubmit = async (event: SyntheticEvent) => {
+    event.preventDefault();
+    newCommentMutation.mutate({ comment: commentInput, failureId: failureId });
   };
 
   return (
@@ -95,8 +96,8 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
                   </FormField>
                   <Box direction='row' gap='medium'>
                     <Button
-                      icon={isSendingComment ? <Spinner /> : undefined}
-                      label={isSendingComment ? 'Sending' : 'Send'}
+                      icon={newCommentMutation.isLoading ? <Spinner /> : undefined}
+                      label={newCommentMutation.isLoading ? 'Sending' : 'Send'}
                       primary
                       type='submit'
                     />
@@ -114,10 +115,10 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
             </>
           )}
 
-          {isCommentsFetchError ? (
+          {error ? (
             <p>Something went wrong. Try again later.</p>
           ) : (
-            <UserCommentsColumn comments={currComments} />
+            <UserCommentsColumn comments={data} />
           )}
         </NameValueList>
       </Box>
