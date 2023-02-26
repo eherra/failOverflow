@@ -24,17 +24,6 @@ Data charts are:
 - failure creation distribution
 - votes received distribution
 
-### Design system by <img src="https://github.com/eherra/failoverflow/blob/main/docs/images/grommet.png" height='10%' width='10%'> 
-
-More details: \
-https://v2.grommet.io
-
-### AWS usage <img src="https://github.com/eherra/failoverflow/blob/main/docs/images/awsS3.png" height='5%' width='5%'> 
-
-Users avatar photos will be saved to AWS S3 bucket. 
-
-Library [multer](https://www.npmjs.com/package/multer) is used while working with the image files.
-
 ### Hosting
 App is hosted at Heroku Container Registry as a docker image. 
 
@@ -47,17 +36,22 @@ For backend (Express.js) security HTTP headers -> [helmet.js](https://helmetjs.g
 
 Token based authorizations on endpoint calls which requires signed in user  -> [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
 
-### Design system <img src="https://github.com/eherra/failoverflow/blob/main/docs/images/grommet.png"> 
+### AWS usage <img src="https://github.com/eherra/failoverflow/blob/main/docs/images/awsS3.png" height='5%' width='5%'> 
 
-https://v2.grommet.io/starter
+Users avatar photos will be saved to AWS S3 bucket. 
+
+Library [multer](https://www.npmjs.com/package/multer) is used while working with the image files.
+
+### Design system by <img src="https://github.com/eherra/failoverflow/blob/main/docs/images/grommet.png" height='10%' width='10%'> 
+
+More details: \
+https://v2.grommet.io
 
 ### Illustrations
 
 https://undraw.co/illustrations
 
-
 ### Local development
-
 
 Make sure you have both backend and frontend's `.env` files filled with desired values. You can view .env examples from:
 - [backend env](https://github.com/eherra/failOverflow/blob/main/backend/.env.example)
