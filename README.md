@@ -7,7 +7,7 @@
 ![AWS](https://img.shields.io/badge/-AWS-000?&logo=Amazon-AWS&logoColor=F90)
 ![Heroku](https://img.shields.io/badge/-Heroku-000?&logo=Heroku)
 
-> Full Stack Project 2023, course details [here](https://github.com/fullstack-hy2020/misc/blob/master/harjoitustyo.md)
+> Full Stack Project 2023, course details [here.](https://github.com/fullstack-hy2020/misc/blob/master/harjoitustyo.md)
 
 ### What
 
@@ -24,9 +24,16 @@ Data charts are:
 - failure creation distribution
 - votes received distribution
 
-### AWS <img src="https://github.com/eherra/failoverflow/blob/main/docs/images/awsS3.png"> 
+### Design system by <img src="https://github.com/eherra/failoverflow/blob/main/docs/images/grommet.png" height='10%' width='10%'> 
 
-Users avatar photos will be saved to AWS S3 bucket. Library [multer](https://www.npmjs.com/package/multer) is used while working with the image files.
+More details: \
+https://v2.grommet.io
+
+### AWS usage <img src="https://github.com/eherra/failoverflow/blob/main/docs/images/awsS3.png" height='5%' width='5%'> 
+
+Users avatar photos will be saved to AWS S3 bucket. 
+
+Library [multer](https://www.npmjs.com/package/multer) is used while working with the image files.
 
 ### Hosting
 App is hosted at Heroku Container Registry as a docker image. 
@@ -51,7 +58,8 @@ https://undraw.co/illustrations
 
 ### Local development
 
-Make sure you have backend's and frontend's .env files filled with desired values. You can view .env examples from:
+
+Make sure you have both backend and frontend's `.env` files filled with desired values. You can view .env examples from:
 - [backend env](https://github.com/eherra/failOverflow/blob/main/backend/.env.example)
 - [frontend env](https://github.com/eherra/failOverflow/blob/main/frontend/.env.example)
 
@@ -80,8 +88,9 @@ cd frontend && npm start
 
 Application is running at http://localhost:3000
 
-### Run production version
-Go to projects root folder and run command:
+
+### Production
+Go to project's root folder and run command:
 
 ```
 docker-compose up -d
