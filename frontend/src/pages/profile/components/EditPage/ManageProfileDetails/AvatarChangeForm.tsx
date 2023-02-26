@@ -8,7 +8,7 @@ import { useUserContext } from '../../../../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 interface IAvatarChangeForm {
-  setChangeAvatar(boolean: any): void;
+  setChangeAvatar(value: boolean): void;
 }
 
 const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {

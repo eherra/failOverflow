@@ -18,7 +18,7 @@ import userService from '../../../../../api/user';
 import { useUserContext } from '../../../../../context/UserContext';
 
 interface IDeleteAvatarModal {
-  setDeleteAvatarModalShow(boolean: any): void;
+  setDeleteAvatarModalShow(value: boolean): void;
 }
 
 const DeleteAvatarModal = ({ setDeleteAvatarModalShow }: IDeleteAvatarModal) => {
@@ -75,7 +75,7 @@ const DeleteAvatarModal = ({ setDeleteAvatarModalShow }: IDeleteAvatarModal) => 
               name='deleteField'
               label={
                 <Text>
-                  In order to confirm deletion, please type below: <b>avatar</b>
+                  In order to confirm deletion, please type <b>avatar</b> below.
                 </Text>
               }
               validate={() =>
@@ -85,7 +85,7 @@ const DeleteAvatarModal = ({ setDeleteAvatarModalShow }: IDeleteAvatarModal) => 
                   errorText: "Confirmation doesn't match.",
                 })
               }>
-              <TextInput plain name='deleteInput' />
+              <TextInput plain name='deleteInput' placeholder='type here...' />
             </FormField>
           </Box>
           <Box direction='row' gap='small' justify='end'>

@@ -1,12 +1,11 @@
 import { useQuery } from 'react-query';
 import failureService from '../../../../../api/failures';
-import { useNotificationContext } from '../../../../../context/NotificationContext';
 import DataCard from '../DataCard';
 import VoteDistributionChart from './VotesDistributionChart';
 import { Spinner } from 'grommet';
+import { IDataDistribution } from '../../../../../types';
 
 const VotesDistributionCard = () => {
-  const { handleErrorNotification } = useNotificationContext();
   const { data, error, isFetching } = useQuery(
     'votesDistribution',
     async () => fetchVotesDistribution(),
@@ -16,13 +15,12 @@ const VotesDistributionCard = () => {
   );
 
   const fetchVotesDistribution = async () => {
-    try {
-      const { voteDistribution } = await failureService.getVoteDistribution();
-      return voteDistribution;
-    } catch (err) {
-      handleErrorNotification(err);
-    }
+    const { voteDistribution } = await failureService.getVoteDistribution();
+    return voteDistribution;
   };
+
+  const maxY = isFetching ? 0 : Math.max(...data.map((vote: IDataDistribution) => vote.amount)) + 1;
+
   return (
     <>
       {isFetching ? (
@@ -30,9 +28,10 @@ const VotesDistributionCard = () => {
       ) : (
         <DataCard
           heading='Votes received'
-          chartText='Vote'
+          chartText='Votes'
+          isFetching={isFetching}
           isError={error as boolean}
-          chartField={<VoteDistributionChart votesData={data} />}
+          chartField={<VoteDistributionChart votesData={data} maxY={maxY} />}
           hasData={!!data?.length}
         />
       )}

@@ -15,11 +15,12 @@ import UserCommentsColumn from '../../../../common/Comments/UserCommentsColumn';
 import { IFailure, IListComment } from '../../../../../types';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import DataFetchErrorMessage from '../../../../common/DataFetchErrorMessage';
 
 interface ICommentsModal {
   allowComments?: boolean;
   failureId: string;
-  setCommentsModalShow(boolean: any): void;
+  setCommentsModalShow(value: boolean): void;
 }
 
 const CommentsModal = ({ allowComments, failureId, setCommentsModalShow }: ICommentsModal) => {
@@ -57,12 +58,8 @@ const CommentsModal = ({ allowComments, failureId, setCommentsModalShow }: IComm
   });
 
   const fetchCommentsData = async () => {
-    try {
-      const { commentsData } = await failureService.getFailureComments(failureId || '');
-      return commentsData;
-    } catch (err) {
-      handleErrorNotification(err);
-    }
+    const { commentsData } = await failureService.getFailureComments(failureId || '');
+    return commentsData;
   };
 
   const toggleCommentAllowedD = (toggleValue: boolean) => {
@@ -91,7 +88,7 @@ const CommentsModal = ({ allowComments, failureId, setCommentsModalShow }: IComm
           layout='grid'
           valueProps={{ width: 'large' }}
           justifyContent='center'>
-          {error ? <p>Could not fetch comments data.</p> : <UserCommentsColumn comments={data} />}
+          {error ? <DataFetchErrorMessage /> : <UserCommentsColumn comments={data} />}
           <NameValuePair name='Allow commenting?'>
             <CheckBox
               name='comments'

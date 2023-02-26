@@ -1,5 +1,6 @@
-import { Card, Heading, CardHeader, Text, CardBody } from 'grommet';
+import { Card, Heading, CardHeader, Text, CardBody, Spinner } from 'grommet';
 import { ReactNode } from 'react';
+import DataFetchErrorMessage from '../../../common/DataFetchErrorMessage';
 
 interface IDataCard {
   heading: string;
@@ -7,9 +8,10 @@ interface IDataCard {
   isError: boolean;
   chartField: ReactNode;
   hasData: boolean;
+  isFetching: boolean;
 }
 
-const DataCard = ({ heading, chartText, isError, chartField, hasData }: IDataCard) => {
+const DataCard = ({ heading, chartText, isError, chartField, hasData, isFetching }: IDataCard) => {
   return (
     <Card margin='medium' pad='medium'>
       <CardHeader align='start' direction='column' gap='xsmall'>
@@ -18,11 +20,19 @@ const DataCard = ({ heading, chartText, isError, chartField, hasData }: IDataCar
         </Heading>
         {chartText && hasData && <Text size='small'>{chartText}</Text>}
       </CardHeader>
-      {hasData ? (
-        <CardBody>{isError ? <p>Couldnt fetch data.</p> : <>{chartField}</>}</CardBody>
-      ) : (
-        <p>No data to show.</p>
-      )}
+      <CardBody>
+        {isFetching ? (
+          <Spinner size='large' />
+        ) : (
+          <>
+            {isError ? (
+              <DataFetchErrorMessage />
+            ) : (
+              <>{hasData ? <>{chartField}</> : <p>No data to show.</p>}</>
+            )}
+          </>
+        )}
+      </CardBody>
     </Card>
   );
 };

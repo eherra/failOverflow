@@ -1,22 +1,19 @@
-import { useNotificationContext } from '../../../../../context/NotificationContext';
-import { Spinner } from 'grommet';
 import failureService from '../../../../../api/failures';
 import DataCard from '../DataCard';
 import TechDistributionChart from './TechDistributionChart';
 import { useQuery } from 'react-query';
+import { listOfColors } from '../../../../../utils/constants';
 
-interface ITechDistribution {
+interface ITechData {
   value: number;
-  color: string;
   name: string;
 }
 
-// more colours here
-const listOfColors = ['graph-0', 'brand', 'light-5', 'graph-0'];
+interface ITechDistribution extends ITechData {
+  color: string;
+}
 
 const TechDistributionCard = () => {
-  const { handleErrorNotification } = useNotificationContext();
-
   const { data, error, isFetching } = useQuery(
     'techDistribution',
     async () => fetchTechDistribution(),
@@ -25,39 +22,29 @@ const TechDistributionCard = () => {
     },
   );
 
-  const setColors = (data: Array<any>): Array<ITechDistribution> => {
-    // TODO: set that not same colour should appear
-    const coloredMap: any = data?.map((tech) => ({
-      color: listOfColors[Math.floor(Math.random() * listOfColors.length)],
+  const setColors = (data: ITechData[]): ITechDistribution[] => {
+    const shuffledColorStack = [...listOfColors].sort(() => Math.random() - 0.5);
+    return data?.map((tech) => ({
+      color: shuffledColorStack.pop() || '#ffb55a',
       ...tech,
     }));
-    return coloredMap;
   };
 
   const fetchTechDistribution = async () => {
-    try {
-      const { techDistribution } = await failureService.getTechDistribution();
-      const coloredTechData = setColors(techDistribution[0].techDistribution);
-      return coloredTechData;
-    } catch (err) {
-      handleErrorNotification(err);
-    }
+    const { techDistribution } = await failureService.getTechDistribution();
+    const coloredTechData = setColors(techDistribution[0].techDistribution);
+    return coloredTechData;
   };
 
   return (
     <>
-      {isFetching ? (
-        <Spinner />
-      ) : (
-        <DataCard
-          heading='Your most used technologies'
-          isError={error as boolean}
-          chartField={
-            isFetching ? <Spinner size='large' /> : <TechDistributionChart techData={data || []} />
-          }
-          hasData={!!data?.length}
-        />
-      )}
+      <DataCard
+        heading='Your most used technologies'
+        isError={error as boolean}
+        isFetching={isFetching}
+        chartField={<TechDistributionChart techData={data || []} />}
+        hasData={!!data?.length}
+      />
     </>
   );
 };

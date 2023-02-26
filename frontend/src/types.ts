@@ -53,3 +53,8 @@ export interface IFailureOfTheWeek
   extends Omit<IFailure, 'votes' | 'starRating' | 'comments' | 'allowComments'> {
   totalVotes: number;
 }
+
+export interface IDataDistribution {
+  date: string;
+  amount: number;
+}

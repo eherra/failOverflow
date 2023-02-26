@@ -19,7 +19,7 @@ import { useNotificationContext } from '../../../../../context/NotificationConte
 import { useMutation, useQueryClient } from 'react-query';
 
 interface IDeleteFailureModal {
-  setDeleteModalShow(boolean: any): void;
+  setDeleteModalShow(value: boolean): void;
   confirmText?: string;
   failureId?: string;
 }
@@ -98,7 +98,7 @@ const DeleteFailureModal = ({
                   errorText: "Confirmation doesn't match.",
                 })
               }>
-              <TextInput plain name='deleteInput' />
+              <TextInput placeholder='type here...' plain name='deleteInput' />
             </FormField>
           </Box>
           <Box direction='row' gap='small' justify='end'>

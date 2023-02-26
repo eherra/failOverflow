@@ -4,8 +4,8 @@ import { useUserContext } from '../../../../../../context/UserContext';
 import StarReviewColumn from './StarReviewColumn';
 import VoteColumn from './VoteColumn';
 import { Like } from 'grommet-icons';
-import { useNotificationContext } from '../../../../../../context/NotificationContext';
 import { useQuery } from 'react-query';
+import DataFetchErrorMessage from '../../../../../common/DataFetchErrorMessage';
 
 interface IReviewTab {
   failureId: string;
@@ -13,7 +13,6 @@ interface IReviewTab {
 
 const ReviewTab = ({ failureId }: IReviewTab) => {
   const { user } = useUserContext();
-  const { handleErrorNotification } = useNotificationContext();
 
   const reviews = useQuery(['reviews', failureId], async () => fetchReviewData(), {
     refetchOnWindowFocus: false,
@@ -24,27 +23,19 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
   });
 
   const fetchReviewData = async () => {
-    try {
-      const { ratingData } = await failureService.getRatingData(failureId, user?.id || '');
-      return {
-        starAverage: ratingData?.ratingAverage,
-        userReview: ratingData?.userRating,
-      };
-    } catch (err) {
-      handleErrorNotification(err);
-    }
+    const { ratingData } = await failureService.getRatingData(failureId, user?.id || '');
+    return {
+      starAverage: ratingData?.ratingAverage,
+      userReview: ratingData?.userRating,
+    };
   };
 
   const fetchVotesData = async () => {
-    try {
-      const voteResponse = await failureService.getVotingData(failureId, user?.id || '');
-      return {
-        votesAmount: voteResponse?.votesAmount,
-        hasUserVoted: voteResponse?.hasUserVoted,
-      };
-    } catch (err) {
-      handleErrorNotification(err);
-    }
+    const voteResponse = await failureService.getVotingData(failureId, user?.id || '');
+    return {
+      votesAmount: voteResponse?.votesAmount,
+      hasUserVoted: voteResponse?.hasUserVoted,
+    };
   };
 
   return (
@@ -60,7 +51,7 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
           ) : (
             <>
               {reviews.error ? (
-                <p>Error while fetching review data.</p>
+                <DataFetchErrorMessage />
               ) : (
                 <StarReviewColumn
                   failureId={failureId}
@@ -69,7 +60,7 @@ const ReviewTab = ({ failureId }: IReviewTab) => {
                 />
               )}
               {votes.error ? (
-                <p>Error while fetching vote data.</p>
+                <DataFetchErrorMessage />
               ) : (
                 <VoteColumn
                   failureId={failureId}

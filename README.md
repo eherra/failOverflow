@@ -3,6 +3,7 @@
 ![React](https://img.shields.io/badge/-React-000?&logo=React)
 ![TypeScript](https://img.shields.io/badge/-TypeScript-000?&logo=TypeScript)
 ![Node.js](https://img.shields.io/badge/-Node.js-000?&logo=node.js)
+![MongoDB](https://img.shields.io/badge/-MongoDB-000?&logo=MongoDB)
 ![Docker](https://img.shields.io/badge/-Docker-000?&logo=Docker)
 ![AWS](https://img.shields.io/badge/-AWS-000?&logo=Amazon-AWS&logoColor=F90)
 ![Heroku](https://img.shields.io/badge/-Heroku-000?&logo=Heroku)
@@ -24,12 +25,15 @@ Data charts are:
 - failure creation distribution
 - votes received distribution
 
+### 30s demo
+
+View 30 seconds demo of the application [here](link to demo).
+
 ### Hosting
 App is hosted at Heroku Container Registry as a docker image. 
 
 Link: \
 XXX
-
 
 ### Security
 For backend (Express.js) security HTTP headers -> [helmet.js](https://helmetjs.github.io/)
@@ -98,10 +102,12 @@ You can shutdown the docker containers with command:
 docker-compose down
 ```  
 
+### Hour report
+Can be found [here.](https://github.com/eherra/failOverflow/blob/main/docs/hours.md)
+
 ### Project known weaknesses
 
 - Tests missing (:'D)
 - There can be some laziness found on TypeScript typing
 - MongoDB Aggregations queries could have some refactoring since some of them got quite monsterious
 - Input validations, especially on server side could be enhanced
-- Some additional refactoring could still be done

@@ -9,6 +9,7 @@ import { WavyLink } from 'react-wavy-transitions';
 import LabelWithInfoTip from '../../../../../common/LabelWithInfoTip';
 import { IListComment } from '../../../../../../types';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import DataFetchErrorMessage from '../../../../../common/DataFetchErrorMessage';
 
 interface ICommentTab {
   failureId: string;
@@ -91,6 +92,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
                     <TextArea
                       required
                       placeholder='e.g. did you find it helpful?'
+                      name='commentInput'
                       id='textArea'
                       maxLength={300}
                       value={commentInput}
@@ -118,11 +120,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
             </>
           )}
 
-          {error ? (
-            <p>Something went wrong. Try again later.</p>
-          ) : (
-            <UserCommentsColumn comments={data} />
-          )}
+          {error ? <DataFetchErrorMessage /> : <UserCommentsColumn comments={data} />}
         </NameValueList>
       </Box>
     </Tab>

@@ -2,6 +2,10 @@ import { useState, createContext, ReactNode, useContext } from 'react';
 import ToastNotification from '../pages/common/ToastNotification';
 import { useUserContext } from './UserContext';
 
+interface INotificationProvider {
+  children: ReactNode;
+}
+
 interface INotificationValues {
   message: string;
   isError: boolean;
@@ -12,10 +16,6 @@ interface INotificationContext {
   setIsVisible: (isLoading: boolean) => void;
   createNotification: (data: INotificationValues) => void;
   handleErrorNotification: (err: any) => void;
-}
-
-interface INotificationProvider {
-  children: ReactNode;
 }
 
 export const NotificationContext = createContext<INotificationContext>({
@@ -38,23 +38,31 @@ export const NotificationProvider = ({ children }: INotificationProvider) => {
     setIsVisible(true);
   };
 
-  // TODO: refacotr
   const handleErrorNotification = (error: any) => {
     const { data } = error.response;
-    if (data?.name === 'TokenExpiredError') {
-      createNotification({ message: 'Your session has been expired!', isError: true });
-      handleLogout();
-    } else if (data?.name === 'UnauthorizedPasswordChange') {
-      createNotification({
-        message: 'Password change failed! Provided current password was not correct.',
-        isError: true,
-      });
-    } else if (data?.name === 'UnauthorizedLoginAttempt') {
-      createNotification({ message: 'Wrong username or password!', isError: true });
-    } else if (data.error?.includes('User validation failed')) {
-      createNotification({ message: 'Username already taken!', isError: true });
-    } else {
-      createNotification({ message: 'Something went wrong! Try again later.', isError: true });
+    switch (data?.name) {
+      case 'TokenExpiredError':
+        createNotification({ message: 'Your session has been expired!', isError: true });
+        handleLogout();
+        break;
+      case 'ValidationError':
+        if (data?.error?.includes('User validation failed: username')) {
+          createNotification({ message: 'Username already taken!', isError: true });
+        } else {
+          createNotification({ message: 'Something went wrong! Try again later.', isError: true });
+        }
+        break;
+      case 'UnauthorizedPasswordChange':
+        createNotification({
+          message: 'Password change failed! Provided current password was not correct.',
+          isError: true,
+        });
+        break;
+      case 'UnauthorizedLoginAttempt':
+        createNotification({ message: 'Wrong username or password!', isError: true });
+        break;
+      default:
+        createNotification({ message: 'Something went wrong! Try again later.', isError: true });
     }
   };
 
