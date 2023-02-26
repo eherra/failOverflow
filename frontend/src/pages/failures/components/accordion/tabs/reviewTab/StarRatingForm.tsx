@@ -31,7 +31,7 @@ const StarRatingForm = ({ failureId, userReview }: IStarRatingForm) => {
   const [rating, setRating] = useState<number>(userReview);
 
   const newReviewMutation = useMutation(handleRating, {
-    onSuccess: (data: any) => {
+    onSuccess: (data) => {
       const { updatedRatingData } = data;
       queryClient.setQueryData(['reviews', failureId], {
         starAverage: updatedRatingData.ratingAverage,

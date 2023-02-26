@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { Box, List, Menu, ResponsiveContext, Text, Spinner } from 'grommet';
-import { More, Alert } from 'grommet-icons';
+import { More } from 'grommet-icons';
 import { createStyledDateInfo } from '../../../../../utils/timeUtils';
 import { IFailure } from '../../../../../types';
 import FailureDetailModal from '../../../../common/FailureDetailModal';
@@ -8,12 +8,11 @@ import CommentsModal from './CommentsModal';
 import DeleteFailureModal from './DeleteFailureModal';
 import failureService from '../../../../../api/failures';
 import CreateFailureSideModal from '../../../../common/CreateFailureSideModal/CreateFailureSideModal';
-import { useNotificationContext } from '../../../../../context/NotificationContext';
 import { useQuery } from 'react-query';
+import DataFetchErrorMessage from '../../../../common/DataFetchErrorMessage';
 
 const ManageFailuresList = () => {
   const screenSize = useContext(ResponsiveContext);
-  const { handleErrorNotification } = useNotificationContext();
 
   const [detailsModalShow, setDetailsModalShow] = useState<boolean>(false);
   const [commentsModaleShow, setCommentsModalShow] = useState<boolean>(false);
@@ -29,21 +28,12 @@ const ManageFailuresList = () => {
   );
 
   const fetchUsersFailures = async () => {
-    try {
-      const { userFailures } = await failureService.getUsersFailures();
-      return userFailures;
-    } catch (err) {
-      handleErrorNotification(err);
-    }
+    const { userFailures } = await failureService.getUsersFailures();
+    return userFailures;
   };
 
   if (error) {
-    return (
-      <Box direction='row' gap='small'>
-        <Alert />
-        <Text>Something went wrong while fetching failures. Try again later.</Text>
-      </Box>
-    );
+    return <DataFetchErrorMessage />;
   }
 
   if (isFetching) {

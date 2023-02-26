@@ -1,12 +1,8 @@
 import { DataChart } from 'grommet';
-
-interface IFailureDistribution {
-  date: string;
-  amount: number;
-}
+import { IDataDistribution } from '../../../../../types';
 
 interface IFailureDistributionChart {
-  failureData: IFailureDistribution[];
+  failureData: IDataDistribution[];
   maxY: number;
 }
 

@@ -1,18 +1,11 @@
 import { useQuery } from 'react-query';
 import { Spinner } from 'grommet';
 import failureService from '../../../../../api/failures';
-import { useNotificationContext } from '../../../../../context/NotificationContext';
 import DataCard from '../DataCard';
 import FailureDistributionChart from './FailuresDistributionChart';
-
-interface IFailureDistribution {
-  date: string;
-  amount: number;
-}
+import { IDataDistribution } from '../../../../../types';
 
 const FailuresDistributionCard = () => {
-  const { handleErrorNotification } = useNotificationContext();
-
   const { data, error, isFetching } = useQuery(
     'failureDistribution',
     async () => fetchFailuresCreatedDistribution(),
@@ -22,15 +15,11 @@ const FailuresDistributionCard = () => {
   );
 
   const fetchFailuresCreatedDistribution = async () => {
-    try {
-      const { failureDistribution } = await failureService.getFailuresCreatedDistribution();
-      return failureDistribution;
-    } catch (error) {
-      handleErrorNotification(error);
-    }
+    const { failureDistribution } = await failureService.getFailuresCreatedDistribution();
+    return failureDistribution;
   };
 
-  const maxY = isFetching ? 0 : Math.max(...data.map((f: IFailureDistribution) => f.amount)) + 1;
+  const maxY = isFetching ? 0 : Math.max(...data.map((f: IDataDistribution) => f.amount)) + 1;
 
   return (
     <>
@@ -40,6 +29,7 @@ const FailuresDistributionCard = () => {
         <DataCard
           heading='Failure creation distribution'
           chartText='Failures created'
+          isFetching={isFetching}
           isError={error as boolean}
           chartField={<FailureDistributionChart failureData={data} maxY={maxY} />}
           hasData={!!data.length}

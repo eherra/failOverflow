@@ -18,7 +18,7 @@ import { Script, FormPrevious } from 'grommet-icons';
 import { useMutation, useQueryClient } from 'react-query';
 
 interface ICreateFailureModal {
-  setOpen(value: boolean): any;
+  setOpen(value: boolean): void;
 }
 
 interface ICreateFailureFormValues {

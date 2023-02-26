@@ -16,7 +16,7 @@ interface IUserContext {
   isUserContextLoading: boolean;
   updateAvatarToUser: (avatarUrl: string | null) => void;
   handleLogin: (data: ILoginValues) => void;
-  handleRegister: (values: any) => void;
+  handleRegister: (values: IRegisterValues) => void;
   handleLogout: () => void;
 }
 

@@ -26,7 +26,7 @@ const RegisterForm = () => {
         icon: <UserExpert color='#96ab9c' />,
       });
       navigate('/');
-    } catch (error: any) {
+    } catch (error) {
       handleErrorNotification(error);
     }
   };
