@@ -19,7 +19,6 @@ const unknownEndpoint = (_request: Request, response: Response) => {
 
 const errorHandler = (error: any, _request: Request, response: Response, next: NextFunction) => {
   logger.error(error.name);
-  console.log("ERROR handler");
 
   switch (error.name) {
     case "CastError":

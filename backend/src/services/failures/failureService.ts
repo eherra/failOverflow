@@ -24,7 +24,7 @@ const createFailure = async (failure: INewFailureValues, creatorId: string) => {
   return savedFailure;
 };
 
-const getAllFailures = async () => {
+const getAllFailures = async (limit: string) => {
   const allFailures = await Failure.aggregate([
     {
       $lookup: {
@@ -49,8 +49,12 @@ const getAllFailures = async () => {
         createdAt: -1,
       },
     },
+    {
+      $limit: parseInt(limit),
+    },
   ]);
-  return allFailures;
+  const failuresCount = await Failure.count();
+  return { allFailures, failuresCount };
 };
 
 const getUsersFailures = async (userId: string) => {

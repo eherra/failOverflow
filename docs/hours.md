@@ -41,5 +41,5 @@
 | 23.2.2023 | 8 | finalizing the aws s3 avatar update functionality, enhancements for truncating long texts, refactoring services from backend, working with dockerfile, docker-compose, mongodb atlas and heroku setup configs, centered spinner added, refactoring|
 | 24.2.2023 | 5 | working with heroku container configs, added functionality to remove avatar, creating documentation, refactoring |
 | 25.2.2023 | 3 | Configs for aws s3 embedded cors policy, took React Query in use for failures fetching |
-| 26.2.2023 | 5 | Refactoring app to use React Query, enhancing overview page, refactoring |
-| total    | 173 | |
+| 26.2.2023 | 6 | Refactoring app to use React Query, enhancing overview page, refactoring, added button to failures page for data fetch |
+| total    | 174 | |

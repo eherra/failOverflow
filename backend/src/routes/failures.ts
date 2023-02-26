@@ -25,13 +25,18 @@ const failuresRouter = express.Router();
 /**
  * GET /api/failures
  * @summary Gets all failures
+ * @param   req.query.limit  limit of how many failures to fetch. If not found, default 10
  * @return {Array<IAllFailure>} 200 - Array of failures which objects has IAllFailure values present
  * @return {} 400 - Bad request response
  */
-failuresRouter.get("/", async (_req: Request, res: Response) => {
-  const failures: Array<IAllFailure> = await failureService.getAllFailures();
+failuresRouter.get("/", async (req: Request, res: Response) => {
+  const limit: any = req.query.limit || 10;
+
+  const failureData: { allFailures: IAllFailure[]; failuresCount: number } =
+    await failureService.getAllFailures(limit);
   res.status(200).json({
-    failures,
+    failures: failureData.allFailures,
+    failuresCount: failureData.failuresCount,
   });
 });
 
