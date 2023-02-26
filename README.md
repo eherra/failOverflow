@@ -29,7 +29,7 @@ Data charts distributions:
 
 48 seconds.
 
-<img src="https://github.com/eherra/failoverflow/blob/main/docs/images/demo.gif" width="70%" heigth="70%">
+<img src="https://github.com/eherra/failoverflow/blob/main/docs/images/demo.gif" width="80%" heigth="80%">
 
 ### Hosting
 App is deployed as a docker image to Heroku Container Registry. 
