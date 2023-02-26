@@ -7,7 +7,7 @@ const FailuresPage = () => {
   return (
     <PageProvider>
       <PageContent>
-        <PageHeader title='Failures' actions={<CreateYourOwnFailure />} />
+        <PageHeader id='failures' title='Failures' actions={<CreateYourOwnFailure />} />
         <FailureList />
       </PageContent>
     </PageProvider>

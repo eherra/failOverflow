@@ -32,8 +32,8 @@ const config = () => {
 };
 
 // Failures
-const getAllFailures = async () => {
-  const response = await axios.get(restUrl, config());
+const getAllFailures = async (limit: number) => {
+  const response = await axios.get(`${restUrl}?limit=${limit}`, config());
   return response.data;
 };
 
