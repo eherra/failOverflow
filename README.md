@@ -22,7 +22,7 @@ Profile overview page contains three different data charts of distributions of u
 
 Data charts distributions:
 - technologies usage
-- failure creation
+- failure creations
 - votes acquired
 
 ### 30s demo
@@ -110,5 +110,6 @@ Can be found [here.](https://github.com/eherra/failOverflow/blob/main/docs/hours
 
 - Tests missing (:'D)
 - There can be some laziness found on TypeScript typing
-- MongoDB Aggregations queries could have some refactoring since some of them got quite monsterious
+- MongoDB Aggregations queries could have some refactoring (e.g. more `pipeline` usage on `$lookup` stages) since some of them got quite monsterious
 - Input validations, especially on server side could be enhanced
+- I didn't put that much effort for mobile UI/UX
