@@ -27,7 +27,7 @@ Data charts distributions:
 
 ### Overview demo video
 
-View 48 seconds long demo video of the application usage [here.](https://github.com/eherra/failoverflow/blob/main/docs/images/demo.gif).
+View 48 seconds long demo video of the application usage [here.](https://github.com/eherra/failoverflow/blob/main/docs/demo.md).
 
 ### Hosting
 App is deployed as a docker image to Heroku Container Registry. 
