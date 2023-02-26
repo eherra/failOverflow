@@ -31,7 +31,7 @@ const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
         icon: <DocumentImage color='#96ab9c' />,
       });
       setChangeAvatar(false);
-      navigate('profile/edit');
+      navigate('/profile/edit');
     } catch (err) {
       handleErrorNotification(err);
       setIsUpdatingAvatar(false);
