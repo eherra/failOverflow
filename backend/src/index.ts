@@ -8,7 +8,8 @@ mongoose.set("strictQuery", false);
 
 logger.info("connecting to MongoDB");
 mongoose
-  .connect(MONGODB_URI_ATLAS as string) // if using mongo docker in local development, change "MONGODB_URI_ATLAS" -> "MONGODB_URI_DOCKER"
+  .connect(MONGODB_URI_ATLAS as string)
+  //  .connect(MONGODB_URI_DOCKER as string) // if you prefer using mongoDB docker image
   .then(() => {
     logger.info("connected to MongoDB");
   })

@@ -18,12 +18,12 @@ App's users can create an account and publish failures which they faced while pr
 
 Users can later manage their profile details e.g. change password and add/change/remove avatar photo. Created failures can be deleted later and commenting allowance changed.
 
-Profile overview page contains three different data charts of different distributions of users information. 
+Profile overview page contains three different data charts of distributions of users information. 
 
-Data charts are:
-- technology usage distribution
+Data charts:
+- technologies usage distribution
 - failure creation distribution
-- votes received distribution
+- votes acquired distribution
 
 ### 30s demo
 
@@ -69,19 +69,20 @@ If you prefer using mongoDB as a docker image, start mongo docker with:
 docker-compose -f docker-compose.dev.yml up -d
 ``` 
 
-If you prefer MongoDB Atlas, remember to put your atlas url to `DOCKER_URI_ATLAS` variable.
+If you prefer MongoDB Atlas, remember to put your atlas url to `DOCKER_URI_ATLAS` variable and make sure you have desired value added [here](https://github.com/eherra/failOverflow/blob/main/backend/src/index.ts#L12)
 
-#### Run back- and frontend
 
-Start backend:
+#### Run backend and frontend
+
+Start backend with:
 ```
-cd backend && npm run dev
+cd backend && npm install && npm run dev
 ``` 
 
 and frontend with:
 
 ```
-cd frontend && npm start
+cd frontend && npm install && npm start
 ``` 
 
 Application is running at http://localhost:3000

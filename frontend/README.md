@@ -1,4 +1,4 @@
-## Fail overflow frontend
+## Fail Overflow frontend
 ![React](https://img.shields.io/badge/-React-000?&logo=React)
 ![TypeScript](https://img.shields.io/badge/-TypeScript-000?&logo=TypeScript)
 
