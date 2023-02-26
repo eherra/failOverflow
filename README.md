@@ -33,7 +33,7 @@ View 30 seconds demo of the application [here](link to demo).
 App is deployed as a docker image to Heroku Container Registry. 
 
 Access to the app from link: \
-XXX
+https://failoverflow.herokuapp.com/
 
 ### Security
 For backend (Express.js) security HTTP headers -> [helmet.js](https://helmetjs.github.io/)

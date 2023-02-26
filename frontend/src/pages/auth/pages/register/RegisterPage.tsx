@@ -8,7 +8,7 @@ const RegisterPage = () => {
     <PageProvider>
       <PageContent>
         <PageHeader
-          parent={<HeaderBackLink label='Return homepage' link='/landing' />}
+          parent={<HeaderBackLink label='Return frontpage' link='/landing' />}
           title='Register to Failover Flow'
         />
         <RegisterForm />

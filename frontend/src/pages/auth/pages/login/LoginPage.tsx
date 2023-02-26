@@ -8,7 +8,7 @@ const LoginPage = () => {
     <PageProvider>
       <PageContent>
         <PageHeader
-          parent={<HeaderBackLink label='Return homepage' link='/landing' />}
+          parent={<HeaderBackLink label='Return frontpage' link='/landing' />}
           title='Login to Failover Flow'
         />
         <LoginForm />

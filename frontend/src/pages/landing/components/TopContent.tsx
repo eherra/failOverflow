@@ -42,8 +42,8 @@ const TopContent = () => {
               gridArea='introduction'
               size='xlarge'
               margin={{ bottom: 'medium', top: 'none' }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel elit facilisis,
-              lacinia eros vel, euismod magna.
+              Nunc vel elit facilisis, lacinia eros vel, euismod magna. Lorem ipsum dolor sit amet,
+              consectetur adipiscing elit.
             </Paragraph>
             <Box align={['xsmall', 'small'].includes(screenSize) ? undefined : 'start'}>
               <WavyLink to='/register' color='#A7BEAE' duration='1000' direction='down'>

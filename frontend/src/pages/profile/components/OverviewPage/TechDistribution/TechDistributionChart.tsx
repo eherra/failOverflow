@@ -7,7 +7,7 @@ interface ITechDistribution {
 }
 
 const TechDistributionChart = ({ techData }: { techData: Array<ITechDistribution> }) => {
-  const totalSum = techData.reduce((accum, tech) => accum + tech.value, 0);
+  const totalSum = techData?.reduce((accum, tech) => accum + tech.value, 0);
   return (
     <Distribution values={techData}>
       {(value) => (

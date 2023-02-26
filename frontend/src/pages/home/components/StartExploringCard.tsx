@@ -18,8 +18,8 @@ const StartExploringCard = () => {
       </CardHeader>
       <CardBody>
         <Paragraph size='medium' margin={{ bottom: 'medium' }}>
-          Save the hassle from other developers and start contributing your failures today! Lorem
-          Nunc vel elit facilisis, lacinia eros vel, euismod magna.
+          Save the hassle from other developers and start contributing your failures today!
+          Vestibulum vestibulum massa commodo metus hendrerit commodo.
         </Paragraph>
       </CardBody>
       <CardFooter pad='small'>

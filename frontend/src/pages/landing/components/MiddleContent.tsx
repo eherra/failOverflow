@@ -12,12 +12,12 @@ const MiddleContent = () => {
             <Paragraph size='xlarge' margin={{ bottom: 'none' }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.{' '}
               <Text size='xlarge' weight='bold'>
-                something
+                bold word
               </Text>{' '}
               ipsum dolor sit amet, consectetur adipiscing elit.
             </Paragraph>
             <Paragraph size='xlarge'>
-              Contribute your failures and make others fail faster.
+              Vestibulum vestibulum massa commodo metus hendrerit commodo.
             </Paragraph>
           </Box>
           <Box height='medium'>

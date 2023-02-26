@@ -21,7 +21,7 @@ const AccordionTitle = ({ creator, title, technologies, createdAt }: IAccordionT
         <p>{creator.username}</p>
         <p style={{ opacity: '0.8' }}>{`created ${createTimePassedInfo(createdAt)} ago`}</p>
       </Box>
-      <Box direction='row' gap='small'>
+      <Box direction='row' gap='small' wrap>
         <p style={{ fontSize: '25px' }}>{title}</p>
         {technologies?.map((mapTech, index) => (
           <Tag key={index} alignSelf='center' size='small' value={mapTech} />
