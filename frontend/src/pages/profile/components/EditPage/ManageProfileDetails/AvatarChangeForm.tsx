@@ -1,10 +1,11 @@
-import { useState, useContext, useReducer } from 'react';
+import { useState, useContext } from 'react';
 import { Box, Button, Form, ResponsiveContext, Spinner } from 'grommet';
 import userService from '../../../../../api/user';
 import AvatarForm from '../../../../auth/pages/register/components/AvatarForm';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
 import { DocumentImage } from 'grommet-icons';
 import { useUserContext } from '../../../../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 interface IAvatarChangeForm {
   setChangeAvatar(value: boolean): void;
@@ -14,7 +15,7 @@ const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
   const { createNotification, handleErrorNotification } = useNotificationContext();
   const { updateAvatarToUser } = useUserContext();
   const screenSize = useContext(ResponsiveContext);
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState<{ avatar: File }>();
   const [isUpdatingAvatar, setIsUpdatingAvatar] = useState<boolean>(false);
 
@@ -29,8 +30,8 @@ const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
         isError: false,
         icon: <DocumentImage color='#96ab9c' />,
       });
-      forceUpdate();
       setChangeAvatar(false);
+      navigate('profile/edit');
     } catch (err) {
       handleErrorNotification(err);
       setIsUpdatingAvatar(false);
