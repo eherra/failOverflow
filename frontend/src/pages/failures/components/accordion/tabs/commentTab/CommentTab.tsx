@@ -92,6 +92,7 @@ const CommentTab = ({ failureId, allowComments }: ICommentTab) => {
                     <TextArea
                       required
                       placeholder='e.g. did you find it helpful?'
+                      name='commentInput'
                       id='textArea'
                       maxLength={300}
                       value={commentInput}
