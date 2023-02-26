@@ -1,15 +1,14 @@
 import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Spinner } from 'grommet';
 
 import HomePage from './pages/home/HomePage';
 import ProfilePage from './pages/profile/ProfilePage';
 import LoginPage from './pages/auth/pages/login/LoginPage';
 import LandingPage from './pages/landing/LandingPage';
 import RegisterPage from './pages/auth/pages/register/RegisterPage';
-import FAQPage from './pages/FAQ/FaQPage';
 import AuthorizedRoute from './pages/auth/components/AuthorizedRoute';
 import CenteredLoadingSpinner from './pages/common/CenteredLoadingSpinner';
+import FaqPage from './pages/faq/FAQPage';
 
 const ProfileOverviewPage = React.lazy(() => import('./pages/profile/pages/ProfileOverviewPage'));
 const FailuresPage = React.lazy(() => import('./pages/failures/FailuresPage'));
@@ -22,7 +21,7 @@ const App = () => {
         <Route path='login' element={<LoginPage />} />
         <Route path='landing' element={<LandingPage />} />
         <Route path='register' element={<RegisterPage />} />
-        <Route path='faq' element={<FAQPage />} />
+        <Route path='faq' element={<FaqPage />} />
         <Route
           path='failures'
           element={

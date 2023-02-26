@@ -1,11 +1,10 @@
 import PageProvider from '../common/PageProvider';
 import HeaderBackLink from '../common/HeaderBackLink';
 import { Grid, Page, PageContent, PageHeader, Box, Image } from 'grommet';
-
 import QuestionAccordion from './components/QuestionAccordion';
 import { useUserContext } from '../../context/UserContext';
 
-const FAQPage = () => {
+const FaqPage = () => {
   const { user } = useUserContext();
 
   return (
@@ -28,4 +27,4 @@ const FAQPage = () => {
   );
 };
 
-export default FAQPage;
+export default FaqPage;

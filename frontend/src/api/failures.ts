@@ -1,5 +1,6 @@
 import axios from 'axios';
 const restUrl = '/api/failures';
+import { getJwtHeader } from './utils/headers';
 
 interface ICommentValues {
   comment: string;
@@ -16,39 +17,24 @@ interface IReviewValues {
   ratingValue: number;
 }
 
-const getJwtToken = () => {
-  const loggedUserJSON = localStorage.getItem('loggedUser');
-  if (loggedUserJSON) {
-    const user = JSON.parse(loggedUserJSON);
-    return user.token;
-  }
-  return null;
-};
-
-const config = () => {
-  return {
-    headers: { Authorization: `Bearer ${getJwtToken()}` },
-  };
-};
-
 // Failures
 const getAllFailures = async (limit: number) => {
-  const response = await axios.get(`${restUrl}?limit=${limit}`, config());
+  const response = await axios.get(`${restUrl}?limit=${limit}`, getJwtHeader());
   return response.data;
 };
 
 const getUsersFailures = async () => {
-  const response = await axios.get(`${restUrl}/user`, config());
+  const response = await axios.get(`${restUrl}/user`, getJwtHeader());
   return response.data;
 };
 
 export const createFailure = async (failure: any) => {
-  const response = await axios.post(restUrl, { failure: failure }, config());
+  const response = await axios.post(restUrl, { failure: failure }, getJwtHeader());
   return response.data;
 };
 
 export const deleteFailure = async (failureId: string) => {
-  const response = await axios.delete(`${restUrl}/${failureId}`, config());
+  const response = await axios.delete(`${restUrl}/${failureId}`, getJwtHeader());
   return response.data;
 };
 
@@ -59,13 +45,13 @@ export const addCommentToFailure = async ({ comment, failureId }: ICommentValues
     {
       comment,
     },
-    config(),
+    getJwtHeader(),
   );
   return response.data;
 };
 
 const getFailureComments = async (failureId: string) => {
-  const response = await axios.get(`${restUrl}/comment/${failureId}`, config());
+  const response = await axios.get(`${restUrl}/comment/${failureId}`, getJwtHeader());
   return response.data;
 };
 
@@ -81,7 +67,7 @@ export const toggleCommentAllowed = async ({
     {
       isCommentsAllowed,
     },
-    config(),
+    getJwtHeader(),
   );
   return response.data;
 };
@@ -93,18 +79,18 @@ export const handleVoting = async ({ failureId, isDeletingVote }: IVotingValues)
     {
       isDeletingVote,
     },
-    config(),
+    getJwtHeader(),
   );
   return response.data;
 };
 
 const getVotingData = async (failureId: string, userId: string) => {
-  const response = await axios.get(`${restUrl}/vote/${failureId}/user/${userId}`, config());
+  const response = await axios.get(`${restUrl}/vote/${failureId}/user/${userId}`, getJwtHeader());
   return response.data;
 };
 
 const getFailureOfTheWeek = async () => {
-  const response = await axios.get(`${restUrl}/vote/failure-week`, config());
+  const response = await axios.get(`${restUrl}/vote/failure-week`, getJwtHeader());
   return response.data;
 };
 
@@ -115,33 +101,33 @@ export const handleRating = async ({ failureId, ratingValue }: IReviewValues) =>
     {
       ratingValue,
     },
-    config(),
+    getJwtHeader(),
   );
   return response.data;
 };
 
 const getRatingData = async (failureId: string, userId: string) => {
-  const response = await axios.get(`${restUrl}/rate/${failureId}/user/${userId}`, config());
+  const response = await axios.get(`${restUrl}/rate/${failureId}/user/${userId}`, getJwtHeader());
   return response.data;
 };
 
 const getReviewOfTheMonth = async () => {
-  const response = await axios.get(`${restUrl}/rate/failure-month`, config());
+  const response = await axios.get(`${restUrl}/rate/failure-month`, getJwtHeader());
   return response.data;
 };
 
 const getTechDistribution = async () => {
-  const response = await axios.get(`${restUrl}/tech-distribution`, config());
+  const response = await axios.get(`${restUrl}/tech-distribution`, getJwtHeader());
   return response.data;
 };
 
 const getFailuresCreatedDistribution = async () => {
-  const response = await axios.get(`${restUrl}/failures-distribution`, config());
+  const response = await axios.get(`${restUrl}/failures-distribution`, getJwtHeader());
   return response.data;
 };
 
 const getVoteDistribution = async () => {
-  const response = await axios.get(`${restUrl}/vote-distribution`, config());
+  const response = await axios.get(`${restUrl}/vote-distribution`, getJwtHeader());
   return response.data;
 };
 
