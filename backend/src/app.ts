@@ -12,7 +12,11 @@ app.use(express.static("build"));
 app.use(express.json());
 
 app.use(cors());
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+  }),
+);
 app.use(
   helmet.contentSecurityPolicy({
     directives: {

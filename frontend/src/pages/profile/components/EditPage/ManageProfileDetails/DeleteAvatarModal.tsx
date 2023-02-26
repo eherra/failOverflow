@@ -22,7 +22,7 @@ interface IDeleteAvatarModal {
 }
 
 const DeleteAvatarModal = ({ setDeleteAvatarModalShow }: IDeleteAvatarModal) => {
-  const { createNotification, handleError } = useNotificationContext();
+  const { createNotification, handleErrorNotification } = useNotificationContext();
   const { updateAvatarToUser } = useUserContext();
   const [isDeletingAvatar, setIsDeletingAvatar] = useState<boolean>(false);
   const [value, setValue] = useState({
@@ -43,7 +43,7 @@ const DeleteAvatarModal = ({ setDeleteAvatarModalShow }: IDeleteAvatarModal) => 
         icon: <Trash color='#96ab9c' />,
       });
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
       setIsDeletingAvatar(false);
       setDeleteAvatarModalShow(false);
     }

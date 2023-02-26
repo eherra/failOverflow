@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useUserContext } from '../../../../../../context/UserContext';
 import { NameValuePair, Spinner } from 'grommet';
-import failureService from '../../../../../../api/failures';
+import { handleRating } from '../../../../../../api/failures';
 import { Rating } from 'react-simple-star-rating';
 import { Star } from 'grommet-icons';
 import { useNotificationContext } from '../../../../../../context/NotificationContext';
+import { useMutation, useQueryClient } from 'react-query';
 
 const tooltipArray = [
   'Terrible',
@@ -22,25 +22,18 @@ const tooltipArray = [
 interface IStarRatingForm {
   failureId: string;
   userReview: number;
-  setStarsData: ({ starAverage, userReview }: { starAverage: number; userReview: number }) => void;
 }
 
-const StarRatingForm = ({ failureId, userReview, setStarsData }: IStarRatingForm) => {
-  const { createNotification, handleError } = useNotificationContext();
+const StarRatingForm = ({ failureId, userReview }: IStarRatingForm) => {
+  const { createNotification, handleErrorNotification } = useNotificationContext();
+  const queryClient = useQueryClient();
 
-  const [isSendingRating, setIsSendingRating] = useState<boolean>(false);
   const [rating, setRating] = useState<number>(userReview);
 
-  const handleStarValueChange = async (ratingValue: number) => {
-    try {
-      setIsSendingRating(true);
-      const { updatedRatingData }: any = await failureService.sendRating({
-        failureId,
-        ratingValue,
-      });
-      setIsSendingRating(false);
-      setRating(ratingValue);
-      setStarsData({
+  const newReviewMutation = useMutation(handleRating, {
+    onSuccess: (data: any) => {
+      const { updatedRatingData } = data;
+      queryClient.setQueryData(['reviews', failureId], {
         starAverage: updatedRatingData.ratingAverage,
         userReview: updatedRatingData.userRating,
       });
@@ -49,16 +42,24 @@ const StarRatingForm = ({ failureId, userReview, setStarsData }: IStarRatingForm
         icon: <Star color='#96ab9c' />,
         isError: false,
       });
-    } catch (err) {
-      handleError(err);
-      setIsSendingRating(false);
-    }
+      setRating(updatedRatingData.userRating);
+    },
+    onError: (error) => {
+      handleErrorNotification(error);
+    },
+  });
+
+  const handleStarValueChange = async (ratingValue: number) => {
+    newReviewMutation.mutate({
+      failureId,
+      ratingValue,
+    });
   };
 
   return (
     <>
       <NameValuePair name='How would you rate this failure?'>
-        {isSendingRating ? (
+        {newReviewMutation.isLoading ? (
           <Spinner />
         ) : (
           <Rating

@@ -42,18 +42,18 @@ const getUsersFailures = async () => {
   return response.data;
 };
 
-const createFailure = async (failure: any) => {
+export const createFailure = async (failure: any) => {
   const response = await axios.post(restUrl, { failure: failure }, config());
   return response.data;
 };
 
-const deleteFailure = async (failureId: string) => {
+export const deleteFailure = async (failureId: string) => {
   const response = await axios.delete(`${restUrl}/${failureId}`, config());
   return response.data;
 };
 
 // Comments
-const addCommentToFailure = async ({ comment, failureId }: ICommentValues) => {
+export const addCommentToFailure = async ({ comment, failureId }: ICommentValues) => {
   const response = await axios.post(
     `${restUrl}/comment/${failureId}`,
     {
@@ -69,7 +69,13 @@ const getFailureComments = async (failureId: string) => {
   return response.data;
 };
 
-const toggleCommentAllowed = async (failureId: string, isCommentsAllowed: boolean) => {
+export const toggleCommentAllowed = async ({
+  failureId,
+  isCommentsAllowed,
+}: {
+  failureId: string;
+  isCommentsAllowed: boolean;
+}) => {
   const response = await axios.put(
     `${restUrl}/comment/${failureId}/toggle-comment-allowance`,
     {
@@ -81,7 +87,7 @@ const toggleCommentAllowed = async (failureId: string, isCommentsAllowed: boolea
 };
 
 // Voting
-const handleVoting = async ({ failureId, isDeletingVote }: IVotingValues) => {
+export const handleVoting = async ({ failureId, isDeletingVote }: IVotingValues) => {
   const response = await axios.post(
     `${restUrl}/vote/${failureId}`,
     {
@@ -103,7 +109,7 @@ const getFailureOfTheWeek = async () => {
 };
 
 // Start ratings / review
-const sendRating = async ({ failureId, ratingValue }: IReviewValues) => {
+export const handleRating = async ({ failureId, ratingValue }: IReviewValues) => {
   const response = await axios.post(
     `${restUrl}/rate/${failureId}`,
     {
@@ -140,18 +146,12 @@ const getVoteDistribution = async () => {
 };
 
 export default {
-  createFailure,
   getAllFailures,
   getUsersFailures,
-  addCommentToFailure,
-  handleVoting,
-  sendRating,
   getRatingData,
   getVotingData,
-  toggleCommentAllowed,
   getFailureOfTheWeek,
   getFailureComments,
-  deleteFailure,
   getReviewOfTheMonth,
   getTechDistribution,
   getFailuresCreatedDistribution,

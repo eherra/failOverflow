@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import {
   Box,
   Button,
@@ -10,62 +10,63 @@ import {
   CheckBox,
 } from 'grommet';
 import { Chat } from 'grommet-icons';
-import failureService from '../../../../../api/failures';
+import failureService, { toggleCommentAllowed } from '../../../../../api/failures';
 import UserCommentsColumn from '../../../../common/Comments/UserCommentsColumn';
 import { IFailure, IListComment } from '../../../../../types';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 interface ICommentsModal {
   allowComments?: boolean;
-  failureId?: string;
+  failureId: string;
   setCommentsModalShow(boolean: any): void;
-  setFailures(failures: Array<IFailure>): void;
 }
 
-const CommentsModal = ({
-  allowComments,
-  failureId,
-  setCommentsModalShow,
-  setFailures,
-}: ICommentsModal) => {
+const CommentsModal = ({ allowComments, failureId, setCommentsModalShow }: ICommentsModal) => {
   const screenSize = useContext(ResponsiveContext);
-  const { handleError } = useNotificationContext();
+  const { handleErrorNotification } = useNotificationContext();
   const allowCommentsText = allowComments ? 'Yes' : 'No';
   const [commentsAllowedLabel, setCommentsAllowedLabel] = useState<string>(allowCommentsText);
-  const [currComments, setCurrComments] = useState<Array<IListComment>>([]);
-  const [isCommentsFetchError, setIsCommentsFetchError] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    fetchCommentsData();
-  }, []);
+  const { data, error } = useQuery<IListComment[], Error>(
+    ['comments', failureId],
+    async () => fetchCommentsData(),
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
 
-  const fetchCommentsData = async () => {
-    try {
-      const { commentsData } = await failureService.getFailureComments(failureId || '');
-      setCurrComments(commentsData || []);
-    } catch (err) {
-      setIsCommentsFetchError(true);
-    }
-  };
-
-  const toggleCommentAllowed = async (toggleValue: boolean) => {
-    try {
-      await failureService.toggleCommentAllowed(failureId || '', !toggleValue);
+  const toggleCommentMutation = useMutation(toggleCommentAllowed, {
+    onSuccess: () => {
       setCommentsAllowedLabel((prevValue) => (prevValue === 'Yes' ? 'No' : 'Yes'));
-
-      /* @ts-expect-error gives error */
-      setFailures((prevFailures: Array<Failure>) => {
-        const newState = prevFailures.map((mFailure: IFailure) => {
+      const userFailures: IFailure[] | undefined = queryClient.getQueryData('userFailures');
+      queryClient.setQueryData(
+        'userFailures',
+        userFailures?.map((mFailure: IFailure) => {
           if (mFailure._id === failureId) {
             return { ...mFailure, allowComments: !mFailure.allowComments };
           }
           return mFailure;
-        });
-        return newState;
-      });
+        }),
+      );
+    },
+    onError: (error) => {
+      handleErrorNotification(error);
+    },
+  });
+
+  const fetchCommentsData = async () => {
+    try {
+      const { commentsData } = await failureService.getFailureComments(failureId || '');
+      return commentsData;
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
     }
+  };
+
+  const toggleCommentAllowedD = (toggleValue: boolean) => {
+    toggleCommentMutation.mutate({ failureId: failureId || '', isCommentsAllowed: !toggleValue });
   };
 
   const isCommentsChecked = commentsAllowedLabel === 'Yes';
@@ -90,18 +91,14 @@ const CommentsModal = ({
           layout='grid'
           valueProps={{ width: 'large' }}
           justifyContent='center'>
-          {isCommentsFetchError ? (
-            <p>Could not fetch comments data.</p>
-          ) : (
-            <UserCommentsColumn comments={currComments} />
-          )}
+          {error ? <p>Could not fetch comments data.</p> : <UserCommentsColumn comments={data} />}
           <NameValuePair name='Allow commenting?'>
             <CheckBox
               name='comments'
               label={commentsAllowedLabel}
               checked={isCommentsChecked}
               toggle
-              onClick={() => toggleCommentAllowed(isCommentsChecked)}
+              onClick={() => toggleCommentAllowedD(isCommentsChecked)}
             />
           </NameValuePair>
         </NameValueList>

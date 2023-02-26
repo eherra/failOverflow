@@ -6,7 +6,7 @@ interface IFailureDistribution {
 }
 
 interface IFailureDistributionChart {
-  failureData: Array<IFailureDistribution>;
+  failureData: IFailureDistribution[];
   maxY: number;
 }
 

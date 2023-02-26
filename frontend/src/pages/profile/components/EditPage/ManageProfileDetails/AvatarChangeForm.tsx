@@ -12,8 +12,8 @@ interface IAvatarChangeForm {
 }
 
 const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
-  const { createNotification, handleError } = useNotificationContext();
-  const { user, updateAvatarToUser } = useUserContext();
+  const { createNotification, handleErrorNotification } = useNotificationContext();
+  const { updateAvatarToUser } = useUserContext();
   const navigate = useNavigate();
   const screenSize = useContext(ResponsiveContext);
 
@@ -34,7 +34,7 @@ const AvatarChangeForm = ({ setChangeAvatar }: IAvatarChangeForm) => {
       navigate('/profile/edit');
       setChangeAvatar(false);
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
       setIsUpdatingAvatar(false);
     }
   };

@@ -11,7 +11,7 @@ interface IPasswordChangeForm {
 }
 
 const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
-  const { createNotification, handleError } = useNotificationContext();
+  const { createNotification, handleErrorNotification } = useNotificationContext();
   const screenSize = useContext(ResponsiveContext);
 
   const [isUpdatingPassword, setIsUpdatingPassword] = useState<boolean>(false);
@@ -38,7 +38,7 @@ const PasswordChangeForm = ({ setChangePassword }: IPasswordChangeForm) => {
       });
       setChangePassword(false);
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
       setIsUpdatingPassword(false);
       setPasswordValues({
         currentPassword: '',

@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from 'react-query';
+import { Spinner } from 'grommet';
 import failureService from '../../../../../api/failures';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
 import DataCard from '../DataCard';
@@ -10,34 +11,41 @@ interface IFailureDistribution {
 }
 
 const FailuresDistributionCard = () => {
-  const { handleError } = useNotificationContext();
-  const [failureData, setFailureData] = useState<Array<IFailureDistribution>>([]);
-  const [isError, setIsError] = useState<boolean>(false);
+  const { handleErrorNotification } = useNotificationContext();
 
-  useEffect(() => {
-    fetchFailuresCreatedDistribution();
-  }, []);
+  const { data, error, isFetching } = useQuery(
+    'failureDistribution',
+    async () => fetchFailuresCreatedDistribution(),
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
 
   const fetchFailuresCreatedDistribution = async () => {
     try {
       const { failureDistribution } = await failureService.getFailuresCreatedDistribution();
-      setFailureData(failureDistribution);
+      return failureDistribution;
     } catch (error) {
-      handleError(error);
-      setIsError(true);
+      handleErrorNotification(error);
     }
   };
 
-  const maxY = Math.max(...failureData.map((f: IFailureDistribution) => f.amount)) + 1;
+  const maxY = isFetching ? 0 : Math.max(...data.map((f: IFailureDistribution) => f.amount)) + 1;
 
   return (
-    <DataCard
-      heading='Failure creation distribution'
-      chartText='Failures created'
-      isError={isError}
-      chartField={<FailureDistributionChart failureData={failureData} maxY={maxY} />}
-      hasData={!!failureData.length}
-    />
+    <>
+      {isFetching ? (
+        <Spinner />
+      ) : (
+        <DataCard
+          heading='Failure creation distribution'
+          chartText='Failures created'
+          isError={error as boolean}
+          chartField={<FailureDistributionChart failureData={data} maxY={maxY} />}
+          hasData={!!data.length}
+        />
+      )}
+    </>
   );
 };
 

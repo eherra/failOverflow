@@ -19,7 +19,7 @@ import { UserAdmin } from 'grommet-icons';
 
 const LoginForm = () => {
   const { isUserContextLoading, handleLogin } = useUserContext();
-  const { createNotification, handleError } = useNotificationContext();
+  const { createNotification, handleErrorNotification } = useNotificationContext();
   const screenSize = useContext(ResponsiveContext);
   const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ const LoginForm = () => {
       });
       navigate('/');
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
     }
   };
 

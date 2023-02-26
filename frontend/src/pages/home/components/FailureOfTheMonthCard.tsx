@@ -9,7 +9,7 @@ import { useNotificationContext } from '../../../context/NotificationContext';
 
 const FailureOfTheMonth = () => {
   const [monthReview, setMonthReview] = useState<IFailureOfTheMonth | undefined>(undefined);
-  const { handleError } = useNotificationContext();
+  const { handleErrorNotification } = useNotificationContext();
 
   useEffect(() => {
     fetchFailureOfTheMonth();
@@ -20,7 +20,7 @@ const FailureOfTheMonth = () => {
       const { failureOfTheMonth } = await failureService.getReviewOfTheMonth();
       setMonthReview(failureOfTheMonth);
     } catch (err) {
-      handleError(err);
+      handleErrorNotification(err);
     }
   };
 

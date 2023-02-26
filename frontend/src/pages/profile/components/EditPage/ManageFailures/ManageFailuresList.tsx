@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { Box, List, Menu, ResponsiveContext, Text, Spinner } from 'grommet';
-import { More } from 'grommet-icons';
+import { More, Alert } from 'grommet-icons';
 import { createStyledDateInfo } from '../../../../../utils/timeUtils';
 import { IFailure } from '../../../../../types';
 import FailureDetailModal from '../../../../common/FailureDetailModal';
@@ -9,52 +9,53 @@ import DeleteFailureModal from './DeleteFailureModal';
 import failureService from '../../../../../api/failures';
 import CreateFailureSideModal from '../../../../common/CreateFailureSideModal/CreateFailureSideModal';
 import { useNotificationContext } from '../../../../../context/NotificationContext';
+import { useQuery } from 'react-query';
 
 const ManageFailuresList = () => {
   const screenSize = useContext(ResponsiveContext);
-  const { handleError } = useNotificationContext();
+  const { handleErrorNotification } = useNotificationContext();
 
   const [detailsModalShow, setDetailsModalShow] = useState<boolean>(false);
   const [commentsModaleShow, setCommentsModalShow] = useState<boolean>(false);
   const [deleteModalShow, setDeleteModalShow] = useState<boolean>(false);
   const [toEdit, setToEdit] = useState<IFailure | undefined>();
 
-  const [failures, setFailures] = useState<Array<IFailure>>([]);
-  const [isFetchingFailures, setIsFetchingFailures] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
-
-  useEffect(() => {
-    fetchUsersFailures();
-  }, []);
+  const { data, error, isFetching } = useQuery<IFailure[], Error>(
+    'userFailures',
+    async () => fetchUsersFailures(),
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
 
   const fetchUsersFailures = async () => {
     try {
-      setIsFetchingFailures(true);
       const { userFailures } = await failureService.getUsersFailures();
-      setFailures(userFailures);
-      setIsFetchingFailures(false);
+      return userFailures;
     } catch (err) {
-      handleError(err);
-      setIsFetchingFailures(false);
-      setIsError(true);
+      handleErrorNotification(err);
     }
   };
 
-  // TODO: better error message
-  if (isError) {
-    return <p>Could not fetch failures of user.</p>;
+  if (error) {
+    return (
+      <Box direction='row' gap='small'>
+        <Alert />
+        <Text>Something went wrong while fetching failures. Try again later.</Text>
+      </Box>
+    );
   }
 
-  if (isFetchingFailures) {
+  if (isFetching) {
     return <Spinner size='large' />;
   }
 
   return (
     <Box overflow='auto' pad='xsmall'>
-      {failures.length ? (
+      {data?.length ? (
         <>
           <List
-            data={failures}
+            data={data}
             action={(failure, index) => (
               <Menu
                 key={index}
@@ -117,17 +118,15 @@ const ManageFailuresList = () => {
 
           {commentsModaleShow && (
             <CommentsModal
-              failureId={toEdit?._id}
+              failureId={toEdit?._id || ''}
               allowComments={toEdit?.allowComments}
               setCommentsModalShow={setCommentsModalShow}
-              setFailures={setFailures}
             />
           )}
 
           {deleteModalShow && (
             <DeleteFailureModal
               failureId={toEdit?._id}
-              setFailures={setFailures}
               confirmText={toEdit?.title}
               setDeleteModalShow={setDeleteModalShow}
             />

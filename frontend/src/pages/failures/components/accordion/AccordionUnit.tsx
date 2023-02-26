@@ -8,8 +8,7 @@ import CommentTab from './tabs/commentTab/CommentTab';
 
 const AccordionUnit = ({ failure }: { failure: IFailure }) => {
   const [tabIndex, setTabIndex] = useState<number>();
-
-  const onActive = (nextIndex: any) => setTabIndex(nextIndex);
+  const onActive = (nextIndex: number) => setTabIndex(nextIndex);
   const { _id, title, creator, description, solution, technologies, createdAt, allowComments } =
     failure;
 
