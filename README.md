@@ -77,7 +77,7 @@ It will take few moments to start the frontend's development server. After, the 
 
 If you make any changes to the code locally, they will be immediately updated to the containers and as well be shown on the browser.
 
-> All requests are going through Nginx's reverse proxy. Nginx configurations [here.](https://github.com/eherra/failOverflow/nginx.conf)
+> All requests are going through Nginx's reverse proxy on the dev mode. Nginx configurations [here.](https://github.com/eherra/failOverflow/blob/main/nginx.conf)
 
 If you want to close the local development mode, you can shutdown the containers with command:
 
