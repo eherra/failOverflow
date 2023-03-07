@@ -1,4 +1,4 @@
-import { MONGODB_URI_ATLAS } from "./utils/config";
+import { MONGODB_URI_DOCKER } from "./utils/config";
 import { PORT } from "./utils/config";
 import app from "./app";
 import logger from "./utils/logger";
@@ -8,8 +8,8 @@ mongoose.set("strictQuery", false);
 
 logger.info("connecting to MongoDB");
 mongoose
-  .connect(MONGODB_URI_ATLAS as string)
-  //  .connect(MONGODB_URI_DOCKER as string) // if you prefer using mongoDB docker image
+  //.connect(MONGODB_URI_ATLAS as string) // if u prefer using Docker Atlas
+  .connect(MONGODB_URI_DOCKER as string) // if you prefer using mongoDB docker image
   .then(() => {
     logger.info("connected to MongoDB");
   })

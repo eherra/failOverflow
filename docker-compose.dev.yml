@@ -1,11 +1,58 @@
 version: "3.8"
+
 services:
-  docker-db:
+  proxy:
+    image: nginx:latest
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 5050:80
+
+  docker-db-development:
     image: mongo:latest
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=dev_failure_db
     ports:
       - 27017:27017
     volumes:
       - mongodb_data_container:/data/db
+
+  backend-development:
+    platform: linux/amd64
+    restart: always
+    environment:
+      - NODE_ENV=development
+      - SECRET=development
+      - MONGODB_URI_DOCKER=mongodb://docker-db-development/dev_failure_db
+    build:
+      context: ./backend
+      dockerfile: dev.Dockerfile
+    ports:
+      - 3001:3001
+    volumes:
+      - ./backend/src:/usr/src/app/src
+    container_name: fail-backend-development
+    depends_on:
+      - docker-db-development
+      - proxy
+
+  frontend-development:
+    platform: linux/amd64
+    restart: always
+    environment:
+      - NODE_ENV=development
+    build:
+      context: ./frontend
+      dockerfile: dev.Dockerfile
+    ports:
+      - 3000
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+    container_name: fail-frontend-development
+    depends_on:
+      - proxy
 
 volumes:
   mongodb_data_container:
