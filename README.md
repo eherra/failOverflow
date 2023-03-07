@@ -63,41 +63,38 @@ Make sure you have both backend and frontend's `.env` files filled with desired 
 
 #### Mongodb
 
-If you prefer using mongoDB as a docker image, start mongo docker with:
+If you prefer MongoDB Atlas, remember to put your atlas url to `DOCKER_URI_ATLAS` variable and make sure you have desired value added [here.](https://github.com/eherra/failOverflow/blob/main/backend/src/index.ts#L12)
+
+#### Starting development mode
+
+Go to project's root folder and run command:
 
 ```
 docker-compose -f docker-compose.dev.yml up -d
 ``` 
 
-If you prefer MongoDB Atlas, remember to put your atlas url to `DOCKER_URI_ATLAS` variable and make sure you have desired value added [here](https://github.com/eherra/failOverflow/blob/main/backend/src/index.ts#L12)
+It will take few moments to start the frontend's development server. After, the app is running at http://localhost:5050 on browser.
 
+If you make any changes to the code locally, they will be immediately updated to the containers and as well be shown on the browser.
 
-#### Run backend and frontend
+> All requests are going through Nginx's reverse proxy. Nginx configurations [here.](https://github.com/eherra/failOverflow/nginx.conf)
 
-Start backend with:
-```
-cd backend && npm install && npm run dev
-``` 
-
-and frontend with:
+If you want to close the local development mode, you can shutdown the containers with command:
 
 ```
-cd frontend && npm install && npm start
-``` 
+docker-compose -f docker-compose.dev.yml down
+```
 
-Application is running at http://localhost:3000
-
-
-### Production
+### Running on Production mode
 Go to project's root folder and run command:
 
 ```
 docker-compose up -d
 ```  
 
-Application is running at http://localhost:3001 or at the `PORT` you filled in your .env folder.
+Application is running at http://localhost:3001 on the browser.
 
-You can shutdown the docker containers with command:
+You can shutdown the containers with command:
 
 ```
 docker-compose down
