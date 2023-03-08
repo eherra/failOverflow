@@ -1,6 +1,6 @@
 import { Avatar, Box, Text } from 'grommet';
-import { createTimePassedInfo } from '../../../utils/timeUtils';
-import { AWS_URL } from '../../../utils/config';
+import { createTimePassedInfo } from '../../utils/timeUtils';
+import { AWS_URL } from '../../utils/config';
 import TruncateText from '../TruncateText';
 
 interface ICommentRow {

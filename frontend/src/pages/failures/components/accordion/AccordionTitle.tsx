@@ -1,7 +1,7 @@
 import { Tag, Box, Avatar } from 'grommet';
-import { createTimePassedInfo } from '../../../../utils/timeUtils';
+import { createTimePassedInfo } from '../../../utils/timeUtils';
 import { ICreator } from '../../../../types';
-import { AWS_URL } from '../../../../utils/config';
+import { AWS_URL } from '../../../utils/config';
 
 interface IAccordionTitle {
   creator: ICreator;

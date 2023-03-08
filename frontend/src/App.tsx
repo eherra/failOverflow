@@ -8,7 +8,7 @@ import LandingPage from './pages/landing/LandingPage';
 import RegisterPage from './pages/auth/pages/register/RegisterPage';
 import AuthorizedRoute from './pages/auth/components/AuthorizedRoute';
 import CenteredLoadingSpinner from './pages/common/CenteredLoadingSpinner';
-import FaqPage from './pages/faq/FAQPage';
+import FaqPage from './pages/frequent-questions/FPage';
 
 const ProfileOverviewPage = React.lazy(() => import('./pages/profile/pages/ProfileOverviewPage'));
 const FailuresPage = React.lazy(() => import('./pages/failures/FailuresPage'));

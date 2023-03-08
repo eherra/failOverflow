@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FormField, SelectMultiple } from 'grommet';
-import { defaultTechnologysOptions } from '../../../../utils/constants';
+import { defaultTechnologysOptions } from '../../../utils/constants';
 
 const SelectTechnologiesField = () => {
   const [options, setOptions] = useState<Array<string>>(defaultTechnologysOptions);

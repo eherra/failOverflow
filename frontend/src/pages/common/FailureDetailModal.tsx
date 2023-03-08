@@ -10,7 +10,7 @@ import {
 } from 'grommet';
 import { Catalog } from 'grommet-icons';
 import { IFailure } from '../../types';
-import { createStyledDateInfo } from '../../utils/timeUtils';
+import { createStyledDateInfo } from '../utils/timeUtils';
 import { IFailureOfTheMonth } from '../../types';
 import { IFailureOfTheWeek } from '../../types';
 import TruncateText from './TruncateText';

@@ -15,7 +15,7 @@ import { ContactInfo } from 'grommet-icons';
 import PasswordChangeForm from './PasswordChangeForm';
 import AvatarChangeForm from './AvatarChangeForm';
 import { useUserContext } from '../../../../../context/UserContext';
-import { AWS_URL } from '../../../../../utils/config';
+import { AWS_URL } from '../../../../utils/config';
 import DeleteAvatarModal from './DeleteAvatarModal';
 
 const ProfileDetailCard = () => {

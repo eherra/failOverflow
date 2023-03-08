@@ -15,7 +15,7 @@ import {
 } from 'grommet';
 import FailureDetailModal from '../../common/FailureDetailModal';
 import { ICreator, IFailureOfTheMonth, IFailureOfTheWeek } from '../../../types';
-import { AWS_URL } from '../../../utils/config';
+import { AWS_URL } from '../../utils/config';
 
 interface IFailureCard {
   ownColumn: ReactNode;

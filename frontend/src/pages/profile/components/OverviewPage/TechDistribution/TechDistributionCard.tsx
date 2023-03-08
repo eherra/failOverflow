@@ -2,7 +2,7 @@ import failureService from '../../../../../api/failures';
 import DataCard from '../DataCard';
 import TechDistributionChart from './TechDistributionChart';
 import { useQuery } from 'react-query';
-import { listOfColors } from '../../../../../utils/constants';
+import { listOfColors } from '../../../../utils/constants';
 
 interface ITechData {
   value: number;

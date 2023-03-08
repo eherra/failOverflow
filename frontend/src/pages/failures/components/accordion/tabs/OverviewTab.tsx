@@ -1,5 +1,5 @@
 import { Box, NameValueList, NameValuePair, Tab } from 'grommet';
-import { createStyledDateInfo } from '../../../../../utils/timeUtils';
+import { createStyledDateInfo } from '../../../../utils/timeUtils';
 import { Overview } from 'grommet-icons';
 import TruncateText from '../../../../common/TruncateText';
 
