@@ -8,6 +8,7 @@ on:
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
   APP_NAME: ${{ secrets.HEROKU_APP_NAME  }}
+  AWS_URL: ${{ secrets.REACT_APP_AWS_URL }}
 
 jobs:
   deploy:
@@ -17,10 +18,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Docker build
+      - name: Docker login
         run: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
 
-      - name: Publish
+      - name: Build and release
         run: |
-          heroku container:push web -a $APP_NAME
+          heroku container:push web --arg REACT_APP_AWS_URL_AS_BUILD_ARG=$AWS_URL -a $APP_NAME
           heroku container:release web -a $APP_NAME

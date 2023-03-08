@@ -2,14 +2,8 @@ import multer from "multer";
 
 const allowedFiletypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
 
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, "uploads/");
-  },
-});
-
 export const upload = multer({
-  storage: storage,
+  dest: "uploads/",
   limits: {
     fileSize: 2621440, // 2.5MB
   },
