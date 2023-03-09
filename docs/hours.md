@@ -42,4 +42,5 @@
 | 24.2.2023 | 5 | working with heroku container configs, added functionality to remove avatar, creating documentation, refactoring |
 | 25.2.2023 | 3 | Configs for aws s3 embedded cors policy, took React Query in use for failures fetching |
 | 26.2.2023 | 8 | Refactoring app to use React Query, enhancing overview page, refactoring, added button to failures page for data fetch, overview page enhancements, updating readme, heroku configs |
-| total    | 176 | |
+| 8.3.2023 | 2 | Fixed a bug which was found after Github Actions docker heroku build implemented (DevOps with Docker course task) -> Github Actions docker build enviroment didn't have react .env variable present + multer upload folder didn't exists |
+| total    | 178 | |
