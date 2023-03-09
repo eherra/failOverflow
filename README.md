@@ -35,6 +35,15 @@ App is deployed and running as a docker container at Heroku Container Registry.
 Access to the app from link: \
 https://failoverflow.herokuapp.com/
 
+**Credentials for testing**
+
+username: _userTest_
+
+password: _userTest@_
+
+Or create new user from: \
+https://failoverflow.herokuapp.com/register
+
 ### Security
 For backend (Express.js) security HTTP headers -> [helmet.js](https://helmetjs.github.io/)
 

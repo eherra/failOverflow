@@ -1,9 +1,13 @@
-FROM --platform=linux/amd64 node:18.12-alpine
+FROM node:18.12-alpine
 
 WORKDIR /usr/src/app
 COPY . .
 
-RUN npm install
+RUN npm install && \
+    adduser --system --no-create-home appuser
+
+RUN mkdir /home/appuser && chown appuser /home/appuser
+USER appuser
 
 EXPOSE 3001
 

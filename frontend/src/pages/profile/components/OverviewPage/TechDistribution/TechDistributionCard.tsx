@@ -32,7 +32,7 @@ const TechDistributionCard = () => {
 
   const fetchTechDistribution = async () => {
     const { techDistribution } = await failureService.getTechDistribution();
-    const coloredTechData = setColors(techDistribution[0].techDistribution);
+    const coloredTechData = setColors(techDistribution[0]?.techDistribution);
     return coloredTechData;
   };
 
