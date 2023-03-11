@@ -30,7 +30,7 @@ Data charts distributions:
 <img src="https://github.com/eherra/failoverflow/blob/main/docs/images/demo.gif" width="80%" heigth="80%">
 
 ### Hosting
-App is deployed and running as a docker container at Heroku Container Registry. 
+App is deployed and running as a docker container at Heroku. 
 
 Access to the app from link: \
 https://failoverflow.herokuapp.com/
