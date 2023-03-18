@@ -5,7 +5,6 @@ import { IVoteValues } from "../../types";
 import { ObjectId } from "mongodb";
 
 const addVoteToFailure = async ({ voterId, failureId }: IVoteValues) => {
-  // TODO: check that voterId is not already existing in votes
   const voteModel = new Vote({
     givenBy: voterId,
   });
@@ -18,7 +17,7 @@ const addVoteToFailure = async ({ voterId, failureId }: IVoteValues) => {
 
 const deleteVoteFromFailure = async ({ voterId, failureId }: IVoteValues) => {
   const vote = await Vote.findOne({ givenBy: voterId });
-  await Failure.findByIdAndUpdate(failureId, { $pull: { votes: vote?._id } });
+  await Failure.findByIdAndUpdate(failureId, { $pull: { votes: new ObjectId(vote?._id) } });
   await Vote.findByIdAndDelete(vote?._id);
 };
 
